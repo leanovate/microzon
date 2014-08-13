@@ -2,7 +2,7 @@
   "network": {
     "servers": [ "192.168.254.10:5000" ],
     "timeout": 15,
-    "ssl ca": "/etc/pki/tls/client/logstash-forwarder.crt"
+    "ssl ca": "/etc/pki/client/logstash-forwarder.crt"
   },
   "files": [
     {

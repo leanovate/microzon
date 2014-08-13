@@ -5,5 +5,12 @@ node log {
     include "logstash"
     include "logstash_forwarder"
 
-    Class["java"] -> Class["elasticsearch"] -> Class["kibana"] -> Class["logstash"] -> Class["logstash_forwarder"]
+    Class["java"] -> Class["logstash_forwarder"] -> Class["elasticsearch"] -> Class["kibana"] -> Class["logstash"]
+}
+
+node web {
+    include "java"
+    include "logstash_forwarder"
+
+    Class["java"] -> Class["logstash_forwarder"]
 }
