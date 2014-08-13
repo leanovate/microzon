@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# encoding: utf-8
+
+Vagrant.configure("2") do |config|
+  config.vm.provider :virtualbox do |v|
+    v.gui = false
+  end
+
+  config.vm.define :log do |log|
+    log.vm.box = "ubuntu/trusty64"
+    log.vm.hostname = 'log.localhost.localdomain'
+
+    log.vm.network :private_network, ip: "192.168.254.10"
+
+    log.vm.provision "puppet" do |puppet|
+      puppet.module_path = "modules"
+    end
+
+    log.vm.provider "virtualbox" do |v|
+      v.customize ["modifyvm", :id, "--memory", 2048]
+    end
+  end
+
+end
