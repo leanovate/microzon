@@ -11,6 +11,16 @@ node log {
 node web {
     include "java"
     include "logstash_forwarder"
+    include "app_web"
 
-    Class["java"] -> Class["logstash_forwarder"]
+    Class["java"] -> Class["logstash_forwarder"] -> Class["app_web"]
+}
+
+node customer {
+    include "java"
+    include "logstash_forwarder"
+    include "mysql"
+    include "app_customer"
+
+    Class["java"] -> Class["mysql"] -> Class["logstash_forwarder"] -> Class["app_customer"]
 }

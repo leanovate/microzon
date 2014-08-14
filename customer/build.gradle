@@ -1,0 +1,39 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.5.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'customer'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:1.1.5.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:1.1.5.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-data-rest:1.1.5.RELEASE")
+    compile("mysql:mysql-connector-java:5.1.32")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}
+
+task dist(type:Copy) {
+    dependsOn build
+    from jar.archivePath
+    into "../dists"
+}
