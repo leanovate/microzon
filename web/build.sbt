@@ -2,7 +2,7 @@ name := """web"""
 
 organization := "de.leanovate.dose"
 
-version := "1.0-SNAPSHOT"
+version := "0.1.0"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
@@ -19,3 +19,4 @@ libraryDependencies ++= Seq(
   "org.webjars" % "bootstrap" % "3.2.0"
 )
 
+target in Universal := baseDirectory.value / ".." / "vagrant" / "dists"

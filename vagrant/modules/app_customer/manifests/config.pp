@@ -6,19 +6,26 @@ class app_customer::config {
         ensure => directory
     }
     
-    file { "/opt/customer/application.properties":
+    File {
         owner => root,
         group => root,
         mode => 644,
-        ensure => file,
+        ensure => file        
+    }
+
+    file { "/opt/customer/application.properties":
         source => "puppet:///modules/app_customer/application.properties"
     }
 
     file { "/etc/supervisor/conf.d/customer.conf":
-        owner => root,
-        group => root,
-        mode => 644,
-        ensure => file,
         source => "puppet:///modules/app_customer/customer.conf"
+    }
+
+    file { "/etc/nginx/sites-enabled/default":
+        ensure => absent
+    }
+
+    file { "/etc/nginx/sites-enabled/customer":
+        source => "puppet:///modules/app_customer/nginx.conf"
     }
 }
