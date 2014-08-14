@@ -11,6 +11,12 @@
         "/var/log/auth.log"
        ],
       "fields": { "type": "syslog" }
+    },
+    {
+      "paths": [
+        "/var/log/application/application.log"
+       ],
+      "fields": { "type": "application" }
     }
    ]
 }

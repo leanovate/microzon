@@ -19,6 +19,21 @@ class app_customer::install {
         require    => [Mysql_user['customer@localhost'], Mysql_database['customer']]
     }
 
+    file { "/opt/customer":
+        owner => root,
+        group => root,
+        mode => 755,
+        ensure => directory
+    }
+
+    file { "/opt/customer/customer.jar":
+        owner => root,
+        group => root,
+        mode => 644,
+        ensure => file,
+        source => "file:///vagrant/dists/customer-0.1.0.jar",
+    }
+
     package { "supervisor":
         ensure => present
     }

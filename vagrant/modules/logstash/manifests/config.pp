@@ -29,6 +29,10 @@ class logstash::config {
         source => "puppet:///modules/logstash/10-syslog.conf"
     }
 
+    file { "/etc/logstash/conf.d/11-application.conf":
+        source => "puppet:///modules/logstash/11-application.conf"
+    }
+
     file { "/etc/logstash/conf.d/30-lumberjack-output.conf":
         source => "puppet:///modules/logstash/30-lumberjack-output.conf"
     }

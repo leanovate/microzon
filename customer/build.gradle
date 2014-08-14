@@ -35,5 +35,5 @@ task wrapper(type: Wrapper) {
 task dist(type:Copy) {
     dependsOn build
     from jar.archivePath
-    into "../dists"
+    into "../vagrant/dists"
 }
