@@ -35,4 +35,79 @@ public class Address {
 
     @Column
     private String city;
+
+    public Long getId() {
+
+        return id;
+    }
+
+    public Customer getCustomer() {
+
+        return customer;
+    }
+
+    public void setCustomer(final Customer customer) {
+
+        this.customer = customer;
+    }
+
+    public String getCompany() {
+
+        return company;
+    }
+
+    public void setCompany(final String company) {
+
+        this.company = company;
+    }
+
+    public String getFirstName() {
+
+        return firstName;
+    }
+
+    public void setFirstName(final String firstName) {
+
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+
+        return lastName;
+    }
+
+    public void setLastName(final String lastName) {
+
+        this.lastName = lastName;
+    }
+
+    public String getStreet() {
+
+        return street;
+    }
+
+    public void setStreet(final String street) {
+
+        this.street = street;
+    }
+
+    public String getZip() {
+
+        return zip;
+    }
+
+    public void setZip(final String zip) {
+
+        this.zip = zip;
+    }
+
+    public String getCity() {
+
+        return city;
+    }
+
+    public void setCity(final String city) {
+
+        this.city = city;
+    }
 }

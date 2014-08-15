@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <include resource="org/springframework/boot/logging/logback/basic.xml"/>
-
     <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}play.log}"/>
 
     <appender name="FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
-            <pattern>~web[${PID:- }]: %d{yyyy-MM-dd'T'HH:mm:ss.SSSZ};%t;%mdc{X-Session-CorrelationId:--};%mdc{X-Request-CorrelationId:--};%level;%logger;[%msg]%n</pattern>
+            <pattern>~web[${PID:-0}]: %d{yyyy-MM-dd'T'HH:mm:ss.SSSZ};%t;%mdc{X-Session-CorrelationId:--};%mdc{X-Request-CorrelationId:--};%level;%logger;[%msg]%n</pattern>
         </encoder>
         <file>${LOG_FILE}</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
@@ -22,7 +20,7 @@
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>~web[${PID:- }]: %d{yyyy-MM-dd'T'HH:mm:ss.SSSZ};%t;%mdc{X-Session-CorrelationId:--};%mdc{X-Request-CorrelationId:--};%level;%logger;[%msg]%n</pattern>
+            <pattern>~web[${PID:-0}]: %d{yyyy-MM-dd'T'HH:mm:ss.SSSZ};%t;%mdc{X-Session-CorrelationId:--};%mdc{X-Request-CorrelationId:--};%level;%logger;[%msg]%n</pattern>
         </encoder>
     </appender>
 

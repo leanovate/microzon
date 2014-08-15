@@ -24,3 +24,11 @@ node customer {
 
     Class["java"] -> Class["mysql"] -> Class["logstash_forwarder"] -> Class["app_customer"]
 }
+
+node product {
+    include "java"
+    include "logstash_forwarder"
+    include "app_product"
+
+    Class["java"] -> Class["logstash_forwarder"] -> Class["app_product"]
+}

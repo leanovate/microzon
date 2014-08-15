@@ -3,12 +3,14 @@
 # ~~~~
 
 # Home page
-GET        /                         controllers.Application.index
+GET         /                         controllers.Application.index
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file             controllers.Assets.at(path="/public", file)
+GET         /assets/*file             controllers.Assets.at(path="/public", file)
 
-GET        /webjars/*file            controllers.WebJarAssets.at(file)
+GET         /webjars/*file            controllers.WebJarAssets.at(file)
 
-GET        /user/login               controllers.LoginController.showForm
-GET        /user/registration        controllers.UserRegistrationController.showForm
+GET         /user/login               @controllers.LoginController.showForm
+POST        /user/login               @controllers.LoginController.submitForm
+GET         /user/registration        @controllers.UserRegistrationController.showForm
+POST        /user/registration        @controllers.UserRegistrationController.submitForm

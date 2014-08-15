@@ -1,0 +1,14 @@
+@(elements: helper.FieldElements)
+
+<div class="form-group @if(elements.hasErrors) {has-error}">
+    <label for="@elements.id" class="col-sm-2 control-label">@elements.label(elements.lang)</label>
+    <div class="col-sm-10">
+        @elements.input
+        @if(elements.hasErrors) {<span class="glyphicon glyphicon-remove form-control-feedback"></span>}
+        @if(elements.hasErrors) {
+            <span class="text-danger">@elements.errors(elements.lang).mkString(", ")</span>
+        } else {
+            <span class="help-block">@elements.infos(elements.lang).mkString(", ")</span>
+        }
+    </div>
+</div>

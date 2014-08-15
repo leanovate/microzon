@@ -13,6 +13,7 @@ libraryDependencies ++= Seq(
   anorm,
   cache,
   ws,
+  "org.scaldi" %% "scaldi-play" % "0.4.1",
   "org.webjars" %% "webjars-play" % "2.3.0",
   "org.webjars" % "react" % "0.11.1",
   "org.webjars" % "es5-shim" % "2.3.0-2",
