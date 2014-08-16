@@ -71,7 +71,7 @@ public class Customer implements Serializable {
     }
 
     public boolean checkPassword(String password) {
-        System.out.println(">>> "  + this.password + " " + password +" " + this.password.equals(password));
+
         return this.password.equals(password);
     }
 }
