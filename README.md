@@ -24,17 +24,19 @@ cd <project home>/customer
 ./gradlew clean dist
 ```
 * web frontend service
-{{{
+```
+#!bash
 cd <project home>/web
 ./activator clean dist
-}}}
+```
 
 ### Start the cluster
 
-{{{
+```
+#!bash
 cd <project home>/vagrant
 vagrant up
-}}}
+```
 
 ### Enjoy the show
 
