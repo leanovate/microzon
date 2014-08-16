@@ -1,7 +1,7 @@
 class kibana {
-    include "kibana::install"
-    include "kibana::config"
-    include "kibana::service"
+    contain "kibana::install"
+    contain "kibana::config"
+    contain "kibana::service"
 
     Class["kibana::install"] -> Class["kibana::config"] ~> Class["kibana::service"]
 }
