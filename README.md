@@ -18,10 +18,11 @@ Micro service shop example
 All build scripts will create an distribution archive in <project home>/vagrant/dist
 
 * customer service
-{{{
+```
+#!bash
 cd <project home>/customer
 ./gradlew clean dist
-}}}
+```
 * web frontend service
 {{{
 cd <project home>/web
