@@ -12,5 +12,4 @@ class app_web::service {
         hasstatus => true,
         hasrestart => true
     }
-
 }

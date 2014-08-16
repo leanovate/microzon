@@ -32,6 +32,7 @@ trait CorrelatedLogging extends SLF4JLogging {
 }
 
 object CorrelatedLogging {
+  final val SESSION_CORRELATION_COOKIE = "correlationid"
   final val SESSION_CORRELATION_ID = "X-Session-CorrelationId"
   final val REQUEST_CORRELATION_ID = "X-Request-CorrelationId"
 }

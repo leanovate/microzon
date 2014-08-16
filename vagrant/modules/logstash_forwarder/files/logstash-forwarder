@@ -17,6 +17,12 @@
         "/var/log/application/application.log"
        ],
       "fields": { "type": "application" }
+    },
+    {
+      "paths": [
+        "/var/log/application/access.log"
+       ],
+      "fields": { "type": "accesslog" }
     }
    ]
 }

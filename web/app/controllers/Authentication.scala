@@ -26,7 +26,7 @@ trait Authentication {
     override def invokeBlock[A](request: Request[A], block: (ContextRequest[A]) => Future[Result]) = {
       val contextRequest = new ContextRequest[A](request)
 
-      block(contextRequest).map(_.withCookies(Cookie(CorrelatedLogging.SESSION_CORRELATION_ID, contextRequest.sessionCorrelationId)))
+      block(contextRequest).map(_.withCookies(Cookie(CorrelatedLogging.SESSION_CORRELATION_COOKIE, contextRequest.sessionCorrelationId)))
     }
   }
 
@@ -37,7 +37,7 @@ trait Authentication {
       if (!contextRequest.isAuthenticated)
         onUnauthenticated(contextRequest)
       else
-        block(contextRequest).map(_.withCookies(Cookie(CorrelatedLogging.SESSION_CORRELATION_ID, contextRequest.sessionCorrelationId)))
+        block(contextRequest).map(_.withCookies(Cookie(CorrelatedLogging.SESSION_CORRELATION_COOKIE, contextRequest.sessionCorrelationId)))
     }
   }
 
