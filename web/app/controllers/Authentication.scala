@@ -42,6 +42,6 @@ trait Authentication {
   }
 
   def onUnauthenticated[A](request: ContextRequest[A]): Future[Result] = {
-    Future.successful(Redirect(routes.LoginController.showForm()))
+    Future.successful(Redirect(routes.UserLoginController.showForm()))
   }
 }

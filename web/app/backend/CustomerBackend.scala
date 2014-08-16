@@ -14,7 +14,6 @@ class CustomerBackend(implicit inj: Injector) extends Injectable with Correlated
       response =>
         if (response.status != 200)
           throw new RuntimeException(s"Login via customer service failed status=${response.status}")
-        println(response.json)
         response.json.as[LoginResult]
     }
   }

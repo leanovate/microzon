@@ -1,9 +1,10 @@
 package modules
 
 import scaldi.Module
-import controllers.{UserRegistrationController, LoginController}
+import controllers.{ShopController, UserRegistrationController, UserLoginController}
 
 class WebModule extends Module {
-  binding to new LoginController
+  binding to new UserLoginController
   binding to new UserRegistrationController
+  binding to new ShopController
 }

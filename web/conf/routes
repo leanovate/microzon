@@ -10,7 +10,9 @@ GET         /assets/*file             controllers.Assets.at(path="/public", file
 
 GET         /webjars/*file            controllers.WebJarAssets.at(file)
 
-GET         /user/login               @controllers.LoginController.showForm
-POST        /user/login               @controllers.LoginController.submitForm
+GET         /user/login               @controllers.UserLoginController.showForm
+POST        /user/login               @controllers.UserLoginController.submitForm
 GET         /user/registration        @controllers.UserRegistrationController.showForm
 POST        /user/registration        @controllers.UserRegistrationController.submitForm
+
+GET         /shop                     @controllers.ShopController.index

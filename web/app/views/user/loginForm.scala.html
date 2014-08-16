@@ -5,7 +5,16 @@
 @main("Existing user login") {
     <h1>Login</h1>
 
-    @helper.form(action = routes.LoginController.submitForm(), 'class -> "form-horizontal") {
+    @loginForm.globalErrors.map { error =>
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                @error.messages.map { msg =>
+                    <li>@msg</li>
+                }
+            </ul>
+        </div>
+    }
+    @helper.form(action = routes.UserLoginController.submitForm(), 'class -> "form-horizontal") {
         @helper.inputText(loginForm("email"), 'id -> "inputEmail", 'class -> "form-control")
         @helper.inputPassword(loginForm("password"), 'id -> "inputPassword", 'class -> "form-control")
         <div class="form-group">

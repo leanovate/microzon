@@ -9,7 +9,7 @@ import backend.CustomerBackend
 import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits._
 
-class LoginController(implicit inj: Injector) extends Controller with Authentication with Injectable {
+class UserLoginController(implicit inj: Injector) extends Controller with Authentication with Injectable {
   private val customerBackend = inject[CustomerBackend]
 
   def showForm = UnauthenticatedAction {
@@ -26,7 +26,10 @@ class LoginController(implicit inj: Injector) extends Controller with Authentica
         login => {
           customerBackend.login(login).map {
             result =>
-              Ok(result.toString)
+              if (result.successful)
+                Redirect(routes.ShopController.index())
+              else
+                BadRequest(views.html.user.loginForm(loginForm.withGlobalError("Login failed")))
           }
         }
       )

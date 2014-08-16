@@ -6,6 +6,15 @@
 
     <h1>Register</h1>
 
+    @registrationForm.globalErrors.map { error =>
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                @error.messages.map { msg =>
+                    <li>@msg</li>
+                }
+            </ul>
+        </div>
+    }
     @helper.form(action = routes.UserRegistrationController.submitForm(), 'class -> "form-horizontal") {
         @helper.inputText(registrationForm("email"), 'id -> "inputEmail", 'class -> "form-control")
         @helper.inputPassword(registrationForm("password"), 'id -> "inputPassword", 'class -> "form-control")
