@@ -6,10 +6,22 @@
     </li>
 </ul>
 <ul class="nav navbar-nav navbar-right">
-    <li>
-        <a href="@routes.UserLoginController.showForm()">Login</a>
-    </li>
-    <li>
-        <a href="@routes.UserRegistrationController.showForm()">Register</a>
-    </li>
+    @if(userContext.isAuthenticated) {
+        <li class="disabled">
+            <a href="#">@userContext.customer.map(_.email)</a>
+        </li>
+        <li>
+            <a href="#">Profile</a>
+        </li>
+        <li>
+            <a href="@routes.UserLoginController.logout()">Logout</a>
+        </li>
+    } else {
+        <li>
+            <a href="@routes.UserLoginController.showForm()">Login</a>
+        </li>
+        <li>
+            <a href="@routes.UserRegistrationController.showForm()">Register</a>
+        </li>
+    }
 </ul>

@@ -1,6 +1,22 @@
 Micro service shop example
 ==========================
 
+# Some words of warning
+
+This is a demonstration how microservices may interact with each other and how to debug them. This is not supposed to be or become a real shop implementation. Most importantly: The current implementation intentionally contains several design flaws as they might occure in real life product development.
+
+# Used technologies
+
+For simplicity all services are supposed to run on a Java-VM.
+
+* Web frontend
+  * Based on Play 2.3 / Scala 2.11
+  * Does not have any kind of persistence
+* Customer service
+  * Based on Spring boot
+  * Mysql backend
+  
+
 # Getting started
 
 ## Requirements

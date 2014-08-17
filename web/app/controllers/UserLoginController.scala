@@ -10,7 +10,7 @@ import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits._
 
 class UserLoginController(implicit inj: Injector) extends Controller with Authentication with Injectable {
-  private val customerBackend = inject[CustomerBackend]
+  override val customerBackend = inject[CustomerBackend]
 
   def showForm = UnauthenticatedAction {
     implicit request =>
@@ -27,12 +27,17 @@ class UserLoginController(implicit inj: Injector) extends Controller with Authen
           customerBackend.login(login).map {
             result =>
               if (result.successful)
-                Redirect(routes.ShopController.index())
+                Redirect(routes.ShopController.index()).withSession("customerId" -> result.customerId.get.toString)
               else
                 BadRequest(views.html.user.loginForm(loginForm.withGlobalError("Login failed")))
           }
         }
       )
+  }
+
+  def logout = AuthenticatedAction {
+    implicit request =>
+      Redirect(routes.ApplicationController.index()).withNewSession
   }
 
   val loginForm = Form(

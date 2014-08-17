@@ -10,7 +10,7 @@ import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits._
 
 class UserRegistrationController(implicit inj: Injector) extends Controller with Authentication with Injectable {
-  private val customerBackend = inject[CustomerBackend]
+  override val customerBackend = inject[CustomerBackend]
 
   def showForm = UnauthenticatedAction {
     implicit request =>

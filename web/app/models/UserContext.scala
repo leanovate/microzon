@@ -1,7 +1,9 @@
 package models
 
+import models.user.Customer
+
 trait UserContext {
   def isAuthenticated: Boolean
 
-  def customerId: Option[Long]
+  def customer: Option[Customer]
 }
