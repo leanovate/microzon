@@ -1,8 +1,0 @@
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea_modules/product-build.iml" filepath="$PROJECT_DIR$/.idea_modules/product-build.iml"/>
-      <module fileurl="file://$PROJECT_DIR$/.idea_modules/product.iml" filepath="$PROJECT_DIR$/.idea_modules/product.iml"/>
-    </modules>
-  </component>
-</project>

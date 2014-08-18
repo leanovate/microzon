@@ -1,12 +1,27 @@
+import AssemblyKeys._
+
 name := """product"""
 
-version := "1.0"
+version := "0.1.0"
 
-scalaVersion := "2.11.1"
+scalaVersion := "2.10.3"
 
-// Change this to another test framework if you prefer
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.1.6" % "test"
+resolvers += "spray" at "http://repo.spray.io/"
 
-// Uncomment to use Akka
-//libraryDependencies += "com.typesafe.akka" % "akka-actor_2.11" % "2.3.3"
+libraryDependencies ++= {
+  val akkaV = "2.3.5"
+  val sprayV = "1.3.1"
+  Seq(
+    "io.spray" % "spray-can" % sprayV,
+    "io.spray" % "spray-routing" % sprayV,
+    "io.spray" %% "spray-json" % "1.2.6",
+    "tyrex" % "tyrex" % "1.0.1",
+    "org.reactivemongo" %% "reactivemongo" % "0.10.0",
+    "io.spray" % "spray-testkit" % sprayV % "test",
+    "com.typesafe.akka" %% "akka-actor" % akkaV,
+    "com.typesafe.akka" %% "akka-testkit" % akkaV % "test",
+    "org.specs2" %% "specs2-core" % "2.3.7" % "test"
+  )
+}
 
+assemblySettings
