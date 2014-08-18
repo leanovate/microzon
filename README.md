@@ -39,6 +39,12 @@ All build scripts will create an distribution archive in <project home>/vagrant/
 cd <project home>/customer
 ./gradlew clean dist
 ```
+* product service
+```
+#!bash
+cd <project home>/customer
+./activator clean assembly
+```
 * web frontend service
 ```
 #!bash

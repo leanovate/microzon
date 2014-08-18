@@ -2,7 +2,7 @@ package de.leanovate.dose.product.model
 
 import spray.json.DefaultJsonProtocol
 
-import ProductOptionProtocol._
+import reactivemongo.bson.Macros
 
 case class ActiveProduct(
                           id: Option[String],
@@ -11,7 +11,9 @@ case class ActiveProduct(
                           options: Seq[ProductOption]
                           )
 
-object ActiveProductProtocol extends DefaultJsonProtocol {
-  implicit val activeProductFormat = jsonFormat4(ActiveProduct)
-}
+object ActiveProduct extends DefaultJsonProtocol {
+  implicit val activeProductFormat = jsonFormat4(ActiveProduct.apply)
 
+  implicit val activeProductHandler = Macros.handler[ActiveProduct]
+
+}
