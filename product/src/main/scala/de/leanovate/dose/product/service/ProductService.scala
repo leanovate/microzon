@@ -6,6 +6,7 @@ import spray.httpx.SprayJsonSupport._
 import de.leanovate.dose.product.model.{Products, ActiveProduct}
 import de.leanovate.dose.product.repository.ProductRepository
 import de.leanovate.dose.product.Akka
+import spray.http.StatusCodes
 
 class ProductService(val actorRefFactory: ActorRefFactory) extends HttpService {
 
@@ -15,7 +16,7 @@ class ProductService(val actorRefFactory: ActorRefFactory) extends HttpService {
     pathPrefix("products") {
       pathEnd {
         get {
-          onSuccess(ProductRepository.findAll().map(Products.apply)) {
+          onSuccess(ProductRepository.findAllActive().map(Products.apply)) {
             products =>
               complete(products)
           }
@@ -24,7 +25,10 @@ class ProductService(val actorRefFactory: ActorRefFactory) extends HttpService {
             decompressRequest() {
               entity(as[ActiveProduct]) {
                 product =>
-                  complete("Got product " + product)
+                  onSuccess(ProductRepository.insert(product)) {
+                    inserted =>
+                      complete(inserted)
+                  }
               }
             }
           }
@@ -32,10 +36,34 @@ class ProductService(val actorRefFactory: ActorRefFactory) extends HttpService {
         path(Segment) {
           id =>
             get {
-              complete(s"One product $id")
+              onSuccess(ProductRepository.findById(id)) {
+                case Some(product) =>
+                  complete(product)
+                case None =>
+                  respondWithStatus(StatusCodes.NotFound) {
+                    complete("")
+                  }
+              }
+            } ~
+              put {
+                decompressRequest() {
+                  entity(as[ActiveProduct]) {
+                    product =>
+                      onSuccess(ProductRepository.update(id, product)) {
+                        updated =>
+                          complete(updated)
+                      }
+                  }
+                }
+              } ~ delete {
+              onSuccess(ProductRepository.deleteById(id)) {
+                _ =>
+                  respondWithStatus(StatusCodes.NoContent) {
+                    complete("")
+                  }
+              }
             }
         }
-
     }
   }
 }
