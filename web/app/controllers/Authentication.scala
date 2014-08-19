@@ -43,7 +43,7 @@ trait Authentication {
 
       createContextRequest(request).flatMap {
         contextRequest =>
-          block(contextRequest).map(_.withCookies(Cookie(CorrelatedLogging.CORRELATION_COOKIE, contextRequest.correlationId)))
+          block(contextRequest)
       }
 
     }
@@ -56,7 +56,7 @@ trait Authentication {
           if (!contextRequest.isAuthenticated)
             onUnauthenticated(contextRequest)
           else
-            block(contextRequest).map(_.withCookies(Cookie(CorrelatedLogging.CORRELATION_COOKIE, contextRequest.correlationId)))
+            block(contextRequest)
       }
     }
   }

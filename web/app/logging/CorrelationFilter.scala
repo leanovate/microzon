@@ -8,12 +8,7 @@ import org.slf4j.MDC
 
 object CorrelationFilter {
   def tagRequest(rh: RequestHeader) = {
-    val optSessionCorrelationId = rh.cookies.get(CorrelatedLogging.CORRELATION_COOKIE).map(_.value)
-
-    val correlationId = optSessionCorrelationId.getOrElse(
-      rh.headers.get(CorrelatedLogging.CORRELATION_ID).getOrElse(UUID.create())
-    )
-
+    val correlationId = rh.headers.get(CorrelatedLogging.CORRELATION_ID).getOrElse(UUID.create())
 
     val correlationTags = Map(
       CorrelatedLogging.CORRELATION_ID -> correlationId
