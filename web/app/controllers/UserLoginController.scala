@@ -18,7 +18,7 @@ class UserLoginController(implicit inj: Injector) extends Controller with Authen
   }
 
   def submitForm = UnauthenticatedAction.async {
-    implicit require =>
+    implicit request =>
       loginForm.bindFromRequest.fold(
         formWithErrors => {
           Future.successful(BadRequest(views.html.user.loginForm(formWithErrors)))
