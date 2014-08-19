@@ -1,7 +1,5 @@
 package logging
 
 trait CorrelationContext {
-  def sessionCorrelationId: String
-
-  def requestCorrelationId: String
+  def correlationId: String
 }

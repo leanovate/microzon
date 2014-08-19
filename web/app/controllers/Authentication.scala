@@ -11,9 +11,7 @@ import models.user.Customer
 class ContextRequest[A](request: Request[A],
                         correlationContext: CorrelationContext,
                         var customer: Option[Customer]) extends WrappedRequest[A](request) with CorrelationContext with UserContext {
-  override val sessionCorrelationId = correlationContext.sessionCorrelationId
-
-  override val requestCorrelationId = correlationContext.requestCorrelationId
+  override val correlationId = correlationContext.correlationId
 
   override def isAuthenticated = customer.isDefined
 }
@@ -25,12 +23,8 @@ trait Authentication {
 
   def createContextRequest[A](request: Request[A]) = {
     implicit val correlationContext = new CorrelationContext {
-      override val sessionCorrelationId = request.tags.getOrElse(CorrelatedLogging.SESSION_CORRELATION_ID,
-        throw new RuntimeException(CorrelatedLogging.SESSION_CORRELATION_ID + " not set"))
-
-      override val requestCorrelationId =
-        request.tags.getOrElse(CorrelatedLogging.REQUEST_CORRELATION_ID,
-          throw new RuntimeException(CorrelatedLogging.SESSION_CORRELATION_ID + " not set"))
+      override val correlationId = request.tags.getOrElse(CorrelatedLogging.CORRELATION_ID,
+        throw new RuntimeException(CorrelatedLogging.CORRELATION_ID + " not set"))
     }
 
     request.session.get("customerId").map(_.toLong).fold {
@@ -49,7 +43,7 @@ trait Authentication {
 
       createContextRequest(request).flatMap {
         contextRequest =>
-          block(contextRequest).map(_.withCookies(Cookie(CorrelatedLogging.SESSION_CORRELATION_COOKIE, contextRequest.sessionCorrelationId)))
+          block(contextRequest).map(_.withCookies(Cookie(CorrelatedLogging.CORRELATION_COOKIE, contextRequest.correlationId)))
       }
 
     }
@@ -62,7 +56,7 @@ trait Authentication {
           if (!contextRequest.isAuthenticated)
             onUnauthenticated(contextRequest)
           else
-            block(contextRequest).map(_.withCookies(Cookie(CorrelatedLogging.SESSION_CORRELATION_COOKIE, contextRequest.sessionCorrelationId)))
+            block(contextRequest).map(_.withCookies(Cookie(CorrelatedLogging.CORRELATION_COOKIE, contextRequest.correlationId)))
       }
     }
   }
