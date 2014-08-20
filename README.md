@@ -14,8 +14,13 @@ For simplicity all services are supposed to run on a Java-VM.
   * Does not have any kind of persistence
 * Customer service
   * Based on Spring boot
-  * Mysql backend
-  
+  * Mysql backend via JPA/Hibernate
+* Product backend
+  * Based on Spray 1.3.1
+  * MongoDB backend via ReactiveMongo
+* (Shopping)Cart backend
+  * Based on Scalatra with embedded Jetty
+  * Mysql backend via ScalalikeJdbc
 
 # Getting started
 
@@ -35,19 +40,16 @@ All build scripts will create an distribution archive in <project home>/vagrant/
 
 * customer service
 ```
-#!bash
 cd <project home>/customer
 ./gradlew clean dist
 ```
 * product service
 ```
-#!bash
 cd <project home>/customer
 ./activator clean assembly
 ```
 * web frontend service
 ```
-#!bash
 cd <project home>/web
 ./activator clean dist
 ```
@@ -58,6 +60,13 @@ cd <project home>/web
 #!bash
 cd <project home>/vagrant
 vagrant up
+```
+
+### Populating the databases
+
+* product database
+```
+python product/src/main/scripts/populate.py
 ```
 
 ### Enjoy the show
