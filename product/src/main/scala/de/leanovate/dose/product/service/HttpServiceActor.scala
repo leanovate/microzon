@@ -5,6 +5,7 @@ import spray.routing.HttpService
 
 class HttpServiceActor extends Actor with HttpService {
   val productService = new ProductService(context)
+  val categoryService = new CategoryService(context)
 
   def actorRefFactory = context
 
@@ -16,6 +17,7 @@ class HttpServiceActor extends Actor with HttpService {
         complete("PONG!")
       }
     } ~
-      productService.routes
+      productService.routes ~
+      categoryService.routes
   }
 }

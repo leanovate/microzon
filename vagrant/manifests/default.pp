@@ -36,3 +36,11 @@ node product {
 
     Class["common"] -> Class["java"] -> Class["logstash_forwarder"] -> Class["app_product"]
 }
+
+node zipkin {
+    include "common"
+    include "java"
+    include "zipkin_collector"
+
+    Class["common"] -> Class["java"] -> Class["zipkin_collector"]
+}

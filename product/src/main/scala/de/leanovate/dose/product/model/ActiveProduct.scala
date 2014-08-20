@@ -8,12 +8,12 @@ case class ActiveProduct(
                           id: Option[String],
                           name: String,
                           description: Option[String],
-                          options: Seq[ProductOption]
+                          options: Seq[ProductOption],
+                          categories: Seq[String]
                           )
 
 object ActiveProduct extends DefaultJsonProtocol {
-  implicit val activeProductFormat = jsonFormat4(ActiveProduct.apply)
+  implicit val activeProductFormat = jsonFormat5(ActiveProduct.apply)
 
   implicit val activeProductHandler = Macros.handler[ActiveProduct]
-
 }
