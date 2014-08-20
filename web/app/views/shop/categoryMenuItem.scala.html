@@ -1,0 +1,10 @@
+@(categoryItem:product.CategoryTreeItem)
+
+<lI>
+    <a href="@routes.ShopController.category(categoryItem.category.id)">@categoryItem.category.name</a>
+    @if(!categoryItem.children.isEmpty) {
+        <ul class="nav nav-list">
+            @categoryItem.children.map(categoryMenuItem.f)
+        </ul>
+    }
+</lI>

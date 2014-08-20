@@ -22,7 +22,7 @@ class CustomerBackend(implicit inj: Injector) extends Injectable with Correlated
     CorrelatedWS.url(baseUrl + "/registration").post(Json.toJson(registration)).map {
       response =>
         if (response.status != 200)
-          throw new RuntimeException(s"Login via customer service failed status=${response.status}")
+          throw new RuntimeException(s"registration via customer service failed status=${response.status}")
         response.json.as[RegistrationResult]
     }
   }
@@ -31,7 +31,7 @@ class CustomerBackend(implicit inj: Injector) extends Injectable with Correlated
     CorrelatedWS.url(baseUrl + "/customers/" + customerId).get().map {
       response =>
         if (response.status != 200)
-          throw new RuntimeException(s"Login via customer service failed status=${response.status}")
+          throw new RuntimeException(s"get customer via customer service failed status=${response.status}")
         response.json.as[Customer]
 
     }

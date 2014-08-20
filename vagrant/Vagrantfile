@@ -67,6 +67,21 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  config.vm.define :cart do |cart|
+    cart.vm.box = "ubuntu/trusty64"
+    cart.vm.hostname = 'cart.localhost.localdomain'
+
+    cart.vm.network :private_network, ip: "192.168.254.14"
+
+    cart.vm.provision "puppet" do |puppet|
+      puppet.module_path = "modules"
+    end
+
+    cart.vm.provider "virtualbox" do |v|
+      v.customize ["modifyvm", :id, "--memory", 1024]
+    end
+  end
+
   config.vm.define :zipkin do |zipkin|
     zipkin.vm.box = "ubuntu/trusty64"
     zipkin.vm.hostname = 'zipkin.localhost.localdomain'

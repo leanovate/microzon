@@ -1,5 +1,12 @@
-@()(implicit userContext: UserContext)
+@(categoryTree:product.CategoryTree)(implicit userContext: UserContext)
 
 @main("Shop") {
-    <div>Shop</div>
+    <div class="col-sm-2">
+        <ul class="nav nav-list">
+            @categoryTree.tree.map(categoryMenuItem.f)
+        </ul>
+    </div>
+    <div class="col-sm-10">
+        bla
+    </div>
 }

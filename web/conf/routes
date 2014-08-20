@@ -17,3 +17,4 @@ GET         /user/registration        @controllers.UserRegistrationController.sh
 POST        /user/registration        @controllers.UserRegistrationController.submitForm
 
 GET         /shop                     @controllers.ShopController.index
+GET         /shop/category/:id        @controllers.ShopController.category(id:String)
