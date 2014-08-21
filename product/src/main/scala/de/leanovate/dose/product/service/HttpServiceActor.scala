@@ -2,6 +2,7 @@ package de.leanovate.dose.product.service
 
 import akka.actor.Actor
 import spray.routing.HttpService
+import de.leanovate.dose.product.logging.CorrelatedRouting._
 
 class HttpServiceActor extends Actor with HttpService {
   val productService = new ProductService(context)
@@ -12,12 +13,15 @@ class HttpServiceActor extends Actor with HttpService {
   def receive = runRoute(routes)
 
   val routes = {
-    path("ping") {
-      get {
-        complete("PONG!")
-      }
-    } ~
-      productService.routes ~
-      categoryService.routes
+    correlationContext {
+      implicit correlation =>
+        path("ping") {
+          get {
+            complete("PONG!")
+          }
+        } ~
+          productService.routes ~
+          categoryService.routes
+    }
   }
 }

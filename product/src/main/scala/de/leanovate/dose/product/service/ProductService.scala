@@ -7,12 +7,13 @@ import de.leanovate.dose.product.model.{Products, ActiveProduct}
 import de.leanovate.dose.product.repository.ProductRepository
 import de.leanovate.dose.product.Akka
 import spray.http.StatusCodes
+import de.leanovate.dose.product.logging.CorrelationContext
 
 class ProductService(val actorRefFactory: ActorRefFactory) extends HttpService {
 
   import Akka._
 
-  val routes = {
+  def routes(implicit correlationContext: CorrelationContext) = {
     pathPrefix("products") {
       pathEnd {
         get {

@@ -7,16 +7,18 @@ import de.leanovate.dose.product.Akka
 import de.leanovate.dose.product.model.{Category, Categories}
 import spray.http.StatusCodes
 import de.leanovate.dose.product.repository.CategoryRepository
+import de.leanovate.dose.product.logging.CorrelatedRouting._
+import de.leanovate.dose.product.logging.CorrelationContext
 
 class CategoryService(val actorRefFactory: ActorRefFactory) extends HttpService {
 
   import Akka._
 
-  val routes = {
+  def routes(implicit correlationContext: CorrelationContext) = {
     pathPrefix("categories") {
       pathEnd {
         get {
-          onSuccess(CategoryRepository.findAllActive().map(Categories.apply)) {
+          onSuccess(CategoryRepository.findAll().map(Categories.apply)) {
             categories =>
               complete(categories)
           }
