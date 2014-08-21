@@ -26,17 +26,20 @@ For simplicity all services are supposed to run on a Java-VM.
 
 ## Requirements
 
-* A machine with 8 Gb ram at the very least (16 Gb is much better)
-* Java JDK 1.7
+* When using the vagrant environment we start up to 7 VMs with 8 Gb memory total, therefore a machine with at least 16 Gb is advisable
+* Java JDK 1.7 (OpenJDK and OracleJDK are both working)
 * Virtual Box 4.3
 * Vagrant 1.6
-* An internet connection
+* An internet connection (expect lots of stuff being downloaded)
+* The setup has been tested with MocOS (Maverick) and Ubuntu 14.04. If you are using a different system you might encounter so far unknown problems.
 
 ## Getting started
 
 ### Building the micro service distributions
 
 All build scripts will create an distribution archive in <project home>/vagrant/dist
+
+Note: As in real life several different build tools/configs are used for each project. Pay close attention to each of the commands, it is not always the same.
 
 * customer service
 ```
