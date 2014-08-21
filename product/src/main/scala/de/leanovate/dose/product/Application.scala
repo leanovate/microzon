@@ -1,10 +1,9 @@
 package de.leanovate.dose.product
 
-import akka.actor.{Props, ActorSystem}
+import akka.actor.Props
 import de.leanovate.dose.product.service.HttpServiceActor
 import akka.io.IO
 import spray.can.Http
-import de.leanovate.dose.product.repository.ProductRepository
 
 object Application extends App {
   import Akka._

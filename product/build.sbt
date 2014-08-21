@@ -17,7 +17,6 @@ libraryDependencies ++= {
     "io.spray" % "spray-can" % sprayV,
     "io.spray" % "spray-routing" % sprayV,
     "io.spray" %% "spray-json" % "1.2.6",
-    "tyrex" % "tyrex" % "1.0.1",
     "org.reactivemongo" %% "reactivemongo" % "0.10.5.akka23-SNAPSHOT",
     "ch.qos.logback" % "logback-classic" % "1.1.2",
     "io.netty" % "netty" % "3.6.5.Final" excludeAll(

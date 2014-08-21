@@ -1,0 +1,16 @@
+@(activeProduct: product.ActiveProduct)(implicit userContext: UserContext)
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a href="@routes.ShopController.product(activeProduct.id)">@activeProduct.name</a>
+    </div>
+    <div class="panel-body">
+        <div class="col-sm-9">
+            @activeProduct.description.map(_.take(100) + " ... ")
+        </div>
+        <div class="col-sm-3">
+            Available at<br/>
+            € @{activeProduct.options.map(_.priceInCent).min / 100.0 }
+        </div>
+    </div>
+</div>

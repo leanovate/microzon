@@ -2,11 +2,48 @@
 
 import json
 import urllib2
+import string
+import itertools
+import random
 
 categoriesUrl = "http://192.168.254.13/categories"
-existingCategories = json.load(urllib2.urlopen(categoriesUrl))
+productsUrl = "http://192.168.254.13/products"
 
-print existingCategories
+#categoriesUrl = "http://localhost:8080/categories"
+#productsUrl = "http://localhost:8080/products"
+
+initial_consonants = (set(string.ascii_lowercase) - set('aeiou')
+                      # remove those easily confused with others
+                      - set('qxc')
+                      # add some crunchy clusters
+                      | set(['bl', 'br', 'cl', 'cr', 'dr', 'fl',
+                             'fr', 'gl', 'gr', 'pl', 'pr', 'sk',
+                             'sl', 'sm', 'sn', 'sp', 'st', 'str',
+                             'sw', 'tr'])
+                      )
+
+final_consonants = (set(string.ascii_lowercase) - set('aeiou')
+                    # confusable
+                    - set('qxcsj')
+                    # crunchy clusters
+                    | set(['ct', 'ft', 'mp', 'nd', 'ng', 'nk', 'nt',
+                           'pt', 'sk', 'sp', 'ss', 'st'])
+                    )
+
+vowels = 'aeiou' # we'll keep this simple
+
+# each syllable is consonant-vowel-consonant "pronounceable"
+syllables = map(''.join, itertools.product(initial_consonants, 
+                                           vowels, 
+                                           final_consonants))
+
+# you could trow in number combinations, maybe capitalized versions... 
+
+def gibberish(wordcount, wordlist=syllables):
+    return ' '.join(random.sample(wordlist, wordcount))    
+
+
+existingCategories = json.load(urllib2.urlopen(categoriesUrl))
 
 class Category:
     def __init__(self, name):
@@ -42,3 +79,21 @@ categoryTree = [
 
 for category in categoryTree:
     category.eansureCreated(None)
+
+existingCategories = json.load(urllib2.urlopen(categoriesUrl))
+
+print existingCategories
+
+for category in existingCategories['categories']:
+    existingProducts = json.load(urllib2.urlopen(categoriesUrl + '/' + category['id'] + '/products'))
+    if len(existingProducts['activeProducts']) < 5:
+        for i in range(0, 5):
+            options = [ {'name':'black', 'description':gibberish(20), 'priceInCent':random.randint(100, 100000)},
+                        {'name':'blue', 'description':gibberish(20), 'priceInCent':random.randint(100, 100000)},
+                        {'name':'white', 'description':gibberish(20), 'priceInCent':random.randint(100, 100000)}]
+            product = {'name':category['name'] + ' ' + gibberish(12), 'description': gibberish(100), 'options':options, 'images':[], 'categories': [category['id']]}
+            data = json.dumps(product)
+            req = urllib2.Request(productsUrl, data, {'Content-Type': 'application/json'})
+            created = json.load(urllib2.urlopen(req))
+            print created
+

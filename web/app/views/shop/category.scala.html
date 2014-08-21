@@ -1,4 +1,4 @@
-@(categoryTree: product.CategoryTree)(implicit userContext: UserContext)
+@(categoryTree: product.CategoryTree, products: Seq[product.ActiveProduct])(implicit userContext: UserContext)
 
 @main("Shop") {
     <div class="col-sm-2">
@@ -7,9 +7,8 @@
         </ul>
     </div>
     <div class="col-sm-10">
-        <div class="jumbotron">
-            <h1>Please select a category!</h1>
-            <p>...</p>
-        </div>
+        @products.map { product =>
+          @productLine(product)
+        }
     </div>
 }

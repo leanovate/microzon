@@ -4,9 +4,9 @@ import akka.actor.ActorRefFactory
 import spray.routing.HttpService
 import spray.httpx.SprayJsonSupport._
 import de.leanovate.dose.product.Akka
-import de.leanovate.dose.product.model.{Category, Categories}
+import de.leanovate.dose.product.model.{Products, Category, Categories}
 import spray.http.StatusCodes
-import de.leanovate.dose.product.repository.CategoryRepository
+import de.leanovate.dose.product.repository.{ProductRepository, CategoryRepository}
 import de.leanovate.dose.product.logging.CorrelatedRouting._
 import de.leanovate.dose.product.logging.CorrelationContext
 
@@ -35,18 +35,26 @@ class CategoryService(val actorRefFactory: ActorRefFactory) extends HttpService 
             }
           }
       } ~
-        path(Segment) {
+        pathPrefix(Segment) {
           id =>
-            get {
-              onSuccess(CategoryRepository.findById(id)) {
-                case Some(category) =>
-                  complete(category)
-                case None =>
-                  respondWithStatus(StatusCodes.NotFound) {
-                    complete("")
-                  }
+            path("products") {
+              get {
+                onSuccess(ProductRepository.findAllForCategory(id).map(Products.apply)) {
+                  products =>
+                    complete(products)
+                }
               }
             } ~
+              get {
+                onSuccess(CategoryRepository.findById(id)) {
+                  case Some(category) =>
+                    complete(category)
+                  case None =>
+                    respondWithStatus(StatusCodes.NotFound) {
+                      complete("")
+                    }
+                }
+              } ~
               put {
                 decompressRequest() {
                   entity(as[Category]) {
@@ -57,14 +65,15 @@ class CategoryService(val actorRefFactory: ActorRefFactory) extends HttpService 
                       }
                   }
                 }
-              } ~ delete {
-              onSuccess(CategoryRepository.deleteById(id)) {
-                _ =>
-                  respondWithStatus(StatusCodes.NoContent) {
-                    complete("")
-                  }
+              } ~
+              delete {
+                onSuccess(CategoryRepository.deleteById(id)) {
+                  _ =>
+                    respondWithStatus(StatusCodes.NoContent) {
+                      complete("")
+                    }
+                }
               }
-            }
         }
     }
   }

@@ -1,10 +1,9 @@
 package de.leanovate.dose.product.repository
 
 import reactivemongo.api.collections.default.BSONCollection
-import reactivemongo.bson.BSONDocument
+import reactivemongo.bson.{BSONObjectID, BSONDocument}
 import de.leanovate.dose.product.model.ActiveProduct
 import de.leanovate.dose.product.Akka
-import tyrex.services.UUID
 import de.leanovate.dose.product.logging.{CorrelatedLogging, CorrelationContext}
 
 object ProductRepository extends CorrelatedLogging {
@@ -14,8 +13,13 @@ object ProductRepository extends CorrelatedLogging {
   val products = Mongo.productsDb.collection[BSONCollection]("products")
 
   def findAllActive()(implicit correlationContext: CorrelationContext) = withMdc {
-    log.info("Get all categories")
+    log.info("Get all products")
     products.find(BSONDocument()).sort(BSONDocument("name" -> 1)).cursor[ActiveProduct].collect[Seq]()
+  }
+
+  def findAllForCategory(categoryId: String)(implicit correlationContext: CorrelationContext) = withMdc {
+    log.info(s"Find all products of category $categoryId")
+    products.find(BSONDocument("categories" -> BSONObjectID(categoryId))).sort(BSONDocument("name" -> 1)).cursor[ActiveProduct].collect[Seq]()
   }
 
   def findById(id: String)(implicit correlationContext: CorrelationContext) = withMdc {
@@ -24,12 +28,12 @@ object ProductRepository extends CorrelatedLogging {
   }
 
   def insert(product: ActiveProduct)(implicit correlationContext: CorrelationContext) = withMdc {
-    val toInsert = product.copy(id = Some(UUID.create()))
+    val toInsert = product.copy(_id = Some(BSONObjectID.generate))
     products.insert(toInsert).map(_ => toInsert)
   }
 
   def update(id: String, product: ActiveProduct)(implicit correlationContext: CorrelationContext) = withMdc {
-    val toUpdate = product.copy(id = Some(id))
+    val toUpdate = product.copy(_id = Some(BSONObjectID(id)))
     products.update(BSONDocument("id" -> id), toUpdate).map(_ => toUpdate)
   }
 

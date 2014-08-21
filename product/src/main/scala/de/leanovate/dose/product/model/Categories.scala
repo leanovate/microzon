@@ -23,10 +23,11 @@ object Categories extends DefaultJsonProtocol {
   }
 
   def apply(categories: Seq[Category]): Categories = {
-    val byParentId = categories.groupBy(_.parent_id)
+    val byParentId = categories.groupBy(_.parent_id.map(_.stringify))
+    println(byParentId)
 
     def createTreeItem(category: Category): CategoryTreeItem = {
-      CategoryTreeItem(category, byParentId.getOrElse(category.id, List()).map(createTreeItem))
+      CategoryTreeItem(category, byParentId.getOrElse(category._id.map(_.stringify), List()).map(createTreeItem))
     }
 
     Categories(categories, categories.filter(_.parent_id.isEmpty).map(createTreeItem))
