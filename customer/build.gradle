@@ -26,6 +26,14 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-jpa:1.1.5.RELEASE")
     compile("org.springframework.boot:spring-boot-starter-data-rest:1.1.5.RELEASE")
     compile("mysql:mysql-connector-java:5.1.32")
+    compile("com.github.kristofa:brave-impl:2.2.1") {
+        exclude group: 'log4j', module: 'log4j'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
+    compile("com.github.kristofa:brave-zipkin-spancollector:2.2.1") {
+        exclude group: 'log4j', module: 'log4j'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
 }
 
 task wrapper(type: Wrapper) {
