@@ -14,6 +14,7 @@ import com.twitter.finagle.server.DefaultServer
 import com.twitter.finagle.dispatch.SerialServerDispatcher
 import com.twitter.finagle.http.HttpServerTracingFilter
 import java.net.InetSocketAddress
+import de.leanovate.dose.cart.logging.CorrelationHttpFilter
 
 object Application extends FinatraServer {
 
@@ -24,6 +25,7 @@ object Application extends FinatraServer {
   DefaultTracer.self = zipkinTracer
 
   addFilter(new HttpServerTracingFilter("Cart"))
+  addFilter(new CorrelationHttpFilter())
 
   override def main() {
     System.setProperty("PID", pid)

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
+    <conversionRule conversionWord="correlationId" converterClass="de.leanovate.dose.cart.logging.CorrelationConverter"/>
+
     <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}cart.log}"/>
 
     <appender name="FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
-            <pattern>~cart[${PID:- }]: %d{yyyy-MM-dd'T'HH:mm:ss.SSSZ};%t;%mdc{X-CorrelationId:--};%level;%logger;%m%n</pattern>
+            <pattern>~cart[${PID:- }]: %d{yyyy-MM-dd'T'HH:mm:ss.SSSZ};%t;${X-CorrelationId:--};%level;%logger;%m%n</pattern>
         </encoder>
         <file>${LOG_FILE}</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
@@ -20,7 +22,7 @@
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>~cart[${PID:- }]: %d{yyyy-MM-dd'T'HH:mm:ss.SSSZ};%t;%mdc{X-CorrelationId:--};%level;%logger;%m%n</pattern>
+            <pattern>~cart[${PID:- }]: %d{yyyy-MM-dd'T'HH:mm:ss.SSSZ};%t;%correlationId;%level;%logger;%m%n</pattern>
         </encoder>
     </appender>
 
