@@ -2,10 +2,11 @@ package controllers
 
 import play.api.mvc._
 import logging.{CorrelatedLogging, CorrelationContext}
+import scaldi.Injectable
 import scala.concurrent.Future
 import models.UserContext
 import play.api.libs.concurrent.Execution.Implicits._
-import backend.CustomerBackend
+import backend.{CartBackend, CustomerBackend}
 import models.user.Customer
 import models.cart.Cart
 
@@ -23,19 +24,25 @@ trait Authentication {
 
   def customerBackend: CustomerBackend
 
+  def cartBackend: CartBackend
+
   def createContextRequest[A](request: Request[A]) = {
     implicit val correlationContext = new CorrelationContext {
       override val correlationId = request.tags.getOrElse(CorrelatedLogging.CORRELATION_ID,
         throw new RuntimeException(CorrelatedLogging.CORRELATION_ID + " not set"))
     }
 
-    request.session.get("customerId").map(_.toLong).fold {
-      Future.successful(new ContextRequest(request, correlationContext, None, None))
-    } {
+    val customerFuture = request.session.get("customerId").map(_.toLong).map {
       customerId =>
-        customerBackend.getCustomer(customerId).map {
-          customer => new ContextRequest(request, correlationContext, Some(customer), None)
-        }
+        customerBackend.getCustomer(customerId).map(Some.apply)
+    }.getOrElse((Future.successful(None)))
+    val cartFuture = request.session.get("cartId").map {
+      cartId =>
+        cartBackend.getCart(cartId).map(Some.apply)
+    }.getOrElse(Future.successful(None))
+    customerFuture.zip(cartFuture).map {
+      case (customer, cart) =>
+        new ContextRequest(request, correlationContext, customer, cart)
     }
   }
 

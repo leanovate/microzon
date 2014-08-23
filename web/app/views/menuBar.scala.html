@@ -6,6 +6,9 @@
     </li>
 </ul>
 <ul class="nav navbar-nav navbar-right">
+    <li>
+        <a href="#">Cart: @userContext.cart.flatMap(_.itemCount).getOrElse(0) items</a>
+    </li>
     @if(userContext.isAuthenticated) {
         <li class="disabled">
             <a href="#">@userContext.customer.map(_.email)</a>

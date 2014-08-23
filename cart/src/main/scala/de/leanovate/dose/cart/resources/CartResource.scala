@@ -13,16 +13,15 @@ class CartResource extends Controller {
     m.registerModule(DefaultScalaModule)
   }
 
-  post("/cart") {
+  post("/carts") {
     request =>
       val cart = jsonMapper.readValue(request.contentString, classOf[Cart])
 
       CartRepository.insert(cart).map(render.json)
   }
 
-  get("/cart/:id") {
+  get("/carts/:id") {
     request =>
-println(      Trace.id._sampled)
       CartRepository.findById(request.routeParams("id")).map {
         case Some(cart) =>
           render.json(cart)
@@ -31,7 +30,7 @@ println(      Trace.id._sampled)
       }
   }
 
-  post("/cart/:id/items") {
+  post("/carts/:id/items") {
     request =>
       val cartItem = jsonMapper.readValue(request.contentString, classOf[CartItem])
       CartRepository.findById(request.routeParams("id")).flatMap {

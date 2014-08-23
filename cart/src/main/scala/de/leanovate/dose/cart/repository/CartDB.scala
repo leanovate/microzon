@@ -26,6 +26,8 @@ object CartDB {
     case ByteValue(i) => Some(i.toInt)
     case ShortValue(i) => Some(i.toInt)
     case IntValue(i) => Some(i)
+    case LongValue(l) => Some(l.toInt)
+    case BigDecimalValue(b) => Some(b.intValue())
     case _ =>
       None
   }
@@ -35,6 +37,7 @@ object CartDB {
     case ShortValue(i) => Some(i.toLong)
     case IntValue(i) => Some(i.toLong)
     case LongValue(l) => Some(l)
+    case BigDecimalValue(b) => Some(b.longValue())
     case _ =>
       None
   }

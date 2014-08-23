@@ -1,18 +1,25 @@
 package controllers
 
+import models.cart.CartItem
+import models.user.Registration
+import play.api.data.Form
+import play.api.data.Forms._
 import scaldi.{Injectable, Injector}
 import play.api.mvc.Controller
-import backend.{ProductBackend, CustomerBackend}
+import backend.{CartBackend, ProductBackend, CustomerBackend}
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.json.Json
 
+import scala.concurrent.Future
+
 class ShopController(implicit inj: Injector) extends Controller with Injectable with Authentication {
   override val customerBackend = inject[CustomerBackend]
+  override val cartBackend = inject[CartBackend]
 
   val productBackend = inject[ProductBackend]
 
   def index = UnauthenticatedAction.async {
-    implicit require =>
+    implicit request =>
       productBackend.getCategoryTree().map {
         categoryTree =>
           Ok(views.html.shop.index(categoryTree))
@@ -20,7 +27,7 @@ class ShopController(implicit inj: Injector) extends Controller with Injectable 
   }
 
   def category(id: String) = UnauthenticatedAction.async {
-    implicit require =>
+    implicit request =>
       productBackend.getCategoryTree().zip(productBackend.getProductsForCategory(id)).map {
         case (categoryTree, products) =>
           Ok(views.html.shop.category(categoryTree, products.activeProducts))
@@ -28,7 +35,7 @@ class ShopController(implicit inj: Injector) extends Controller with Injectable 
   }
 
   def product(id: String, option: Option[String]) = UnauthenticatedAction.async {
-    implicit require =>
+    implicit request =>
       productBackend.getProduct(id).map {
         product =>
           val selectedProduct = option.fold(product.options.headOption) {
@@ -38,4 +45,33 @@ class ShopController(implicit inj: Injector) extends Controller with Injectable 
           Ok(views.html.shop.productDetails(product, selectedProduct))
       }
   }
+
+  def addToCart = UnauthenticatedAction.async {
+    implicit request =>
+      addToCartForm.bindFromRequest.fold(
+        formWithErrors => {
+          Future.successful(Ok(""))
+        },
+        toCart => {
+          val cart = request.cart.map(Future.successful).getOrElse(cartBackend.createCart())
+
+          cart.flatMap {
+            cart =>
+              val cartItem = CartItem(cart.id, None, toCart._1, toCart._2, toCart._3)
+              cartBackend.addToCart(cartItem).map {
+                createdItem =>
+                  Ok(toCart.toString() + " " + cart + " " + createdItem).addingToSession("cartId" -> cart.id)
+              }
+          }
+        }
+      )
+  }
+
+  val addToCartForm = Form(
+    tuple(
+      "productId" -> nonEmptyText,
+      "option" -> nonEmptyText,
+      "amount" -> number
+    )
+  )
 }

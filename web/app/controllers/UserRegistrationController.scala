@@ -5,12 +5,13 @@ import play.api.data._
 import play.api.data.Forms._
 import models.user.Registration
 import scaldi.{Injector, Injectable}
-import backend.CustomerBackend
+import backend.{CartBackend, CustomerBackend}
 import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits._
 
 class UserRegistrationController(implicit inj: Injector) extends Controller with Authentication with Injectable {
   override val customerBackend = inject[CustomerBackend]
+  override val cartBackend = inject[CartBackend]
 
   def showForm = UnauthenticatedAction {
     implicit request =>
@@ -18,7 +19,7 @@ class UserRegistrationController(implicit inj: Injector) extends Controller with
   }
 
   def submitForm = UnauthenticatedAction.async {
-    implicit require =>
+    implicit request =>
       registrationForm.bindFromRequest.fold(
         formWithErrors => {
           Future.successful(BadRequest(views.html.user.registrationForm(formWithErrors)))

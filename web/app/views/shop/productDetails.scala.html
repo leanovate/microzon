@@ -11,18 +11,26 @@
 
     <div class="col-sm-3">
         <h4>Option</h4>
-        <div class="col-sm-8">
+        <div class="col-sm-7">
             <form method="get" action="@routes.ShopController.product(activeProduct.id)">
-                <select name="option" onchange="this.form.submit ( )">
+                <select class="form-control" name="option" onchange="this.form.submit()">
                 @activeProduct.options.map { option =>
-                    <option value="@option.name">
+                    <option value="@option.name" @if(selectedOption.exists(_ == option)){selected} >
                     @option.name
                     </option>
                 }
                 </select>
             </form>
+            @selectedOption.map { option =>
+                <form method="post" action="@routes.ShopController.addToCart()">
+                    <input type="hidden" name="productId" value="@activeProduct.id">
+                    <input type="hidden" name="option" value="@option.name">
+                    <input class="form-control" type="text" name="amount" value="1">
+                    <button type="submit" class="btn btn-default">Add to cart</button>
+                </form>
+            }
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-5">
         @selectedOption.map { option =>
             <h3>
                 €&nbsp;@(option.priceInCent / 100.0)

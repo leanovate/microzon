@@ -9,7 +9,7 @@ object CartRepository {
 
   import CartDB._
 
-  val cartSelectById = mysql.prepare("select ID, CREATED, (select count(*) from CART_ITEM where CART_ID = ID) as itemCount, (select max(POSITION) from CART_ITEM where CART_ID = ID) as lastPosition from CART where ID = ? limit 1")
+  val cartSelectById = mysql.prepare("select ID, CREATED, (select sum(AMOUNT) from CART_ITEM where CART_ID = ID) as itemCount, (select max(POSITION) from CART_ITEM where CART_ID = ID) as lastPosition from CART where ID = ? limit 1")
   val cartInsert = mysql.prepare("insert into CART (ID) values (?)")
 
   def findById(id: String) = {

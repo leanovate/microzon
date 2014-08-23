@@ -5,12 +5,13 @@ import scaldi.{Injector, Injectable}
 import play.api.data.Form
 import play.api.data.Forms._
 import models.user.Login
-import backend.CustomerBackend
+import backend.{CartBackend, CustomerBackend}
 import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits._
 
 class UserLoginController(implicit inj: Injector) extends Controller with Authentication with Injectable {
   override val customerBackend = inject[CustomerBackend]
+  override val cartBackend = inject[CartBackend]
 
   def showForm = UnauthenticatedAction {
     implicit request =>

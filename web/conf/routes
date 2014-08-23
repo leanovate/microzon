@@ -19,3 +19,4 @@ POST        /user/registration        @controllers.UserRegistrationController.su
 GET         /shop                     @controllers.ShopController.index
 GET         /shop/category/:id        @controllers.ShopController.category(id:String)
 GET         /shop/product/:id         @controllers.ShopController.product(id:String, option:Option[String] ?= None)
+POST        /shop/addToCart           @controllers.ShopController.addToCart
