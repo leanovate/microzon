@@ -67,6 +67,19 @@ class ShopController(implicit inj: Injector) extends Controller with Injectable 
       )
   }
 
+  def showCart = UnauthenticatedAction.async {
+    implicit request =>
+      val cartItemsFuture = request.cart.fold(Future.successful(Seq.empty[CartItem])) {
+        cart =>
+          cartBackend.getCartItems(cart.id)
+      }
+
+      cartItemsFuture.map {
+        cartItems =>
+          Ok(views.html.shop.cartDetail(cartItems))
+      }
+  }
+
   val addToCartForm = Form(
     tuple(
       "productId" -> nonEmptyText,

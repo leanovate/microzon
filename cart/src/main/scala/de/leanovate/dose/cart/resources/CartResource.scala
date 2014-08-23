@@ -30,6 +30,11 @@ class CartResource extends Controller {
       }
   }
 
+  get("/carts/:id/items") {
+    request =>
+      CartItemRepository.findAllForCart(request.routeParams("id")).map(render.json)
+  }
+
   post("/carts/:id/items") {
     request =>
       val cartItem = jsonMapper.readValue(request.contentString, classOf[CartItem])

@@ -37,4 +37,13 @@ class CartBackend(implicit inj: Injector) extends Injectable with CorrelatedLogg
         response.json.as[CartItem]
     }
   }
+
+  def getCartItems(cartId:String)(implicit collectionContext: CorrelationContext) = {
+    CorrelatedWS.url(baseUrl + "/carts/" + URLEncoder.encode(cartId, "UTF-8") + "/items").get().map {
+      response =>
+        if (response.status != 200)
+          throw new RuntimeException(s"create cart via cart service failed status=${response.status}")
+        response.json.as[Seq[CartItem]]
+    }
+  }
 }

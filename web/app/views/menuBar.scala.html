@@ -7,7 +7,7 @@
 </ul>
 <ul class="nav navbar-nav navbar-right">
     <li>
-        <a href="#">Cart: @userContext.cart.flatMap(_.itemCount).getOrElse(0) items</a>
+        <a href="@routes.ShopController.showCart()">Cart: @userContext.cart.flatMap(_.itemCount).getOrElse(0) items</a>
     </li>
     @if(userContext.isAuthenticated) {
         <li class="disabled">

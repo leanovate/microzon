@@ -20,3 +20,4 @@ GET         /shop                     @controllers.ShopController.index
 GET         /shop/category/:id        @controllers.ShopController.category(id:String)
 GET         /shop/product/:id         @controllers.ShopController.product(id:String, option:Option[String] ?= None)
 POST        /shop/addToCart           @controllers.ShopController.addToCart
+GET         /shop/cart                @controllers.ShopController.showCart

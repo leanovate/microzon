@@ -1,0 +1,20 @@
+@(cartItems: Seq[cart.CartItem])(implicit userContext: UserContext)
+
+@main(s"Shopping cart") {
+    <h2>Cart</h2>
+
+    <table class="table table-striped">
+        <thead>
+
+        </thead>
+        <tbody>
+            @cartItems.map { cartItem =>
+                <tr>
+                    <td>@cartItem.position</td>
+                    <td>@cartItem.productId</td>
+                    <td>@cartItem.amount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

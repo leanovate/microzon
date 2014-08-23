@@ -22,6 +22,16 @@
                 </select>
             </form>
             @selectedOption.map { option =>
+                @option.description
+            }
+        </div>
+        <div class="col-sm-5">
+            @selectedOption.map { option =>
+                <h3>
+                    €&nbsp;@(option.priceInCent / 100.0)
+                </h3>
+            }
+            @selectedOption.map { option =>
                 <form method="post" action="@routes.ShopController.addToCart()">
                     <input type="hidden" name="productId" value="@activeProduct.id">
                     <input type="hidden" name="option" value="@option.name">
@@ -30,15 +40,5 @@
                 </form>
             }
         </div>
-        <div class="col-sm-5">
-        @selectedOption.map { option =>
-            <h3>
-                €&nbsp;@(option.priceInCent / 100.0)
-            </h3>
-        }
-        </div>
-        @selectedOption.map { option =>
-          @option.description
-        }
     </div>
 }
