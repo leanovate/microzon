@@ -7,10 +7,12 @@ import models.UserContext
 import play.api.libs.concurrent.Execution.Implicits._
 import backend.CustomerBackend
 import models.user.Customer
+import models.cart.Cart
 
 class ContextRequest[A](request: Request[A],
                         correlationContext: CorrelationContext,
-                        var customer: Option[Customer]) extends WrappedRequest[A](request) with CorrelationContext with UserContext {
+                        val customer: Option[Customer],
+                        val cart: Option[Cart]) extends WrappedRequest[A](request) with CorrelationContext with UserContext {
   override val correlationId = correlationContext.correlationId
 
   override def isAuthenticated = customer.isDefined
@@ -28,11 +30,11 @@ trait Authentication {
     }
 
     request.session.get("customerId").map(_.toLong).fold {
-      Future.successful(new ContextRequest(request, correlationContext, None))
+      Future.successful(new ContextRequest(request, correlationContext, None, None))
     } {
       customerId =>
         customerBackend.getCustomer(customerId).map {
-          customer => new ContextRequest(request, correlationContext, Some(customer))
+          customer => new ContextRequest(request, correlationContext, Some(customer), None)
         }
     }
   }

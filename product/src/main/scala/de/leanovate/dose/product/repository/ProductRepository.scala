@@ -24,7 +24,7 @@ object ProductRepository extends CorrelatedLogging {
 
   def findById(id: String)(implicit correlationContext: CorrelationContext) = withMdc {
     log.info(s"Get product $id")
-    products.find(BSONDocument("id" -> id)).cursor[ActiveProduct].headOption
+    products.find(BSONDocument("_id" -> BSONObjectID(id))).cursor[ActiveProduct].headOption
   }
 
   def insert(product: ActiveProduct)(implicit correlationContext: CorrelationContext) = withMdc {
@@ -34,10 +34,10 @@ object ProductRepository extends CorrelatedLogging {
 
   def update(id: String, product: ActiveProduct)(implicit correlationContext: CorrelationContext) = withMdc {
     val toUpdate = product.copy(_id = Some(BSONObjectID(id)))
-    products.update(BSONDocument("id" -> id), toUpdate).map(_ => toUpdate)
+    products.update(BSONDocument("_id" -> BSONObjectID(id)), toUpdate).map(_ => toUpdate)
   }
 
   def deleteById(id: String)(implicit correlationContext: CorrelationContext) = withMdc {
-    products.remove(BSONDocument("id" -> id))
+    products.remove(BSONDocument("_id" -> BSONObjectID(id)))
   }
 }

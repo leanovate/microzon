@@ -1,0 +1,36 @@
+@(activeProduct: product.ActiveProduct, selectedOption: Option[product.ProductOption])(implicit userContext: UserContext)
+
+@main(s"Product ${activeProduct.name}") {
+    <h1>
+    @activeProduct.name
+    </h1>
+
+    <div class="col-sm-9">
+    @activeProduct.description
+    </div>
+
+    <div class="col-sm-3">
+        <h4>Option</h4>
+        <div class="col-sm-8">
+            <form method="get" action="@routes.ShopController.product(activeProduct.id)">
+                <select name="option" onchange="this.form.submit ( )">
+                @activeProduct.options.map { option =>
+                    <option value="@option.name">
+                    @option.name
+                    </option>
+                }
+                </select>
+            </form>
+        </div>
+        <div class="col-sm-4">
+        @selectedOption.map { option =>
+            <h3>
+                €&nbsp;@(option.priceInCent / 100.0)
+            </h3>
+        }
+        </div>
+        @selectedOption.map { option =>
+          @option.description
+        }
+    </div>
+}

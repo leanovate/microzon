@@ -44,36 +44,7 @@ class CategoryService(val actorRefFactory: ActorRefFactory) extends HttpService 
                     complete(products)
                 }
               }
-            } ~
-              get {
-                onSuccess(CategoryRepository.findById(id)) {
-                  case Some(category) =>
-                    complete(category)
-                  case None =>
-                    respondWithStatus(StatusCodes.NotFound) {
-                      complete("")
-                    }
-                }
-              } ~
-              put {
-                decompressRequest() {
-                  entity(as[Category]) {
-                    category =>
-                      onSuccess(CategoryRepository.update(id, category)) {
-                        updated =>
-                          complete(updated)
-                      }
-                  }
-                }
-              } ~
-              delete {
-                onSuccess(CategoryRepository.deleteById(id)) {
-                  _ =>
-                    respondWithStatus(StatusCodes.NoContent) {
-                      complete("")
-                    }
-                }
-              }
+            }
         }
     }
   }

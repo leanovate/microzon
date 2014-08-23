@@ -18,7 +18,7 @@ object CategoryRepository extends CorrelatedLogging {
   }
 
   def findById(id: String)(implicit correlationContext: CorrelationContext) = withMdc {
-    categories.find(BSONDocument("id" -> id)).cursor[Category].headOption
+    categories.find(BSONDocument("_id" -> BSONObjectID(id))).cursor[Category].headOption
   }
 
   def insert(category: Category)(implicit correlationContext: CorrelationContext) = withMdc {
@@ -28,10 +28,10 @@ object CategoryRepository extends CorrelatedLogging {
 
   def update(id: String, category: Category)(implicit correlationContext: CorrelationContext) = withMdc {
     val toUpdate = category.copy(_id = Some(BSONObjectID(id)))
-    categories.update(BSONDocument("id" -> id), toUpdate).map(_ => toUpdate)
+    categories.update(BSONDocument("_id" -> BSONObjectID(id)), toUpdate).map(_ => toUpdate)
   }
 
   def deleteById(id: String)(implicit correlationContext: CorrelationContext) = withMdc {
-    categories.remove(BSONDocument("id" -> id))
+    categories.remove(BSONDocument("_id" -> BSONObjectID(id)))
   }
 }
