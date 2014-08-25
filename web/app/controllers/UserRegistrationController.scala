@@ -9,9 +9,7 @@ import backend.{CartBackend, CustomerBackend}
 import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits._
 
-class UserRegistrationController(implicit inj: Injector) extends Controller with Authentication with Injectable {
-  override val customerBackend = inject[CustomerBackend]
-  override val cartBackend = inject[CartBackend]
+class UserRegistrationController(implicit inj: Injector) extends ContextAwareController {
 
   def showForm = UnauthenticatedAction {
     implicit request =>
@@ -27,7 +25,7 @@ class UserRegistrationController(implicit inj: Injector) extends Controller with
         registration => {
           customerBackend.registerCustomer(registration).map {
             result =>
-              Ok(result.toString)
+              Redirect(routes.ShopController.index())
           }
         }
       )

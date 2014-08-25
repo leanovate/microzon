@@ -38,10 +38,15 @@ object Application extends FinatraServer {
   }
 
   def migrateDatabase() {
-    val flyway = new Flyway()
+    try {
+      val flyway = new Flyway()
 
-    flyway.setDataSource(cartconfig.jdbcUrl(), cartconfig.dbUsername(), cartconfig.dbPassword())
+      flyway.setDataSource(cartconfig.jdbcUrl(), cartconfig.dbUsername(), cartconfig.dbPassword())
 
-    flyway.migrate()
+      flyway.migrate()
+    } catch {
+      case e: Throwable =>
+        log.error(e, "Database migration failed")
+    }
   }
 }

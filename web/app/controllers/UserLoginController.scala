@@ -9,9 +9,7 @@ import backend.{CartBackend, CustomerBackend}
 import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits._
 
-class UserLoginController(implicit inj: Injector) extends Controller with Authentication with Injectable {
-  override val customerBackend = inject[CustomerBackend]
-  override val cartBackend = inject[CartBackend]
+class UserLoginController(implicit inj: Injector) extends ContextAwareController {
 
   def showForm = UnauthenticatedAction {
     implicit request =>

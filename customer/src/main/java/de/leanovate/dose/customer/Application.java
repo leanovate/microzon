@@ -1,6 +1,7 @@
 package de.leanovate.dose.customer;
 
 import com.github.kristofa.brave.Brave;
+import com.github.kristofa.brave.ClientTracer;
 import com.github.kristofa.brave.EndPointSubmitter;
 import com.github.kristofa.brave.ServerTracer;
 import com.github.kristofa.brave.SpanCollector;
@@ -51,6 +52,12 @@ public class Application {
     public ServerTracer serverTracer(SpanCollector spanCollector) {
 
         return Brave.getServerTracer(spanCollector, Collections.<TraceFilter>emptyList());
+    }
+
+    @Bean
+    public ClientTracer clientTracer(SpanCollector spanCollector) {
+
+        return Brave.getClientTracer(spanCollector, Collections.<TraceFilter>emptyList());
     }
 
     @Bean

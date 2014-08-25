@@ -1,5 +1,5 @@
 import logging.{CorrelatedLogging, CorrelationFilter}
-import modules.{BackendModule, WebModule}
+import modules.{TracingModule, BackendModule, WebModule}
 import play.api.{PlayException, GlobalSettings}
 import play.api.mvc.{Handler, RequestHeader}
 import scaldi.play.ScaldiSupport
@@ -7,6 +7,7 @@ import scaldi.play.ScaldiSupport
 object Global extends GlobalSettings with ScaldiSupport with CorrelatedLogging {
 
   override def onRequestReceived(request: RequestHeader) = {
+    // Little hack to ensure that potentially generated correlation id is available in error handler
     super.onRequestReceived(CorrelationFilter.tagRequest(request))
   }
 
@@ -21,6 +22,6 @@ object Global extends GlobalSettings with ScaldiSupport with CorrelatedLogging {
     super.onError(request, ex)
   }
 
-  override def applicationModule = new WebModule :: new BackendModule
+  override def applicationModule = new WebModule :: new BackendModule :: new TracingModule
 
 }

@@ -12,10 +12,7 @@ import play.api.libs.json.Json
 
 import scala.concurrent.Future
 
-class ShopController(implicit inj: Injector) extends Controller with Injectable with Authentication {
-  override val customerBackend = inject[CustomerBackend]
-  override val cartBackend = inject[CartBackend]
-
+class ShopController(implicit inj: Injector) extends ContextAwareController {
   val productBackend = inject[ProductBackend]
 
   def index = UnauthenticatedAction.async {
@@ -60,7 +57,7 @@ class ShopController(implicit inj: Injector) extends Controller with Injectable 
               val cartItem = CartItem(cart.id, None, toCart._1, toCart._2, toCart._3)
               cartBackend.addToCart(cartItem).map {
                 createdItem =>
-                  Ok(toCart.toString() + " " + cart + " " + createdItem).addingToSession("cartId" -> cart.id)
+                  Redirect(routes.ShopController.showCart()).addingToSession("cartId" -> cart.id)
               }
           }
         }

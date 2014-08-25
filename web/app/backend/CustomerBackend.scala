@@ -7,10 +7,12 @@ import play.api.libs.json.Json
 import play.api.libs.concurrent.Execution.Implicits._
 
 class CustomerBackend(implicit inj: Injector) extends Injectable with CorrelatedLogging {
+  private val correlatedWS = inject[CorrelatedWS]
   private val baseUrl = inject[String](identified by "service.customer.url")
+  private val name = "Customer"
 
   def login(login: Login)(implicit collectionContext: CorrelationContext) = {
-    CorrelatedWS.url(baseUrl + "/login").post(Json.toJson(login)).map {
+    correlatedWS.post(name, baseUrl + "/login", Json.toJson(login)).map {
       response =>
         if (response.status != 200)
           throw new RuntimeException(s"Login via customer service failed status=${response.status}")
@@ -19,7 +21,7 @@ class CustomerBackend(implicit inj: Injector) extends Injectable with Correlated
   }
 
   def registerCustomer(registration: Registration)(implicit collectionContext: CorrelationContext) = {
-    CorrelatedWS.url(baseUrl + "/registration").post(Json.toJson(registration)).map {
+    correlatedWS.post(name, baseUrl + "/registration", Json.toJson(registration)).map {
       response =>
         if (response.status != 200)
           throw new RuntimeException(s"registration via customer service failed status=${response.status}")
@@ -27,8 +29,8 @@ class CustomerBackend(implicit inj: Injector) extends Injectable with Correlated
     }
   }
 
-  def getCustomer(customerId:Long)(implicit collectionContext: CorrelationContext) = {
-    CorrelatedWS.url(baseUrl + "/customers/" + customerId).get().map {
+  def getCustomer(customerId: Long)(implicit collectionContext: CorrelationContext) = {
+    correlatedWS.get(name, baseUrl + "/customers/" + customerId).map {
       response =>
         if (response.status != 200)
           throw new RuntimeException(s"get customer via customer service failed status=${response.status}")
