@@ -5,20 +5,18 @@ import spray.routing.HttpService
 import spray.httpx.SprayJsonSupport._
 import de.leanovate.dose.product.Akka
 import de.leanovate.dose.product.model.{Products, Category, Categories}
-import spray.http.StatusCodes
 import de.leanovate.dose.product.repository.{ProductRepository, CategoryRepository}
 import de.leanovate.dose.product.logging.CorrelatedRouting._
-import de.leanovate.dose.product.logging.CorrelationContext
 
 class CategoryService(val actorRefFactory: ActorRefFactory) extends HttpService {
 
   import Akka._
 
-  def routes(implicit correlationContext: CorrelationContext) = {
+  val routes = {
     pathPrefix("categories") {
       pathEnd {
         get {
-          onSuccess(CategoryRepository.findAll().map(Categories.apply)) {
+          onSuccessWithMdc(CategoryRepository.findAll().map(Categories.apply)) {
             categories =>
               complete(categories)
           }
@@ -27,7 +25,7 @@ class CategoryService(val actorRefFactory: ActorRefFactory) extends HttpService 
             decompressRequest() {
               entity(as[Category]) {
                 category =>
-                  onSuccess(CategoryRepository.insert(category)) {
+                  onSuccessWithMdc(CategoryRepository.insert(category)) {
                     inserted =>
                       complete(inserted)
                   }
@@ -39,7 +37,7 @@ class CategoryService(val actorRefFactory: ActorRefFactory) extends HttpService 
           id =>
             path("products") {
               get {
-                onSuccess(ProductRepository.findAllForCategory(id).map(Products.apply)) {
+                onSuccessWithMdc(ProductRepository.findAllForCategory(id).map(Products.apply)) {
                   products =>
                     complete(products)
                 }

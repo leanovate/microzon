@@ -4,40 +4,40 @@ import reactivemongo.api.collections.default.BSONCollection
 import reactivemongo.bson.{BSONObjectID, BSONDocument}
 import de.leanovate.dose.product.model.ActiveProduct
 import de.leanovate.dose.product.Akka
-import de.leanovate.dose.product.logging.{CorrelatedLogging, CorrelationContext}
+import akka.event.slf4j.SLF4JLogging
 
-object ProductRepository extends CorrelatedLogging {
+object ProductRepository extends SLF4JLogging {
 
   import Akka._
 
   val products = Mongo.productsDb.collection[BSONCollection]("products")
 
-  def findAllActive()(implicit correlationContext: CorrelationContext) = withMdc {
+  def findAllActive() = {
     log.info("Get all products")
     products.find(BSONDocument()).sort(BSONDocument("name" -> 1)).cursor[ActiveProduct].collect[Seq]()
   }
 
-  def findAllForCategory(categoryId: String)(implicit correlationContext: CorrelationContext) = withMdc {
+  def findAllForCategory(categoryId: String) = {
     log.info(s"Find all products of category $categoryId")
     products.find(BSONDocument("categories" -> BSONObjectID(categoryId))).sort(BSONDocument("name" -> 1)).cursor[ActiveProduct].collect[Seq]()
   }
 
-  def findById(id: String)(implicit correlationContext: CorrelationContext) = withMdc {
+  def findById(id: String) = {
     log.info(s"Get product $id")
     products.find(BSONDocument("_id" -> BSONObjectID(id))).cursor[ActiveProduct].headOption
   }
 
-  def insert(product: ActiveProduct)(implicit correlationContext: CorrelationContext) = withMdc {
+  def insert(product: ActiveProduct) = {
     val toInsert = product.copy(_id = Some(BSONObjectID.generate))
     products.insert(toInsert).map(_ => toInsert)
   }
 
-  def update(id: String, product: ActiveProduct)(implicit correlationContext: CorrelationContext) = withMdc {
+  def update(id: String, product: ActiveProduct) = {
     val toUpdate = product.copy(_id = Some(BSONObjectID(id)))
     products.update(BSONDocument("_id" -> BSONObjectID(id)), toUpdate).map(_ => toUpdate)
   }
 
-  def deleteById(id: String)(implicit correlationContext: CorrelationContext) = withMdc {
+  def deleteById(id: String) = {
     products.remove(BSONDocument("_id" -> BSONObjectID(id)))
   }
 }

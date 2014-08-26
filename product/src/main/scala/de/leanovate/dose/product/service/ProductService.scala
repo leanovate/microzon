@@ -7,18 +7,21 @@ import de.leanovate.dose.product.model.{Products, ActiveProduct}
 import de.leanovate.dose.product.repository.ProductRepository
 import de.leanovate.dose.product.Akka
 import spray.http.StatusCodes
-import de.leanovate.dose.product.logging.CorrelationContext
+import de.leanovate.dose.product.logging.CorrelatedRouting._
+import akka.event.slf4j.SLF4JLogging
 
-class ProductService(val actorRefFactory: ActorRefFactory) extends HttpService {
+class ProductService(val actorRefFactory: ActorRefFactory) extends HttpService with SLF4JLogging {
 
   import Akka._
 
-  def routes(implicit correlationContext: CorrelationContext) = {
+  val routes = {
     pathPrefix("products") {
       pathEnd {
         get {
-          onSuccess(ProductRepository.findAllActive().map(Products.apply)) {
+          log.info("Query all product")
+          onSuccessWithMdc(ProductRepository.findAllActive().map(Products.apply)) {
             products =>
+              log.info(s"Found ${products.activeProducts.size} active products")
               complete(products)
           }
         } ~
@@ -26,7 +29,7 @@ class ProductService(val actorRefFactory: ActorRefFactory) extends HttpService {
             decompressRequest() {
               entity(as[ActiveProduct]) {
                 product =>
-                  onSuccess(ProductRepository.insert(product)) {
+                  onSuccessWithMdc(ProductRepository.insert(product)) {
                     inserted =>
                       complete(inserted)
                   }
@@ -37,10 +40,13 @@ class ProductService(val actorRefFactory: ActorRefFactory) extends HttpService {
         path(Segment) {
           id =>
             get {
-              onSuccess(ProductRepository.findById(id)) {
+              log.info(s"Looking up product ${id}")
+              onSuccessWithMdc(ProductRepository.findById(id)) {
                 case Some(product) =>
+                  log.info(s"Found product ${id}")
                   complete(product)
                 case None =>
+                  log.info(s"Product ${id} not found")
                   respondWithStatus(StatusCodes.NotFound) {
                     complete("")
                   }
@@ -50,14 +56,14 @@ class ProductService(val actorRefFactory: ActorRefFactory) extends HttpService {
                 decompressRequest() {
                   entity(as[ActiveProduct]) {
                     product =>
-                      onSuccess(ProductRepository.update(id, product)) {
+                      onSuccessWithMdc(ProductRepository.update(id, product)) {
                         updated =>
                           complete(updated)
                       }
                   }
                 }
               } ~ delete {
-              onSuccess(ProductRepository.deleteById(id)) {
+              onSuccessWithMdc(ProductRepository.deleteById(id)) {
                 _ =>
                   respondWithStatus(StatusCodes.NoContent) {
                     complete("")

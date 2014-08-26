@@ -14,14 +14,13 @@ class HttpServiceActor extends Actor with HttpService {
 
   val routes = {
     correlationContext {
-      implicit correlation =>
-        path("ping") {
-          get {
-            complete("PONG!")
-          }
-        } ~
-          productService.routes ~
-          categoryService.routes
+      path("ping") {
+        get {
+          complete("PONG!")
+        }
+      } ~
+        productService.routes ~
+        categoryService.routes
     }
   }
 }
