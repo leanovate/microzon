@@ -1,6 +1,7 @@
 package de.leanovate.dose.cart.cartconfig
 
 import com.twitter.app.GlobalFlag
+import com.twitter.finagle.Name
 
 object dbName extends GlobalFlag[String]("cart", "Name of cart database")
 
@@ -16,4 +17,4 @@ object jdbcUrl {
   def apply() = s"jdbc:mysql://${dbHost()}:${dbPort()}/${dbName()}"
 }
 
-
+object productHost extends GlobalFlag[String]("192.168.254.13:80", "Host and Port of the product service")

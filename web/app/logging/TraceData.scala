@@ -43,7 +43,7 @@ trait TraceData {
       collector.collect(span)
   }
 
-  private def currentTimeMicroseconds: Long = System.currentTimeMillis * 1000
+  private def currentTimeMicroseconds: Long = System.nanoTime() / 1000L
 }
 
 case class ServerTraceData(traceId: Long,

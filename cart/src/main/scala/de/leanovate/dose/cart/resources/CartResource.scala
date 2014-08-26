@@ -6,16 +6,14 @@ import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import de.leanovate.dose.cart.model.{CartItem, Cart}
 import de.leanovate.dose.cart.repository.{CartItemRepository, CartRepository}
 import com.twitter.finagle.tracing.Trace
+import de.leanovate.dose.cart.util.Json
+import de.leanovate.dose.cart.connectors.ProductConnector
+import com.twitter.util.Future
 
 class CartResource extends Controller {
-  private lazy val jsonMapper = {
-    val m = new ObjectMapper()
-    m.registerModule(DefaultScalaModule)
-  }
-
   post("/carts") {
     request =>
-      val cart = jsonMapper.readValue(request.contentString, classOf[Cart])
+      val cart = Json.readValue(request.contentString, classOf[Cart])
 
       CartRepository.insert(cart).map(render.json)
   }
@@ -32,12 +30,19 @@ class CartResource extends Controller {
 
   get("/carts/:id/items") {
     request =>
-      CartItemRepository.findAllForCart(request.routeParams("id")).map(render.json)
+      CartItemRepository.findAllForCart(request.routeParams("id")).flatMap {
+        items =>
+          val withProducts = items.map {
+            item =>
+              ProductConnector.getProduct(item.productId).map(product => item.copy(product = product))
+          }
+          Future.collect(withProducts).map(render.json)
+      }
   }
 
   post("/carts/:id/items") {
     request =>
-      val cartItem = jsonMapper.readValue(request.contentString, classOf[CartItem])
+      val cartItem = Json.readValue(request.contentString, classOf[CartItem])
       CartRepository.findById(request.routeParams("id")).flatMap {
         case Some(cart) =>
           CartItemRepository.insertToCart(cart, cartItem).map(render.json)
