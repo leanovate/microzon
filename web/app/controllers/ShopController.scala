@@ -54,7 +54,7 @@ class ShopController(implicit inj: Injector) extends ContextAwareController {
 
           cart.flatMap {
             cart =>
-              val cartItem = CartItem(cart.id, None, toCart._1, toCart._2, toCart._3)
+              val cartItem = CartItem(cart.id, None, toCart._1, toCart._2, toCart._3, None)
               cartBackend.addToCart(cartItem).map {
                 createdItem =>
                   Redirect(routes.ShopController.showCart()).addingToSession("cartId" -> cart.id)

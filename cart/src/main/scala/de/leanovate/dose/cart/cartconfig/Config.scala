@@ -17,4 +17,4 @@ object jdbcUrl {
   def apply() = s"jdbc:mysql://${dbHost()}:${dbPort()}/${dbName()}"
 }
 
-object productHost extends GlobalFlag[String]("192.168.254.13:80", "Host and Port of the product service")
+object productHost extends GlobalFlag[String]("Product=192.168.254.13:80", "Host of the product service")

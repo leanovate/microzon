@@ -7,5 +7,5 @@ case class ImageRef(thumbnail: String,
                     original: String)
 
 object ImageRef {
-  implicit val jsonReads = Json.reads[ImageRef]
+  implicit val jsonFormat = Json.format[ImageRef]
 }

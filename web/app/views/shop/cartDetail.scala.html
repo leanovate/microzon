@@ -11,7 +11,10 @@
             @cartItems.map { cartItem =>
                 <tr>
                     <td>@cartItem.position</td>
-                    <td>@cartItem.productId</td>
+                    <td>@cartItem.product.map { product =>
+                        @product.name
+                    }.getOrElse(cartItem.productId)</td>
+                    <td>@cartItem.productOption</td>
                     <td>@cartItem.amount</td>
                 </tr>
             }

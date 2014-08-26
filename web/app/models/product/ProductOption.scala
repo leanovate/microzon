@@ -9,5 +9,5 @@ case class ProductOption(
                           )
 
 object ProductOption {
-  implicit val jsonReads = Json.reads[ProductOption]
+  implicit val jsonFormat = Json.format[ProductOption]
 }

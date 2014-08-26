@@ -1,8 +1,14 @@
 package models.cart
 
 import play.api.libs.json.Json
+import models.product.ActiveProduct
 
-case class CartItem(cartId: String, position: Option[Long], productId: String, productOption: String, amount:Int)
+case class CartItem(cartId: String,
+                    position: Option[Long],
+                    productId: String,
+                    productOption: String,
+                    amount: Int,
+                    product: Option[ActiveProduct])
 
 object CartItem {
   implicit val jsonFormat = Json.format[CartItem]

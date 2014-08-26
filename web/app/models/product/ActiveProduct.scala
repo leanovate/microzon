@@ -12,5 +12,5 @@ case class ActiveProduct(
                           )
 
 object ActiveProduct {
-  implicit val jsonReads = Json.reads[ActiveProduct]
+  implicit val jsonFormat = Json.format[ActiveProduct]
 }
