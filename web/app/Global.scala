@@ -1,5 +1,6 @@
 import logging.{CorrelatedLogging, CorrelationFilter}
 import modules.{TracingModule, BackendModule, WebModule}
+import org.slf4j.MDC
 import play.api.{PlayException, GlobalSettings}
 import play.api.mvc.{Handler, RequestHeader}
 import scaldi.play.ScaldiSupport
@@ -12,13 +13,15 @@ object Global extends GlobalSettings with ScaldiSupport with CorrelatedLogging {
   }
 
   override def onError(request: RequestHeader, ex: Throwable) = withMdc(request) {
+    val id = ex match {
+      case p: PlayException => "@" + p.id + " - "
+      case _ => ""
+    }
     log.error( """
                  |
                  |! %sInternal server error, for (%s) [%s] ->
-                 | """.stripMargin.format(ex match {
-      case p: PlayException => "@" + p.id + " - "
-      case _ => ""
-    }, request.method, request.uri), ex)
+                 | """.stripMargin.format(id, request.method, request.uri), ex)
+    log.error( s"Error page shown with id=$id in correlationId=${MDC.get(CorrelatedLogging.CORRELATION_ID)}")
     super.onError(request, ex)
   }
 

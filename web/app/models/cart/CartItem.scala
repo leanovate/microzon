@@ -8,7 +8,8 @@ case class CartItem(cartId: String,
                     productId: String,
                     productOption: String,
                     amount: Int,
-                    product: Option[ActiveProduct])
+                    product: Option[ActiveProduct],
+                    priceInCent: Option[Int])
 
 object CartItem {
   implicit val jsonFormat = Json.format[CartItem]

@@ -1,0 +1,44 @@
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.github.rholder:gradle-one-jar:1.0.3'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'gradle-one-jar'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+repositories {
+    mavenCentral()
+}
+
+project.ext {
+    dropwizardVersion = '0.7.0'
+}
+
+dependencies {
+    compile (
+        'com.yammer.dropwizard:dropwizard-core:' + dropwizardVersion
+    )
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.4'
+}
+
+task oneJar(type: OneJar) {
+    mainClass = "de.leanovate.dose.billing.Application"
+}
+
+artifacts {
+    oneJar
+}

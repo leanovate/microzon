@@ -5,5 +5,12 @@ case class CartItem(cartId: String,
                     productId: String,
                     productOption: String,
                     amount: Int,
-                    product: Option[ActiveProduct])
+                    product: Option[ActiveProduct],
+                    priceInCent: Option[Int]) {
+  def fillProduct(_product: ActiveProduct) = {
+    copy(
+      product = Some(_product),
+      priceInCent = _product.options.find(_.name == productOption).map(_.priceInCent * amount))
+  }
+}
 

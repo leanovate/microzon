@@ -2,7 +2,7 @@ package backend
 
 import java.net.URLEncoder
 
-import models.cart.{CartItem, Cart}
+import models.cart.{CartItems, CartItem, Cart}
 import play.api.libs.json.Json
 import scaldi.{Injectable, Injector}
 import logging.{CorrelatedWS, CorrelationContext, CorrelatedLogging}
@@ -45,7 +45,7 @@ class CartBackend(implicit inj: Injector) extends Injectable with CorrelatedLogg
       response =>
         if (response.status != 200)
           throw new RuntimeException(s"create cart via cart service failed status=${response.status}")
-        response.json.as[Seq[CartItem]]
+        response.json.as[CartItems]
     }
   }
 }

@@ -1,11 +1,8 @@
 package de.leanovate.dose.cart.resources
 
 import com.twitter.finatra.Controller
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import de.leanovate.dose.cart.model.{CartItem, Cart}
+import de.leanovate.dose.cart.model.{CartItems, CartItem, Cart}
 import de.leanovate.dose.cart.repository.{CartItemRepository, CartRepository}
-import com.twitter.finagle.tracing.Trace
 import de.leanovate.dose.cart.util.Json
 import de.leanovate.dose.cart.connectors.ProductConnector
 import com.twitter.util.Future
@@ -34,9 +31,12 @@ class CartResource extends Controller {
         items =>
           val withProducts = items.map {
             item =>
-              ProductConnector.getProduct(item.productId).map(product => item.copy(product = product))
+              ProductConnector.getProduct(item.productId).map {
+                case Some(product) => item.fillProduct(product)
+                case None => item
+              }
           }
-          Future.collect(withProducts).map(render.json)
+          Future.collect(withProducts).map(CartItems.apply).map(render.json)
       }
   }
 

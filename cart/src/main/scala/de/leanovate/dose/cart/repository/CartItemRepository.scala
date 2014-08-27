@@ -32,7 +32,8 @@ object CartItemRepository {
       productId = row("PRODUCT_ID").flatMap(stringValue).get,
       productOption = row("PRODUCT_OPTION").flatMap(stringValue).get,
       amount = row("AMOUNT").flatMap(intValue).get,
-      product = None
+      product = None,
+      priceInCent = None
     )
   }
 }

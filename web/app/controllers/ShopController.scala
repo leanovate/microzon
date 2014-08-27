@@ -1,6 +1,6 @@
 package controllers
 
-import models.cart.CartItem
+import models.cart.{CartItems, CartItem}
 import models.user.Registration
 import play.api.data.Form
 import play.api.data.Forms._
@@ -54,7 +54,7 @@ class ShopController(implicit inj: Injector) extends ContextAwareController {
 
           cart.flatMap {
             cart =>
-              val cartItem = CartItem(cart.id, None, toCart._1, toCart._2, toCart._3, None)
+              val cartItem = CartItem(cart.id, None, toCart._1, toCart._2, toCart._3, None, None)
               cartBackend.addToCart(cartItem).map {
                 createdItem =>
                   Redirect(routes.ShopController.showCart()).addingToSession("cartId" -> cart.id)
@@ -66,7 +66,7 @@ class ShopController(implicit inj: Injector) extends ContextAwareController {
 
   def showCart = UnauthenticatedAction.async {
     implicit request =>
-      val cartItemsFuture = request.cart.fold(Future.successful(Seq.empty[CartItem])) {
+      val cartItemsFuture = request.cart.fold(Future.successful(CartItems(Seq.empty, false, 0))) {
         cart =>
           cartBackend.getCartItems(cart.id)
       }

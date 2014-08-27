@@ -1,4 +1,4 @@
-@(cartItems: Seq[cart.CartItem])(implicit userContext: UserContext)
+@(cartItems: cart.CartItems)(implicit userContext: UserContext)
 
 @main(s"Shopping cart") {
     <h2>Cart</h2>
@@ -8,7 +8,7 @@
 
         </thead>
         <tbody>
-            @cartItems.map { cartItem =>
+            @cartItems.items.map { cartItem =>
                 <tr>
                     <td>@cartItem.position</td>
                     <td>@cartItem.product.map { product =>
@@ -16,8 +16,26 @@
                     }.getOrElse(cartItem.productId)</td>
                     <td>@cartItem.productOption</td>
                     <td>@cartItem.amount</td>
+                    <td>@cartItem.priceInCent.map(c => "€ " + (c / 100.0)).getOrElse("")</td>
                 </tr>
             }
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="2">Total</td>
+                <td>€ @{cartItems.totalCents / 100.0}</td>
+            </tr>
+
+        </tfoot>
     </table>
+
+    <div class="container">
+        <div class="pull-right">
+            <a class="btn btn-info" href="@routes.ShopController.index()">Continue shopping</a>
+            @if(userContext.customer.isDefined) {
+                <a class="btn btn-danger" href="#">Checkout</a>
+            }
+        </div>
+    </div>
 }
