@@ -18,6 +18,6 @@ class logstash_forwarder::config {
     }
 
     file { "/etc/logstash-forwarder":
-        source => "puppet:///modules/logstash_forwarder/logstash-forwarder"
+        content => template("logstash_forwarder/logstash-forwarder.erb")
     }
 }

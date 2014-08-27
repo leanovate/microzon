@@ -15,6 +15,11 @@ Vagrant.configure("2") do |config|
 
     log.vm.provision "puppet" do |puppet|
       puppet.module_path = "modules"
+      puppet.hiera_config_path = "hiera/hiera.yaml"
+      puppet.facter = {
+        "environment" => "vagrant"
+      }
+      puppet.working_directory = "/vagrant"
     end
 
     log.vm.provider "virtualbox" do |v|
@@ -30,6 +35,11 @@ Vagrant.configure("2") do |config|
 
     web.vm.provision "puppet" do |puppet|
       puppet.module_path = "modules"
+      puppet.hiera_config_path = "hiera/hiera.yaml"
+      puppet.facter = {
+        "environment" => "vagrant"
+      }
+      puppet.working_directory = "/vagrant"
     end
 
     web.vm.provider "virtualbox" do |v|
@@ -45,6 +55,11 @@ Vagrant.configure("2") do |config|
 
     customer.vm.provision "puppet" do |puppet|
       puppet.module_path = "modules"
+      puppet.hiera_config_path = "hiera/hiera.yaml"
+      puppet.facter = {
+        "environment" => "vagrant"
+      }
+      puppet.working_directory = "/vagrant"
     end
 
     customer.vm.provider "virtualbox" do |v|
@@ -60,6 +75,11 @@ Vagrant.configure("2") do |config|
 
     product.vm.provision "puppet" do |puppet|
       puppet.module_path = "modules"
+      puppet.hiera_config_path = "hiera/hiera.yaml"
+      puppet.facter = {
+        "environment" => "vagrant"
+      }
+      puppet.working_directory = "/vagrant"
     end
 
     product.vm.provider "virtualbox" do |v|
@@ -75,6 +95,11 @@ Vagrant.configure("2") do |config|
 
     cart.vm.provision "puppet" do |puppet|
       puppet.module_path = "modules"
+      puppet.hiera_config_path = "hiera/hiera.yaml"
+      puppet.facter = {
+        "environment" => "vagrant"
+      }
+      puppet.working_directory = "/vagrant"
     end
 
     cart.vm.provider "virtualbox" do |v|
@@ -90,6 +115,11 @@ Vagrant.configure("2") do |config|
 
     zipkin.vm.provision "puppet" do |puppet|
       puppet.module_path = "modules"
+      puppet.hiera_config_path = "hiera/hiera.yaml"
+      puppet.facter = {
+        "environment" => "vagrant"
+      }
+      puppet.working_directory = "/vagrant"
     end
 
     zipkin.vm.provider "virtualbox" do |v|
