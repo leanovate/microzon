@@ -17,18 +17,20 @@ apply plugin: 'idea'
 sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
 
+jar {
+    baseName = 'billing'
+    version =  '0.1.0'
+}
+
 repositories {
     mavenCentral()
 }
 
-project.ext {
-    dropwizardVersion = '0.7.0'
-}
-
 dependencies {
-    compile (
-        'com.yammer.dropwizard:dropwizard-core:' + dropwizardVersion
-    )
+    compile('io.dropwizard:dropwizard-core:0.7.1')
+    compile('io.dropwizard:dropwizard-jdbi:0.7.1')
+    compile('io.dropwizard:dropwizard-migrations:0.7.1')
+    compile("mysql:mysql-connector-java:5.1.32")
 }
 
 task wrapper(type: Wrapper) {
@@ -36,9 +38,15 @@ task wrapper(type: Wrapper) {
 }
 
 task oneJar(type: OneJar) {
-    mainClass = "de.leanovate.dose.billing.Application"
+    mainClass = "de.leanovate.dose.billing.BillingApplication"
 }
 
 artifacts {
     oneJar
+}
+
+task dist(type:Copy) {
+    dependsOn oneJar
+    from oneJar.archivePath
+    into "../vagrant/dists"
 }
