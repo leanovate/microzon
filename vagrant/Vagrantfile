@@ -107,6 +107,26 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  config.vm.define :billing do |billing|
+    billing.vm.box = "ubuntu/trusty64"
+    billing.vm.hostname = 'billing.localhost.localdomain'
+
+    billing.vm.network :private_network, ip: "192.168.254.15"
+
+    billing.vm.provision "puppet" do |puppet|
+      puppet.module_path = "modules"
+      puppet.hiera_config_path = "hiera/hiera.yaml"
+      puppet.facter = {
+        "environment" => "vagrant"
+      }
+      puppet.working_directory = "/vagrant"
+    end
+
+    billing.vm.provider "virtualbox" do |v|
+      v.customize ["modifyvm", :id, "--memory", 1024]
+    end
+  end
+
   config.vm.define :zipkin do |zipkin|
     zipkin.vm.box = "ubuntu/trusty64"
     zipkin.vm.hostname = 'zipkin.localhost.localdomain'

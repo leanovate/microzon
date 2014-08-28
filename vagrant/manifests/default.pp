@@ -47,6 +47,16 @@ node cart {
     Class["common"] -> Class["java"] -> Class["mysql"] -> Class["logstash_forwarder"] -> Class["app_cart"]
 }
 
+node billing {
+    include "common"
+    include "java"
+    include "logstash_forwarder"
+    include "mysql"
+    include "app_billing"
+
+    Class["common"] -> Class["java"] -> Class["mysql"] -> Class["logstash_forwarder"] -> Class["app_billing"]
+}
+
 node zipkin {
     include "common"
     include "java"

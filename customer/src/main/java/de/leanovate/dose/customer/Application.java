@@ -40,7 +40,7 @@ public class Application {
     public FilterRegistrationBean traceFilter(ServerTracer serverTracer, EndPointSubmitter endPointSubmitter)
             throws UnknownHostException {
 
-        endPointSubmitter.submit(InetAddress.getLocalHost().getHostAddress(), 8080, "customer");
+        endPointSubmitter.submit(InetAddress.getLocalHost().getHostAddress(), 80, "Customer");
         final FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
 
         filterRegistration.setFilter(new ServletTraceFilter(serverTracer));

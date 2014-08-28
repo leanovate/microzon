@@ -17,9 +17,10 @@ apply plugin: 'idea'
 sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
 
+version =  '0.1.0'
+
 jar {
     baseName = 'billing'
-    version =  '0.1.0'
 }
 
 repositories {
@@ -30,11 +31,28 @@ dependencies {
     compile('io.dropwizard:dropwizard-core:0.7.1')
     compile('io.dropwizard:dropwizard-jdbi:0.7.1')
     compile('io.dropwizard:dropwizard-migrations:0.7.1')
+    compile('org.apache.httpcomponents:httpclient:4.3.5')
     compile("mysql:mysql-connector-java:5.1.32")
+    compile("com.github.kristofa:brave-impl:2.2.1") {
+        exclude group: 'log4j', module: 'log4j'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
+    compile("com.github.kristofa:brave-jersey:2.2.1") {
+        exclude group: 'log4j', module: 'log4j'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
+    compile("com.github.kristofa:brave-apache-http-interceptors:2.2.1") {
+        exclude group: 'log4j', module: 'log4j'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
+    compile("com.github.kristofa:brave-zipkin-spancollector:2.2.1") {
+        exclude group: 'log4j', module: 'log4j'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.4'
+    gradleVersion = '2.0'
 }
 
 task oneJar(type: OneJar) {

@@ -1,20 +1,37 @@
 package de.leanovate.dose.billing;
 
-import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.joran.JoranConfigurator;
-import ch.qos.logback.classic.util.ContextInitializer;
-import ch.qos.logback.core.joran.spi.JoranException;
-import ch.qos.logback.core.util.StatusPrinter;
+import com.github.kristofa.brave.Brave;
+import com.github.kristofa.brave.ClientTracer;
+import com.github.kristofa.brave.EndPointSubmitter;
+import com.github.kristofa.brave.ServerTracer;
+import com.github.kristofa.brave.SpanCollector;
+import com.github.kristofa.brave.TraceFilter;
+import com.github.kristofa.brave.jersey.ServletTraceFilter;
+import com.github.kristofa.brave.zipkin.ZipkinSpanCollector;
+import de.leanovate.dose.billing.connector.CartConnector;
+import de.leanovate.dose.billing.connector.CustomerConnector;
+import de.leanovate.dose.billing.connector.ProductConnector;
+import de.leanovate.dose.billing.logging.LoggingFilter;
 import de.leanovate.dose.billing.resources.OrderResource;
 import io.dropwizard.Application;
+import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.slf4j.LoggerFactory;
-import org.slf4j.bridge.SLF4JBridgeHandler;
+import org.skife.jdbi.v2.DBI;
 
-import java.net.URL;
+import javax.servlet.DispatcherType;
+
+import java.net.InetAddress;
+import java.util.Collections;
+import java.util.EnumSet;
 
 public class BillingApplication extends Application<BillingConfiguration> {
+    @Override
+    public String getName() {
+
+        return "billing";
+    }
+
     @Override
     public void initialize(final Bootstrap<BillingConfiguration> bootstrap) {
 
@@ -23,30 +40,26 @@ public class BillingApplication extends Application<BillingConfiguration> {
     @Override
     public void run(final BillingConfiguration configuration, final Environment environment) throws Exception {
 
-        reloadLogger();
+        final DBIFactory factory = new DBIFactory();
+        final DBI jdbi = factory.build(environment, configuration.database, "mysql");
 
-        environment.jersey().register(OrderResource.class);
-    }
+        final SpanCollector spanCollector = new ZipkinSpanCollector(configuration.zipkinHost, configuration.zipkinPort);
+        final ClientTracer clientTracer = Brave.getClientTracer(spanCollector, Collections.<TraceFilter>emptyList());
+        final ServerTracer serverTracer = Brave.getServerTracer(spanCollector, Collections.<TraceFilter>emptyList());
+        final EndPointSubmitter endPointSubmitter = Brave.getEndPointSubmitter();
 
-    public static void reloadLogger() {
+        endPointSubmitter.submit(InetAddress.getLocalHost().getHostAddress(), 80, "Billing");
 
-        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        final CartConnector cartConnector = new CartConnector(configuration, clientTracer);
+        final CustomerConnector customerConnector = new CustomerConnector(configuration, clientTracer);
+        final ProductConnector productConnector = new ProductConnector(configuration, clientTracer);
 
-        ContextInitializer ci = new ContextInitializer(loggerContext);
-        URL url = ci.findURLOfDefaultConfigurationFile(true);
+        environment.servlets().addFilter("tracing", new ServletTraceFilter(serverTracer, endPointSubmitter)).addMappingForUrlPatterns(
+                EnumSet.allOf(DispatcherType.class), true, "/*");
+        environment.servlets().addFilter("logging", new LoggingFilter()).addMappingForUrlPatterns(
+                EnumSet.allOf(DispatcherType.class), true, "/*");
 
-        try {
-            JoranConfigurator configurator = new JoranConfigurator();
-            configurator.setContext(loggerContext);
-            loggerContext.reset();
-            configurator.doConfigure(url);
-        } catch (JoranException je) {
-            // StatusPrinter will handle this
-        }
-        StatusPrinter.printInCaseOfErrorsOrWarnings(loggerContext);
-
-        SLF4JBridgeHandler.removeHandlersForRootLogger();
-        SLF4JBridgeHandler.install();
+        environment.jersey().register(new OrderResource(cartConnector, customerConnector, productConnector));
     }
 
     public static void main(String[] args) throws Exception {

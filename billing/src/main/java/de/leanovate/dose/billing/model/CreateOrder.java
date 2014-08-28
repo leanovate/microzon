@@ -1,7 +1,14 @@
 package de.leanovate.dose.billing.model;
 
-public class CreateOrder {
-    String customerId;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
-    String cartId;
+public class CreateOrder {
+    @JsonProperty
+    @NotEmpty
+    public String customerId;
+
+    @JsonProperty
+    @NotEmpty
+    public String cartId;
 }
