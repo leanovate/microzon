@@ -34,7 +34,7 @@
         <div class="pull-right">
             <a class="btn btn-info" href="@routes.ShopController.index()">Continue shopping</a>
             @if(userContext.customer.isDefined) {
-                <a class="btn btn-danger" href="#">Checkout</a>
+                <a class="btn btn-danger" href="@routes.ShopController.checkOut()">Checkout</a>
             }
         </div>
     </div>

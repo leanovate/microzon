@@ -3,7 +3,7 @@ package models.user
 import play.api.libs.json.Json
 
 case class Customer(
-                     id: Option[Long],
+                     customerId: Long,
                      email: String,
                      password: Option[String],
                      firstName: Option[String],

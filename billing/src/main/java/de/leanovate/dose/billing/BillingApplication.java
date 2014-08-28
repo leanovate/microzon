@@ -6,12 +6,13 @@ import com.github.kristofa.brave.EndPointSubmitter;
 import com.github.kristofa.brave.ServerTracer;
 import com.github.kristofa.brave.SpanCollector;
 import com.github.kristofa.brave.TraceFilter;
-import com.github.kristofa.brave.jersey.ServletTraceFilter;
 import com.github.kristofa.brave.zipkin.ZipkinSpanCollector;
 import de.leanovate.dose.billing.connector.CartConnector;
 import de.leanovate.dose.billing.connector.CustomerConnector;
 import de.leanovate.dose.billing.connector.ProductConnector;
 import de.leanovate.dose.billing.logging.LoggingFilter;
+import de.leanovate.dose.billing.logging.ServletTraceFilter;
+import de.leanovate.dose.billing.logging.UnsignedRandom;
 import de.leanovate.dose.billing.resources.OrderResource;
 import io.dropwizard.Application;
 import io.dropwizard.jdbi.DBIFactory;
@@ -21,6 +22,7 @@ import org.skife.jdbi.v2.DBI;
 
 import javax.servlet.DispatcherType;
 
+import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -40,6 +42,7 @@ public class BillingApplication extends Application<BillingConfiguration> {
     @Override
     public void run(final BillingConfiguration configuration, final Environment environment) throws Exception {
 
+
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(environment, configuration.database, "mysql");
 
@@ -48,18 +51,28 @@ public class BillingApplication extends Application<BillingConfiguration> {
         final ServerTracer serverTracer = Brave.getServerTracer(spanCollector, Collections.<TraceFilter>emptyList());
         final EndPointSubmitter endPointSubmitter = Brave.getEndPointSubmitter();
 
+        fixRandom(clientTracer);
+
         endPointSubmitter.submit(InetAddress.getLocalHost().getHostAddress(), 80, "Billing");
 
         final CartConnector cartConnector = new CartConnector(configuration, clientTracer);
         final CustomerConnector customerConnector = new CustomerConnector(configuration, clientTracer);
         final ProductConnector productConnector = new ProductConnector(configuration, clientTracer);
 
-        environment.servlets().addFilter("tracing", new ServletTraceFilter(serverTracer, endPointSubmitter)).addMappingForUrlPatterns(
+        environment.servlets().addFilter("tracing", new ServletTraceFilter(serverTracer)).addMappingForUrlPatterns(
                 EnumSet.allOf(DispatcherType.class), true, "/*");
         environment.servlets().addFilter("logging", new LoggingFilter()).addMappingForUrlPatterns(
                 EnumSet.allOf(DispatcherType.class), true, "/*");
 
         environment.jersey().register(new OrderResource(cartConnector, customerConnector, productConnector));
+    }
+
+    private void fixRandom(ClientTracer clientTracer) throws Exception {
+
+        // Superhack to allow interoperability between finagle (original) and brave (cheap copy)
+        Field field = clientTracer.getClass().getDeclaredField("randomGenerator");
+        field.setAccessible(true);
+        field.set(clientTracer, new UnsignedRandom());
     }
 
     public static void main(String[] args) throws Exception {

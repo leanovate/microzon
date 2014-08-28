@@ -29,8 +29,8 @@ public class CartConnector {
         this.baseUrl = configuration.cartBaseUrl;
         this.client = HttpClientBuilder.create()
                 .addInterceptorFirst(new LoggingHttpRequestInterceptor())
-                .addInterceptorLast(new BraveHttpRequestInterceptor(clientTracer, Optional.of("Cart")))
-                .addInterceptorLast(new BraveHttpResponseInterceptor(clientTracer))
+                .addInterceptorFirst(new BraveHttpRequestInterceptor(clientTracer, Optional.of("Cart")))
+                .addInterceptorFirst(new BraveHttpResponseInterceptor(clientTracer))
                 .setMaxConnTotal(10)
                 .setMaxConnPerRoute(10)
                 .build();

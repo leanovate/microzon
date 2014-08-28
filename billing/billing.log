@@ -746,3 +746,20 @@ com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized f
 ~billing[${PID:- }]: 2014-08-28T22:42:19.737+0200;main;-;INFO;org.eclipse.jetty.server.handler.ContextHandler;Started i.d.j.MutableServletContextHandler@55059454{/,null,AVAILABLE}
 ~billing[${PID:- }]: 2014-08-28T22:42:19.742+0200;main;-;INFO;org.eclipse.jetty.server.ServerConnector;Started application@6555f670{HTTP/1.1}{0.0.0.0:8080}
 ~billing[${PID:- }]: 2014-08-28T22:42:19.743+0200;main;-;INFO;org.eclipse.jetty.server.ServerConnector;Started admin@6ea66709{HTTP/1.1}{0.0.0.0:8081}
+~billing[${PID:- }]: 2014-08-28T23:41:00.890+0200;main;-;INFO;io.dropwizard.server.ServerFactory;Starting billing
+~billing[${PID:- }]: 2014-08-28T23:41:00.966+0200;main;-;INFO;org.eclipse.jetty.setuid.SetUIDListener;Opened application@66a6574b{HTTP/1.1}{0.0.0.0:8080}
+~billing[${PID:- }]: 2014-08-28T23:41:00.967+0200;main;-;INFO;org.eclipse.jetty.setuid.SetUIDListener;Opened admin@32ad3193{HTTP/1.1}{0.0.0.0:8081}
+~billing[${PID:- }]: 2014-08-28T23:41:00.969+0200;main;-;INFO;org.eclipse.jetty.server.Server;jetty-9.0.7.v20131107
+~billing[${PID:- }]: 2014-08-28T23:41:01.373+0200;main;-;INFO;com.sun.jersey.server.impl.application.WebApplicationImpl;Initiating Jersey application, version 'Jersey: 1.18.1 02/19/2014 03:28 AM'
+~billing[${PID:- }]: 2014-08-28T23:41:01.452+0200;main;-;INFO;io.dropwizard.jersey.DropwizardResourceConfig;The following paths were found for the configured resources:
+
+    POST    /orders (de.leanovate.dose.billing.resources.OrderResource)
+
+~billing[${PID:- }]: 2014-08-28T23:41:01.679+0200;main;-;INFO;org.eclipse.jetty.server.handler.ContextHandler;Started i.d.j.MutableServletContextHandler@2c4404ca{/,null,AVAILABLE}
+~billing[${PID:- }]: 2014-08-28T23:41:01.682+0200;main;-;INFO;io.dropwizard.setup.AdminEnvironment;tasks = 
+
+    POST    /tasks/gc (io.dropwizard.servlets.tasks.GarbageCollectionTask)
+
+~billing[${PID:- }]: 2014-08-28T23:41:01.686+0200;main;-;INFO;org.eclipse.jetty.server.handler.ContextHandler;Started i.d.j.MutableServletContextHandler@44cdbc59{/,null,AVAILABLE}
+~billing[${PID:- }]: 2014-08-28T23:41:01.691+0200;main;-;INFO;org.eclipse.jetty.server.ServerConnector;Started application@66a6574b{HTTP/1.1}{0.0.0.0:8080}
+~billing[${PID:- }]: 2014-08-28T23:41:01.692+0200;main;-;INFO;org.eclipse.jetty.server.ServerConnector;Started admin@32ad3193{HTTP/1.1}{0.0.0.0:8081}

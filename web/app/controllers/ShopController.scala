@@ -6,7 +6,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import scaldi.{Injectable, Injector}
 import play.api.mvc.Controller
-import backend.{CartBackend, ProductBackend, CustomerBackend}
+import backend.{BillingBackend, CartBackend, ProductBackend, CustomerBackend}
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.json.Json
 
@@ -14,6 +14,8 @@ import scala.concurrent.Future
 
 class ShopController(implicit inj: Injector) extends ContextAwareController {
   val productBackend = inject[ProductBackend]
+
+  val billingBackend = inject[BillingBackend]
 
   def index = UnauthenticatedAction.async {
     implicit request =>
@@ -74,6 +76,14 @@ class ShopController(implicit inj: Injector) extends ContextAwareController {
       cartItemsFuture.map {
         cartItems =>
           Ok(views.html.shop.cartDetail(cartItems))
+      }
+  }
+
+  def checkOut = AuthenticatedAction.async {
+    implicit request =>
+      billingBackend.createOrder(request.customer.map(_.customerId).get, request.cart.map(_.id).get).map {
+        _ =>
+          Ok("Now would be a good time to display an order confirmation")
       }
   }
 

@@ -37,10 +37,6 @@ dependencies {
         exclude group: 'log4j', module: 'log4j'
         exclude group: 'org.slf4j', module: 'slf4j-log4j12'
     }
-    compile("com.github.kristofa:brave-jersey:2.2.1") {
-        exclude group: 'log4j', module: 'log4j'
-        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
-    }
     compile("com.github.kristofa:brave-apache-http-interceptors:2.2.1") {
         exclude group: 'log4j', module: 'log4j'
         exclude group: 'org.slf4j', module: 'slf4j-log4j12'
