@@ -53,4 +53,8 @@ class common {
         	File["/etc/apt/sources.list.d/logstashforwarder.list"],
         ]
     }
+
+    package { "unzip":
+        ensure => present
+    }
 }
