@@ -22,10 +22,6 @@ class app_web::install {
         source => "file:///vagrant/dists/web-0.1.0.zip",
     }
 
-    package { "unzip":
-        ensure => present
-    }
-
     exec { "unpack web.zip":
         command => "/bin/rm -rf web; /usr/bin/unzip web.zip; /bin/mv web-0.1.0 web",
         cwd => "/opt/app",

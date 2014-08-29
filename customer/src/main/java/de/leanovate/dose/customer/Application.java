@@ -9,9 +9,11 @@ import com.github.kristofa.brave.TraceFilter;
 import com.github.kristofa.brave.zipkin.ZipkinSpanCollector;
 import de.leanovate.dose.customer.filter.LoggingFilter;
 import de.leanovate.dose.customer.filter.ServletTraceFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -61,9 +63,10 @@ public class Application {
     }
 
     @Bean
-    public SpanCollector spanCollector() {
+    @ConfigurationProperties
+    public SpanCollector spanCollector(@Value("${zipkin.host}") String zipkinHost, @Value("${zipkin.port}") int zipkinPort) {
 
-        return new ZipkinSpanCollector("192.168.254.20", 9410);
+        return new ZipkinSpanCollector(zipkinHost, zipkinPort);
     }
 
     @Bean

@@ -12,7 +12,6 @@ resolvers += "Twitter" at "http://maven.twttr.com/"
 libraryDependencies ++= Seq(
   "com.twitter" %% "finatra" % "1.5.4",
   "com.twitter" %% "finagle-mysql" % "6.17.0",
-  "org.scalikejdbc" %% "scalikejdbc" % "2.0.7",
   "org.flywaydb" % "flyway-core" % "3.0",
   "mysql" % "mysql-connector-java" % "5.1.32",
   "ch.qos.logback" % "logback-classic" % "1.1.2",
