@@ -23,4 +23,4 @@ assemblySettings
 
 mainClass in assembly := Some("de.leanovate.dose.cart.Application")
 
-target in assembly := baseDirectory.value / ".." / "vagrant" / "dists"
+target in assembly := Option(System.getenv("DIST_DIR")).map(new File(_)).getOrElse(baseDirectory.value / ".." / "vagrant/dists")

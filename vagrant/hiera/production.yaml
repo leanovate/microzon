@@ -3,3 +3,9 @@ logstash_forwarder::logstash_host: 192.168.254.10
 app_customer::dist_url: https://dl.dropboxusercontent.com/u/3815280/customer-0.1.0.jar
 
 app_billing::dist_url: https://dl.dropboxusercontent.com/u/3815280/billing-0.1.0-standalone.jar
+
+app_cart::dist_url: https://dl.dropboxusercontent.com/u/3815280/cart-assembly-0.1.0.jar
+
+app_product::dist_url: https://dl.dropboxusercontent.com/u/3815280/product-assembly-0.1.0.jar
+
+app_web::dist_url: https://dl.dropboxusercontent.com/u/3815280/web-0.1.0.zip

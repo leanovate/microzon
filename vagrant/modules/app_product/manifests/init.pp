@@ -1,5 +1,7 @@
 
-class app_product {
+class app_product(
+    $dist_url
+) {
     contain "app_product::install"
     contain "app_product::config"
     contain "app_product::service"

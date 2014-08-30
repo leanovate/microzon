@@ -15,12 +15,17 @@ class app_product::install {
         ensure => directory
     }
 
+    exec { "download product dist":
+        command => "/usr/bin/curl -o /tmp/product.jar ${app_product::dist_url}",
+    }
+
     file { "/opt/product/product.jar":
         owner => root,
         group => root,
         mode => 644,
         ensure => file,
-        source => "file:///vagrant/dists/product-assembly-0.1.0.jar",
+        source => "file:///tmp/product.jar",
+        require => Exec["download product dist"]
     }
 
     package { "supervisor":

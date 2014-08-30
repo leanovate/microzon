@@ -21,4 +21,5 @@ libraryDependencies ++= Seq(
   "com.github.kristofa" % "brave-zipkin-spancollector" % "2.2.1"
 )
 
-target in Universal := baseDirectory.value / ".." / "vagrant" / "dists"
+
+target in Universal := Option(System.getenv("DIST_DIR")).map(new File(_)).getOrElse(baseDirectory.value / ".." / "vagrant/dists")
