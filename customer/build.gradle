@@ -41,7 +41,9 @@ task wrapper(type: Wrapper) {
 }
 
 task dist(type:Copy) {
+    def distDir = System.getenv("DIST_DIR") ?: "../vagrant/dists"
+    
     dependsOn build
     from jar.archivePath
-    into "../vagrant/dists"
+    into distDir
 }
