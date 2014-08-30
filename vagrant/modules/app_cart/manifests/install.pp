@@ -26,12 +26,17 @@ class app_cart::install {
         ensure => directory
     }
 
+    exec { "download cart dist":
+        command => "/usr/bin/curl -o /tmp/cart.jar ${app_cart::dist_url}",
+    }
+
     file { "/opt/cart/cart.jar":
         owner => root,
         group => root,
         mode => 644,
         ensure => file,
-        source => "file:///vagrant/dists/cart-assembly-0.1.0.jar",
+        source => "file:///tmp/cart.jar",
+        require => Exec["download cart dist"]
     }
 
     package { "supervisor":

@@ -1,4 +1,6 @@
-class app_billing {
+class app_billing(
+    $dist_url
+) {
     contain "app_billing::install"
     contain "app_billing::config"
     contain "app_billing::service"

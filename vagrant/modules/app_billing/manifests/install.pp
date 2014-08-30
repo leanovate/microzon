@@ -26,12 +26,17 @@ class app_billing::install {
         ensure => directory
     }
 
+    exec { "download billing dist":
+        command => "/usr/bin/curl -o /tmp/billing.jar ${app_billing::dist_url}",
+    }
+
     file { "/opt/billing/billing.jar":
         owner => root,
         group => root,
         mode => 644,
         ensure => file,
-        source => "file:///vagrant/dists/billing-0.1.0-standalone.jar",
+        source => "file:///tmp/billing.jar",
+        require => Exec["download billing dist"]
     }
 
     package { "supervisor":

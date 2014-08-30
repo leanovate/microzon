@@ -1,4 +1,6 @@
-class app_web {
+class app_web(
+    $dist_url
+) {
     contain "app_web::install"
     contain "app_web::config"
     contain "app_web::service"

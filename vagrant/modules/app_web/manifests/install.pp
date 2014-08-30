@@ -14,12 +14,17 @@ class app_web::install {
         ensure => directory
     }
 
+    exec { "download web dist":
+        command => "/usr/bin/curl -o /tmp/web.zip ${app_web::dist_url}",
+    }
+
     file { "/opt/app/web.zip":
         owner => root,
         group => root,
         mode => 644,
         ensure => file,
-        source => "file:///vagrant/dists/web-0.1.0.zip",
+        source => "file:///tmp/web.zip",
+        require => Exec["download web dist"]
     }
 
     exec { "unpack web.zip":
