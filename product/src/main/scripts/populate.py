@@ -5,9 +5,11 @@ import urllib2
 import string
 import itertools
 import random
+import sys
 
-categoriesUrl = "http://192.168.254.13/categories"
-productsUrl = "http://192.168.254.13/products"
+host = sys.argv[1]
+categoriesUrl = "http://%s/categories" % host
+productsUrl = "http://%s/products" % host
 
 #categoriesUrl = "http://localhost:8080/categories"
 #productsUrl = "http://localhost:8080/products"

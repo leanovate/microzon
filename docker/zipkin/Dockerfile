@@ -1,5 +1,5 @@
 
-FROM untoldwind/dose-base:v1
+FROM untoldwind/dose:base-v1
 
 RUN apt-get install -y nginx
 RUN apt-get install -y unzip
@@ -23,6 +23,7 @@ RUN unzip /root/zipkin-query-service.zip
 RUN mkdir -p /opt/app/zipkin-web
 WORKDIR /opt/app/zipkin-web
 RUN unzip /root/zipkin-web.zip
+RUN rm -f /root/zipkin-collector-service.zip /root/zipkin-query-service.zip /root/zipkin-web.zip
 
 EXPOSE 22 80 9410
 

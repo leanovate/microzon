@@ -1,5 +1,5 @@
 
-FROM untoldwind/dose-base:v1
+FROM untoldwind/dose:base-v1
 
 RUN apt-get install -y mysql-server
 

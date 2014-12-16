@@ -1,15 +1,17 @@
+
 FROM untoldwind/dose:base-v1
 
 RUN apt-get install -y nginx
+RUN apt-get install -y mongodb-org mongodb-org-server mongodb-org-shell mongodb-org-mongos mongodb-org-tools
 
 ADD sources/supervisor /etc/supervisor/conf.d
 RUN rm -f /etc/nginx/sites-enabled/default
 ADD sources/nginx.conf /etc/nginx/nginx.conf
-ADD sources/customer-nginx.conf /etc/nginx/sites-enabled/customer
+ADD sources/product-nginx.conf /etc/nginx/sites-enabled/product
 
-RUN mkdir -p /opt/customer
-ADD dist/customer-0.1.0.jar /opt/customer/customer.jar
-ADD sources/application.properties /opt/customer/application.properties
+RUN mkdir -p /data/db
+RUN mkdir -p /opt/product
+ADD dist/product-assembly-0.1.0.jar /opt/product/product.jar
 
 EXPOSE 22 80
 
