@@ -15,3 +15,6 @@ database:
   user: billing
   password: billing
 zipkinHost: zipkin-collector
+cartBaseUrl: http://cart-service
+productBaseUrl: http://product-service
+customerBaseUrl: http://customer-service
