@@ -1,3 +1,4 @@
+
 name := """web"""
 
 organization := "de.leanovate.dose"
@@ -21,5 +22,13 @@ libraryDependencies ++= Seq(
   "com.github.kristofa" % "brave-zipkin-spancollector" % "2.2.1"
 )
 
-
 target in Universal := Option(System.getenv("DIST_DIR")).map(new File(_)).getOrElse(baseDirectory.value / ".." / "vagrant/dists")
+
+val distDocker = TaskKey[Unit]("dist-docker", "Copies assembly jar")
+
+distDocker <<= (NativePackagerKeys.dist in Universal, baseDirectory) map { (asm, base) => 
+   val source = asm.getPath
+   var target = (base / ".." / "docker/web/dist").getPath
+   Seq("mkdir", "-p", target) !!;
+   Seq("cp", source, target) !!
+}
