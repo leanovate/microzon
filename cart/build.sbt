@@ -24,3 +24,12 @@ assemblySettings
 mainClass in assembly := Some("de.leanovate.dose.cart.Application")
 
 target in assembly := Option(System.getenv("DIST_DIR")).map(new File(_)).getOrElse(baseDirectory.value / ".." / "vagrant/dists")
+
+val dist = TaskKey[Unit]("dist", "Copies assembly jar")
+
+dist <<= (assembly, baseDirectory) map { (asm, base) => 
+  val source = asm.getPath
+  var target = (base / ".." / "docker/cart/dist").getPath
+  Seq("mkdir", "-p", target) !!;
+  Seq("cp", source, target) !!
+}

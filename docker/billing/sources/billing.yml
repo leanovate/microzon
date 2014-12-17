@@ -1,0 +1,17 @@
+logging:
+  appenders:
+    - type: file
+      currentLogFilename: /var/log/application/application.log
+      archivedLogFilenamePattern: /var/log/application/application-%d.log.gz
+      archivedFileCount: 5
+      timeZone: UTC
+      logFormat: "~billing[ ]: %d{yyyy-MM-dd'T'HH:mm:ss.SSSZ};%t;%mdc{X-CorrelationId:--};%level;%logger;%m%n"
+    - type: console
+      logFormat: "~billing[ ]: %d{yyyy-MM-dd'T'HH:mm:ss.SSSZ};%t;%mdc{X-CorrelationId:--};%level;%logger;%m%n"
+
+database:
+  driverClass: com.mysql.jdbc.Driver
+  url: jdbc:mysql://mysql-db/billing
+  user: billing
+  password: billing
+zipkinHost: zipkin-collector

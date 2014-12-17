@@ -20,7 +20,7 @@ object Application extends FinatraServer {
 
   register(new CartResource)
 
-  val zipkinTracer = ZipkinTracer.mk("192.168.254.20", 9410)
+  val zipkinTracer = ZipkinTracer.mk(cartconfig.zipkinHost(), 9410)
 
   DefaultTracer.self = zipkinTracer
 

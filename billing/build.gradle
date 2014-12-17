@@ -66,3 +66,11 @@ task dist(type:Copy) {
     from oneJar.archivePath
     into distDir
 }
+
+task "dist-docker"(type:Copy) {
+    def distDir = System.getenv("DIST_DIR") ?: "../docker/billing/dist"
+
+    dependsOn oneJar
+    from oneJar.archivePath
+    into distDir
+}
