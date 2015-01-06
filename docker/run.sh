@@ -3,6 +3,9 @@
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 
+docker run -d -p 8002:80 -P --name="consul1" --hostname="consul1" "untoldwind/dose:consul-boot-v1"
+docker run -d -P --name="consul2" --link consul1:consul1 --hostname="consul2" "untoldwind/dose:consul-v1"
+docker run -d -P --name="consul3" --link consul1:consul1 --hostname="consul3" "untoldwind/dose:consul-v1"
 docker run -d -p 8000:80 -P --name="log" --hostname="log" "untoldwind/dose:log-v2"
 docker run -d -p 8001:80 -P --name="zipkin" --hostname="zipkin" "untoldwind/dose:zipkin-v1"
 

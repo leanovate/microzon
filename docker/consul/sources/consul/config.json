@@ -1,0 +1,8 @@
+{
+	"bootstrap": false,
+	"server": true,
+	"datacenter": "docker",
+    "data_dir": "/var/consul",
+    "encrypt": "WvfTiPs+CItSDFbNt9eTew==",
+    "start_join":["consul1"]
+}

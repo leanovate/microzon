@@ -1,0 +1,8 @@
+{
+	"bootstrap": true,
+	"server": true,
+	"datacenter": "docker",
+	"ui_dir": "/usr/local/share/consul/dist",
+    "data_dir": "/var/consul",
+    "encrypt": "WvfTiPs+CItSDFbNt9eTew=="
+}

@@ -1,7 +1,9 @@
 #!/bin/sh
 
-docker build -t "untoldwind/dose:base-v2" base
-docker build -t "untoldwind/dose:log-v2" log
+docker build -t "untoldwind/dose:base-v3" base
+docker build -t "untoldwind/dose:consul-v1" consul
+docker build -t "untoldwind/dose:consul-boot-v1" consul-boot
+docker build -t "untoldwind/dose:log-v3" log
 docker build -t "untoldwind/dose:zipkin-v1" zipkin
 docker build -t "untoldwind/dose:mysql-v3" mysql
 docker build -t "untoldwind/dose:customer-v2" customer
