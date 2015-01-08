@@ -33,7 +33,7 @@ For simplicity all services are supposed to run on a Java-VM.
   * Virtual Box 4.3
   * Vagrant 1.6
 * ... or
-  * Docker
+  * Docker 1.4
 
 The setup has been tested with MocOS (Maverick/Yosemite) and Ubuntu 14.04. If you are using a different system you might encounter so far unknown problems.
 
