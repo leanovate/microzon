@@ -91,7 +91,7 @@ cd <project home>/web
 ./activator clean dist
 ```
 
-### Start the cluster
+### Start the cluster via vagrant
 
 ```
 #!bash
