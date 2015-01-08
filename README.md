@@ -55,6 +55,7 @@ brew install boot2docker
 Ensure that the boot2docker VM has enough RAM, i.e. to run everything the VM should have at least 6GB
 ```
 boot2docker init -m 6144
+boot2docker up
 ```
 
 ### Building the micro service distributions
