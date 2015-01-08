@@ -28,10 +28,14 @@ For simplicity all services are supposed to run on a Java-VM.
 
 * When using the vagrant environment we start up to 7 VMs with 8 Gb memory total, therefore a machine with at least 16 Gb is advisable
 * Java JDK 1.7 (OpenJDK and OracleJDK are both working)
-* Virtual Box 4.3
-* Vagrant 1.6
 * An internet connection (expect lots of stuff being downloaded)
-* The setup has been tested with MocOS (Maverick) and Ubuntu 14.04. If you are using a different system you might encounter so far unknown problems.
+* Either
+  * Virtual Box 4.3
+  * Vagrant 1.6
+* ... or
+  * Docker
+
+The setup has been tested with MocOS (Maverick/Yosemite) and Ubuntu 14.04. If you are using a different system you might encounter so far unknown problems.
 
 ## Getting started
 
