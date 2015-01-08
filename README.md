@@ -48,7 +48,7 @@ sh ./run.sh
 
 To build the images from scratch you fist have to build distributions of all the microservices (see below) and run the "build.sh" script.
 
-*For Mac users*: You have should use boot2docker with can be either downloaded here http://boot2docker.io/ or installed via homebrew
+**For Mac users**: You have should use boot2docker with can be either downloaded here http://boot2docker.io/ or installed via homebrew
 ```
 brew install boot2docker
 ```
