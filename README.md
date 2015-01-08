@@ -35,6 +35,28 @@ For simplicity all services are supposed to run on a Java-VM.
 
 ## Getting started
 
+Since this is a project for experimentation it is possible to run the stuff via docker or vagrant/virtualbox.
+
+### Run via docker
+
+Just move to the "docker" subdirectory and execute the run.sh script
+```
+cd docker
+sh ./run.sh
+```
+(all the images should be available via the public docker hub)
+
+To build the images from scratch you fist have to build distributions of all the microservices (see below) and run the "build.sh" script.
+
+For Mac users: You have should use boot2docker with can be either downloaded here http://boot2docker.io/ or installed via homebrew
+```
+brew install boot2docker
+```
+Ensure that the boot2docker VM has enough RAM, i.e. to run everything the VM should have at least 6GB
+```
+boot2docker init -m 6144
+```
+
 ### Building the micro service distributions
 
 All build scripts will create an distribution archive in <project home>/vagrant/dist
