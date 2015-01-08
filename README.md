@@ -46,6 +46,12 @@ sh ./run.sh
 ```
 (all the images should be available via the public docker hub)
 
+After this the following URLs should work:
+* http://localhost:8080 -> The shop itself
+* http://localhost:8000 -> ELK (Elasicsearch/Logstash/Kibana)
+* http://localhost:8001 -> Zipkin
+* http://localhost:8002 -> Consul web ui
+ 
 To build the images from scratch you fist have to build distributions of all the microservices (see below) and run the "build.sh" script.
 
 **For Mac users**: You have should use boot2docker with can be either downloaded here http://boot2docker.io/ or installed via homebrew
@@ -57,6 +63,7 @@ Ensure that the boot2docker VM has enough RAM, i.e. to run everything the VM sho
 boot2docker init -m 6144
 boot2docker up
 ```
+Also note that you have to use the IP returned by `boot2docker ip` instead of localhost.
 
 ### Building the micro service distributions
 
@@ -91,8 +98,13 @@ vagrant up
 ### Populating the databases
 
 * product database
+For docker:
 ```
-python product/src/main/scripts/populate.py
+python product/src/main/scripts/populate.py localhost:8090
+```
+resp. for Mac users:
+```
+python product/src/main/scripts/populate.py $(boot2docker ip):8090
 ```
 
 ### Enjoy the show
