@@ -2,7 +2,6 @@ FROM untoldwind/dose:base-v3
 
 RUN apt-get install -y elasticsearch=1.1.1
 RUN apt-get install -y logstash=1.4.2-1-2c0f5a1
-RUN apt-get install -y nginx
 
 ADD https://download.elasticsearch.org/kibana/kibana/kibana-3.1.2.tar.gz /root/
 ADD sources/pki /etc/pki/server/
@@ -15,8 +14,6 @@ RUN mkdir -p /usr/share/kibana3
 
 WORKDIR /usr/share/kibana3
 RUN /bin/tar xzf /root/kibana-3.1.2.tar.gz --strip-components=1
-RUN rm -f /etc/nginx/sites-enabled/default
-ADD sources/nginx.conf /etc/nginx/nginx.conf
 ADD sources/kibana-nginx.conf /etc/nginx/sites-enabled/kibana
 ADD sources/config.js /usr/share/kibana3/config.js
 ADD sources/logstash_forwarder/logstash-forwarder /etc/logstash-forwarder

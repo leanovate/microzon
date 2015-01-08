@@ -1,0 +1,7 @@
+{
+	"service": {
+		"name": "zipkin-collector",
+		"tags": [],
+		"port": 9410
+	}
+}

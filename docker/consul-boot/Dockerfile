@@ -1,10 +1,5 @@
 FROM untoldwind/dose:base-v3
 
-RUN apt-get install -y nginx
-
-RUN mkdir -p /var/log/application
-RUN rm -f /etc/nginx/sites-enabled/default
-ADD sources/nginx.conf /etc/nginx/nginx.conf
 ADD sources/consul-nginx.conf /etc/nginx/sites-enabled/consul
 
 ADD https://dl.bintray.com/mitchellh/consul/0.4.1_web_ui.zip /root/consul_web_ui.zip

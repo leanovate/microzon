@@ -1,12 +1,8 @@
 
-FROM untoldwind/dose:base-v1
-
-RUN apt-get install -y nginx
-RUN apt-get install -y unzip
+FROM untoldwind/dose:base-v3
 
 ADD sources/supervisor /etc/supervisor/conf.d
-RUN rm -f /etc/nginx/sites-enabled/default
-ADD sources/nginx.conf /etc/nginx/nginx.conf
+ADD sources/consul /etc/consul.d
 ADD sources/zipkin-nginx.conf /etc/nginx/sites-enabled/zipkin
 
 ADD https://dl.dropboxusercontent.com/u/3815280/zipkin-collector-service.zip /root/
