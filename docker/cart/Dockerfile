@@ -1,8 +1,11 @@
 
-FROM untoldwind/dose:base-v2
+FROM untoldwind/dose:base-v3
 
 RUN apt-get install -y nginx
 
+ADD sources/consul /etc/consul.d
+RUN mkdir -p /etc/consul-templates
+ADD sources/consul-templates /etc/consul-templates
 ADD sources/supervisor /etc/supervisor/conf.d
 RUN rm -f /etc/nginx/sites-enabled/default
 ADD sources/nginx.conf /etc/nginx/nginx.conf

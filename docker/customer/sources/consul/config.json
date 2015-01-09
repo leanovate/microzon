@@ -1,0 +1,7 @@
+{
+	"server": false,
+	"datacenter": "docker",
+    "data_dir": "/var/consul",
+    "encrypt": "WvfTiPs+CItSDFbNt9eTew==",
+    "start_join": ["consul1", "consul2", "consul3"]
+}

@@ -1,0 +1,7 @@
+{
+	"service": {
+		"name": "billing-service",
+		"tags": [],
+		"port": 80
+	}
+}

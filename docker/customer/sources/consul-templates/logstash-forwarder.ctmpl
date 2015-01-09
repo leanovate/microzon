@@ -1,0 +1,28 @@
+{
+  "network": {
+    "servers": [ {{range $i, $s := service "logstash"}}{{if $i}},{{end}} "{{$s.Address}}:{{$s.Port}}"{{end}} ],
+    "timeout": 15,
+    "ssl ca": "/etc/pki/client/logstash-forwarder.crt"
+  },
+  "files": [
+    {
+      "paths": [
+        "/var/log/syslog",
+        "/var/log/auth.log"
+       ],
+      "fields": { "type": "syslog" }
+    },
+    {
+      "paths": [
+        "/var/log/application/application.log"
+       ],
+      "fields": { "type": "application" }
+    },
+    {
+      "paths": [
+        "/var/log/application/access.log"
+       ],
+      "fields": { "type": "accesslog" }
+    }
+   ]
+}

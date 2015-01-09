@@ -1,0 +1,7 @@
+{
+	"service": {
+		"name": "product-service",
+		"tags": [],
+		"port": 80
+	}
+}

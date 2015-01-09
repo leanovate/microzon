@@ -1,0 +1,7 @@
+{
+	"service": {
+		"name": "customer-service",
+		"tags": [],
+		"port": 80
+	}
+}
