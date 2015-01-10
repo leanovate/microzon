@@ -22,3 +22,5 @@ GET         /shop/product/:id         @controllers.ShopController.product(id:Str
 POST        /shop/addToCart           @controllers.ShopController.addToCart
 GET         /shop/cart                @controllers.ShopController.showCart
 GET         /show/checkout            @controllers.ShopController.checkOut
+
+GET         /status/services          @controllers.StatusController.services

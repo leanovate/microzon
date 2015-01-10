@@ -1,11 +1,12 @@
 package modules
 
 import scaldi.Module
-import backend.{BillingBackend, CartBackend, ProductBackend, CustomerBackend}
+import backend._
 import logging.CorrelatedWS
 
 class BackendModule extends Module {
   binding to new CorrelatedWS
+  binding to new ConsulLookup
   binding to new CustomerBackend
   binding to new ProductBackend
   binding to new CartBackend

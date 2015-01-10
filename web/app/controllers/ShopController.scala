@@ -1,14 +1,11 @@
 package controllers
 
-import models.cart.{CartItems, CartItem}
-import models.user.Registration
+import backend.{BillingBackend, ProductBackend}
+import models.cart.{CartItem, CartItems}
 import play.api.data.Form
 import play.api.data.Forms._
-import scaldi.{Injectable, Injector}
-import play.api.mvc.Controller
-import backend.{BillingBackend, CartBackend, ProductBackend, CustomerBackend}
 import play.api.libs.concurrent.Execution.Implicits._
-import play.api.libs.json.Json
+import scaldi.Injector
 
 import scala.concurrent.Future
 
