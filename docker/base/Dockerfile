@@ -13,8 +13,11 @@ ADD sources/GPG-KEY-elasticsearch /etc/apt/rkeys/GPG-KEY-elasticsearch
 
 RUN apt-key add /etc/apt/rkeys/GPG-KEY-elasticsearch
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+RUN apt-get install -y software-properties-common
+RUN add-apt-repository ppa:webupd8team/java
 RUN apt-get -y update
-RUN apt-get install -y --no-install-recommends openjdk-7-jdk
+RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+RUN apt-get install -y --no-install-recommends oracle-java8-installer
 RUN apt-get install -y logstash-forwarder=0.3.1
 RUN apt-get install -y openssh-server
 RUN apt-get install -y supervisor

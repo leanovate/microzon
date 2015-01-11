@@ -1,5 +1,5 @@
 
-FROM untoldwind/dose:base-v3
+FROM untoldwind/dose:base-v4
 
 RUN apt-get install -y nginx
 RUN apt-get install -y mongodb-org mongodb-org-server mongodb-org-shell mongodb-org-mongos mongodb-org-tools

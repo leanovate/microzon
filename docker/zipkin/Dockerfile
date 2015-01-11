@@ -1,5 +1,5 @@
 
-FROM untoldwind/dose:base-v3
+FROM untoldwind/dose:base-v4
 
 ADD sources/supervisor /etc/supervisor/conf.d
 ADD sources/consul /etc/consul.d

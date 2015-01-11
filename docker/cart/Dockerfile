@@ -1,7 +1,5 @@
 
-FROM untoldwind/dose:base-v3
-
-RUN apt-get install -y nginx
+FROM untoldwind/dose:base-v4
 
 ADD sources/consul /etc/consul.d
 RUN mkdir -p /etc/consul-templates
