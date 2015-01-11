@@ -10,4 +10,4 @@ docker build -t "untoldwind/dose:customer-v3" customer
 docker build -t "untoldwind/dose:product-v3" product
 docker build -t "untoldwind/dose:cart-v3" cart
 docker build -t "untoldwind/dose:billing-v3" billing
-docker build -t "untoldwind/dose:web-v3" web
+docker build -t "untoldwind/dose:web-v4" web

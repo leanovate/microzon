@@ -1,23 +1,30 @@
 package backend
 
-import scaldi.{Injectable, Injector}
-import logging.{CorrelationContext, CorrelatedWS, CorrelatedLogging}
+import logging.{CorrelatedLogging, CorrelatedWS, CorrelationContext}
 import models.billing.CreateOrder
-import play.api.libs.json.Json
 import play.api.libs.concurrent.Execution.Implicits._
+import play.api.libs.json.Json
+import scaldi.{Injectable, Injector}
 
 class BillingBackend(implicit inj: Injector) extends Injectable with CorrelatedLogging {
   private val correlatedWS = inject[CorrelatedWS]
-  private val baseUrl = inject[String](identified by "service.billing.url")
-  private val name = "Billing"
+  private val serviceFailover = inject[ServiceFailover]
 
-  def createOrder(customerId: Long, cartId: String)(implicit collectionContext: CorrelationContext) = {
-    val createOrder = CreateOrder(customerId, cartId)
-    correlatedWS.post(name, baseUrl + "/orders", Json.toJson(createOrder)).map {
-      response =>
-        if (response.status != 200)
-          throw new RuntimeException(s"post create order to billing service failed status=${response.status}")
-        response
+  import backend.BillingBackend._
+
+  def createOrder(customerId: Long, cartId: String)(implicit collectionContext: CorrelationContext) =
+    serviceFailover.retry(serviceName, "/orders") {
+      url =>
+        val createOrder = CreateOrder(customerId, cartId)
+        correlatedWS.post(serviceName, url, Json.toJson(createOrder)).map {
+          response =>
+            if (response.status != 200)
+              throw new RuntimeException(s"post create order to billing service failed status=${response.status}")
+            response
+        }
     }
-  }
+}
+
+object BillingBackend {
+  val serviceName = "billing-service"
 }
