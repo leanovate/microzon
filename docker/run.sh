@@ -7,7 +7,7 @@ docker run -d -p 8002:80 -P --name="consul1" --hostname="consul1" "untoldwind/do
 docker run -d -P --name="consul2" --link consul1:consul1 --hostname="consul2" "untoldwind/dose:consul-v1"
 docker run -d -P --name="consul3" --link consul1:consul1 --hostname="consul3" "untoldwind/dose:consul-v1"
 docker run -d -p 8000:80 -P --name="log" --hostname="log" --link consul1:consul1 --link consul2:consul2 --link consul3:consul3  "untoldwind/dose:log-v4"
-docker run -d -p 8001:80 -P --name="zipkin" --hostname="zipkin" --link consul1:consul1 --link consul2:consul2 --link consul3:consul3 "untoldwind/dose:zipkin-v3"
+docker run -d -p 8001:80 -p 9410:9410 -P --name="zipkin" --hostname="zipkin" --link consul1:consul1 --link consul2:consul2 --link consul3:consul3 "untoldwind/dose:zipkin-v3"
 docker run -d -p 3306:3306 -P --name="mysql" --hostname="mysql" --link consul1:consul1 --link consul2:consul2 --link consul3:consul3 "untoldwind/dose:mysql-v4" 
 
 # Uggly but necessary atm
