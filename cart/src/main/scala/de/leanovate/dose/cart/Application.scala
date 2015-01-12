@@ -18,16 +18,16 @@ import de.leanovate.dose.cart.logging.CorrelationHttpFilter
 
 object Application extends FinatraServer {
 
-  register(new CartResource)
-
-  val zipkinTracer = ZipkinTracer.mk()
-
-  DefaultTracer.self = zipkinTracer
-
   addFilter(new HttpServerTracingFilter("cart-service"))
   addFilter(new CorrelationHttpFilter())
 
+  register(new CartResource)
+
   override def main() {
+    val zipkinTracer = ZipkinTracer.mk()
+
+    DefaultTracer.self = zipkinTracer
+
     System.setProperty("PID", pid)
     LogManager.getLogManager.reset()
     SLF4JBridgeHandler.install()
