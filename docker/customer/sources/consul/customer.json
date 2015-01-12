@@ -2,6 +2,10 @@
 	"service": {
 		"name": "customer-service",
 		"tags": [],
-		"port": 80
+		"port": 80,
+		"check": {
+			"script": "/etc/consul.d/alive.py",
+			"interval": "5s"
+		}
 	}
 }

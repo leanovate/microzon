@@ -22,9 +22,10 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:1.1.5.RELEASE")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa:1.1.5.RELEASE")
-    compile("org.springframework.boot:spring-boot-starter-data-rest:1.1.5.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-web:1.2.1.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:1.2.1.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-data-rest:1.2.1.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-actuator:1.2.1.RELEASE")
     compile("mysql:mysql-connector-java:5.1.32")
     compile("com.github.kristofa:brave-impl:2.2.1") {
         exclude group: 'log4j', module: 'log4j'
