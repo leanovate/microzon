@@ -13,7 +13,7 @@ import de.leanovate.dose.cart.model.ActiveProduct
 import scala.Some
 
 object ProductConnector {
-  val productTracer = new TracingFilter[HttpRequest, HttpResponse](DefaultTracer, "Product")
+  val productTracer = new TracingFilter[HttpRequest, HttpResponse](DefaultTracer, "product-service")
   val charset = Charset.forName("UTF-8")
 
   def getProduct(productId: String) = {

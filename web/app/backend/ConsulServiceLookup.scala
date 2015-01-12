@@ -1,5 +1,7 @@
 package backend
 
+import java.net.URLEncoder
+
 import models.consul.ServiceNode
 import play.api.Logger
 import play.api.libs.json.{JsSuccess, Json}
@@ -10,7 +12,7 @@ import scala.concurrent.duration._
 import play.api.libs.concurrent.Execution.Implicits._
 
 class ConsulServiceLookup(baseUrl: String, serviceName: String) {
-  private val lookupRequest = WS.url(baseUrl + serviceName)
+  private val lookupRequest = WS.url(baseUrl + URLEncoder.encode(serviceName, "UTF-8"))
   private val timeout = 5.seconds
   @volatile
   private var lastLookup = (Deadline.now, Seq.empty[ServiceNode])

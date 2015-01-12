@@ -20,11 +20,11 @@ object Application extends FinatraServer {
 
   register(new CartResource)
 
-  val zipkinTracer = ZipkinTracer.mk(cartconfig.zipkinHost(), 9410)
+  val zipkinTracer = ZipkinTracer.mk()
 
   DefaultTracer.self = zipkinTracer
 
-  addFilter(new HttpServerTracingFilter("Cart"))
+  addFilter(new HttpServerTracingFilter("cart-service"))
   addFilter(new CorrelationHttpFilter())
 
   override def main() {

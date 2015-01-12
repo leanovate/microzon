@@ -53,7 +53,7 @@ public class BillingApplication extends Application<BillingConfiguration> {
 
         fixRandom(clientTracer);
 
-        endPointSubmitter.submit(InetAddress.getLocalHost().getHostAddress(), 80, "Billing");
+        endPointSubmitter.submit(InetAddress.getLocalHost().getHostAddress(), 80, "billing-service");
 
         final CartConnector cartConnector = new CartConnector(configuration, clientTracer);
         final CustomerConnector customerConnector = new CustomerConnector(configuration, clientTracer);

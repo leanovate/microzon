@@ -3,8 +3,6 @@ package de.leanovate.dose.cart.cartconfig
 import com.twitter.app.GlobalFlag
 import com.twitter.finagle.Name
 
-object zipkinHost extends GlobalFlag[String]("192.168.254.20", "Zipkin host")
-
 object dbName extends GlobalFlag[String]("cart", "Name of cart database")
 
 object dbHost extends GlobalFlag[String]("localhost", "Database host")
@@ -19,4 +17,6 @@ object jdbcUrl {
   def apply() = s"jdbc:mysql://${dbHost()}:${dbPort()}/${dbName()}"
 }
 
-object productHost extends GlobalFlag[String]("Product=192.168.254.13:80", "Host of the product service")
+object productHost extends GlobalFlag[String]("product-service=192.168.254.13:80", "Host of the product service")
+
+object consulHost extends GlobalFlag[String]("consul=localhost:8500", "Host of the consul agent")
