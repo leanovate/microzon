@@ -23,11 +23,12 @@ object ProductConnector {
       "/products/" + URLEncoder.encode(productId, "UTF-8"))
     request.headers().add("User-Agent", "Finagle/Netty")
     request.headers().add("Accept", "application/json")
-    request.headers().add("Host", cartconfig.productHost())
+    request.headers().add("Host", "product-service")
     request.headers().add("X-CorrelationId", CorrelationContext.correlationId)
 
     productTracer.apply(request, client).map {
       response =>
+        println(response)
         if (response.getStatus.getCode == 200) {
           Some(Json.readValue(response.getContent.toString(charset), classOf[ActiveProduct]))
         } else {

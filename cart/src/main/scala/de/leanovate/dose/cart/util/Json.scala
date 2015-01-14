@@ -10,4 +10,6 @@ object Json {
   }
 
   def readValue[T](json: String, clazz: Class[T]): T = jsonMapper.readValue(json, clazz)
+
+  def readArray[T](json: String, clazz: Class[T]): Seq[T] = jsonMapper.readValue(json, jsonMapper.getTypeFactory.constructCollectionLikeType(classOf[Seq[T]], clazz))
 }
