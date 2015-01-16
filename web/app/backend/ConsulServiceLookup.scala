@@ -2,32 +2,33 @@ package backend
 
 import java.net.URLEncoder
 
-import models.consul.ServiceNode
+import models.consul.HealthInfo
 import play.api.Logger
+import play.api.Play.current
+import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.json.{JsSuccess, Json}
 import play.api.libs.ws.WS
-import play.api.Play.current
+
 import scala.concurrent.Future
 import scala.concurrent.duration._
-import play.api.libs.concurrent.Execution.Implicits._
 
 class ConsulServiceLookup(baseUrl: String, serviceName: String) {
-  private val lookupRequest = WS.url(baseUrl + URLEncoder.encode(serviceName, "UTF-8"))
+  private val lookupRequest = WS.url(baseUrl + URLEncoder.encode(serviceName, "UTF-8") + "?passing")
   private val timeout = 5.seconds
   @volatile
-  private var lastLookup = (Deadline.now, Seq.empty[ServiceNode])
+  private var lastLookup = (Deadline.now, Seq.empty[HealthInfo])
 
-  def lookup: Future[Seq[ServiceNode]] = {
+  def lookup: Future[Seq[HealthInfo]] = {
     val last = lastLookup
     if (last._1.isOverdue()) {
       Logger.info(s"Lookup service $serviceName from consul")
       lookupRequest.get().map {
         response =>
           if (response.status == 200) {
-            Json.fromJson[Seq[ServiceNode]](Json.parse(response.body)) match {
-              case JsSuccess(serviceNodes,_) =>
-                lastLookup = (timeout.fromNow, serviceNodes)
-                serviceNodes
+            Json.fromJson[Seq[HealthInfo]](Json.parse(response.body)) match {
+              case JsSuccess(healthInfo, _) =>
+                lastLookup = (timeout.fromNow, healthInfo)
+                healthInfo
               case error =>
                 Logger.error(s"Invalid json response from consul: $error")
                 last._2

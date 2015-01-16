@@ -1,4 +1,4 @@
-FROM untoldwind/dose:base-v3
+FROM untoldwind/dose:base-v4
 
 ADD sources/consul-nginx.conf /etc/nginx/sites-enabled/consul
 

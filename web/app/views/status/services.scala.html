@@ -1,4 +1,4 @@
-@(serviceStatus:Seq[(String, Seq[models.consul.ServiceNode])])
+@(serviceStatus:Seq[(String, Seq[models.consul.HealthInfo])])
 
 <!DOCTYPE html>
 
@@ -11,11 +11,11 @@
     </head>
     <body>
         <div class="container">
-            @serviceStatus.map { case (serviceName, serviceNodes) =>
+            @serviceStatus.map { case (serviceName, healthInfos) =>
                 <h1>@serviceName</h1>
                 <ul>
-                    @serviceNodes.map { serviceNode =>
-                      <li>@serviceNode.Node => @{serviceNode.Address}:@{serviceNode.ServicePort}</li>
+                    @healthInfos.map { healthInfo =>
+                      <li>@{healthInfo.Node.Node} => @{healthInfo.Node.Address}:@{healthInfo.Service.Port}</li>
                     }
                 </ul>
             }

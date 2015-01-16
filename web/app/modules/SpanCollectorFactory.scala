@@ -19,13 +19,13 @@ class SpanCollectorFactory(implicit inj: Injector) extends Injectable {
 
   def provide: SpanCollector = {
     val futureCollector = consulLookup.lookup(serviceName).map {
-      serviceNodes =>
-        if (serviceNodes.isEmpty) {
+      healthInfos =>
+        if (healthInfos.isEmpty) {
           Logger.info(s"No active zipkin collector found")
           fallback
         } else {
-          val firstNode = serviceNodes.head
-          Try(new ZipkinSpanCollector(firstNode.Address, firstNode.ServicePort)) match {
+          val first = healthInfos.head
+          Try(new ZipkinSpanCollector(first.Node.Address, first.Service.Port)) match {
             case Success(zipkinCollector) => zipkinCollector
             case Failure(e) =>
               Logger.error("Failed to setup zipkin collector", e)

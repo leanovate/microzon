@@ -1,7 +1,7 @@
 package backend
 
 import logging.CorrelatedLogging
-import models.consul.ServiceNode
+import models.consul.{HealthInfo, NodeInfo}
 import play.api.libs.concurrent.Execution.Implicits._
 import scaldi.{Injectable, Injector}
 
@@ -15,7 +15,7 @@ class ConsulLookup(implicit inj: Injector) extends Injectable with CorrelatedLog
   def lookup(serviceName: String) =
     serviceLookups.getOrElseUpdate(serviceName, new ConsulServiceLookup(baseUrl, serviceName)).lookup
 
-  def lookupAll(serviceNames: Seq[String]): Future[Seq[(String, Seq[ServiceNode])]] =
+  def lookupAll(serviceNames: Seq[String]): Future[Seq[(String, Seq[HealthInfo])]] =
     Future.traverse(serviceNames) {
       serviceName =>
         lookup(serviceName).map {
