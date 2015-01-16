@@ -10,34 +10,34 @@ object ProductRepository extends SLF4JLogging {
 
   import Akka._
 
-  val products = Mongo.productsDb.collection[BSONCollection]("products")
+  val products = Mongo.productsDb.map(_.collection[BSONCollection]("products"))
 
   def findAllActive() = {
     log.info("Get all products")
-    products.find(BSONDocument()).sort(BSONDocument("name" -> 1)).cursor[ActiveProduct].collect[Seq]()
+    products.flatMap(_.find(BSONDocument()).sort(BSONDocument("name" -> 1)).cursor[ActiveProduct].collect[Seq]())
   }
 
   def findAllForCategory(categoryId: String) = {
     log.info(s"Find all products of category $categoryId")
-    products.find(BSONDocument("categories" -> BSONObjectID(categoryId))).sort(BSONDocument("name" -> 1)).cursor[ActiveProduct].collect[Seq]()
+    products.flatMap(_.find(BSONDocument("categories" -> BSONObjectID(categoryId))).sort(BSONDocument("name" -> 1)).cursor[ActiveProduct].collect[Seq]())
   }
 
   def findById(id: String) = {
     log.info(s"Get product $id")
-    products.find(BSONDocument("_id" -> BSONObjectID(id))).cursor[ActiveProduct].headOption
+    products.flatMap(_.find(BSONDocument("_id" -> BSONObjectID(id))).cursor[ActiveProduct].headOption)
   }
 
   def insert(product: ActiveProduct) = {
     val toInsert = product.copy(_id = Some(BSONObjectID.generate))
-    products.insert(toInsert).map(_ => toInsert)
+    products.flatMap(_.insert(toInsert).map(_ => toInsert))
   }
 
   def update(id: String, product: ActiveProduct) = {
     val toUpdate = product.copy(_id = Some(BSONObjectID(id)))
-    products.update(BSONDocument("_id" -> BSONObjectID(id)), toUpdate).map(_ => toUpdate)
+    products.flatMap(_.update(BSONDocument("_id" -> BSONObjectID(id)), toUpdate).map(_ => toUpdate))
   }
 
   def deleteById(id: String) = {
-    products.remove(BSONDocument("_id" -> BSONObjectID(id)))
+    products.flatMap(_.remove(BSONDocument("_id" -> BSONObjectID(id))))
   }
 }

@@ -11,14 +11,14 @@ object Categories extends DefaultJsonProtocol {
   implicit val categoryTreeItemFornat = new RootJsonWriter[CategoryTreeItem] {
     override def write(obj: CategoryTreeItem) = JsObject(
       "category" -> json.jsonWriter[Category].write(obj.category),
-      "children" -> JsArray(obj.children.map(write).toList)
+      "children" -> JsArray(obj.children.map(write) :_ *)
     )
   }
 
   implicit val categoriesFormat = new RootJsonWriter[Categories] {
     override def write(obj: Categories) = JsObject(
       "categories" -> json.jsonWriter[Seq[Category]].write(obj.categories),
-      "tree" -> JsArray(obj.tree.map(categoryTreeItemFornat.write).toList)
+      "tree" -> JsArray(obj.tree.map(categoryTreeItemFornat.write) :_ *)
     )
   }
 

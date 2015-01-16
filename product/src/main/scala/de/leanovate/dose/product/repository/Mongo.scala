@@ -1,13 +1,23 @@
 package de.leanovate.dose.product.repository
 
-import reactivemongo.api.MongoDriver
-import de.leanovate.dose.product.Akka
+import akka.event.slf4j.SLF4JLogging
+import de.leanovate.dose.product.consul.ConsulLookup
+import reactivemongo.api.{MongoConnection, MongoDriver}
 
-object Mongo {
+import scala.concurrent.Future
 
-  import Akka._
+object Mongo extends SLF4JLogging {
+
+  import de.leanovate.dose.product.Akka._
 
   val driver = new MongoDriver(actorSystem)
-  val connection = driver.connection(List("localhost"))
-  val productsDb = connection.db("products")
+  val connection: Future[MongoConnection] =
+    ConsulLookup.lookup("mongo").map {
+      serviceNodes =>
+        val endpoints = serviceNodes.map(s => s"${s.Address}:${s.ServicePort}")
+        log.info(s"Using mongo endpoints: $endpoints")
+        driver.connection(endpoints)
+    }
+
+  val productsDb = connection.map(_.db("products"))
 }

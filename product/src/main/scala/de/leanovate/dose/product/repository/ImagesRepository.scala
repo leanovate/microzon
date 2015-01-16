@@ -10,10 +10,10 @@ object ImagesRepository extends SLF4JLogging {
   import reactivemongo.api.gridfs.Implicits._
   import Akka._
 
-  val images = GridFS(Mongo.productsDb, prefix = "images")
+  val images = Mongo.productsDb.map(GridFS(_, prefix = "images"))
 
   def findAll() = {
     log.info("Get all images")
-    images.find(BSONDocument()).collect[Seq]()
+    images.flatMap(_.find(BSONDocument()).collect[Seq]())
   }
 }
