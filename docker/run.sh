@@ -14,7 +14,7 @@ docker run -d -p 27017:27017 -P --name="mongo" --hostname="mongo" --link consul1
 # Uggly but necessary atm
 sleep 5
 
-docker run -d -P --name="customer" --link mysql:mysql-db --link zipkin:zipkin-collector --hostname="customer" --link consul1:consul1 --link consul2:consul2 --link consul3:consul3 "untoldwind/dose:customer-v4" 
+docker run -d -P --name="customer" --hostname="customer" --link consul1:consul1 --link consul2:consul2 --link consul3:consul3 "untoldwind/dose:customer-v4" 
 docker run -d -p 8090:80 -P --name="product" --hostname="product" --link consul1:consul1 --link consul2:consul2 --link consul3:consul3 "untoldwind/dose:product-v4" 
 docker run -d -P --name="cart" --hostname="cart" --link mysql:mysql-db --link consul1:consul1 --link consul2:consul2 --link consul3:consul3 "untoldwind/dose:cart-v4"
 docker run -d -P --name="billing" --link cart:cart-service --link product:product-service --link customer:customer-service --link mysql:mysql-db --link zipkin:zipkin-collector --hostname="billing" --link consul1:consul1 --link consul2:consul2 --link consul3:consul3 "untoldwind/dose:billing-v4"

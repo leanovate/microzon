@@ -12,3 +12,5 @@ docker build -t "untoldwind/dose:product-v4" product
 docker build -t "untoldwind/dose:cart-v4" cart
 docker build -t "untoldwind/dose:billing-v4" billing
 docker build -t "untoldwind/dose:web-v4" web
+
+docker images --no-trunc | grep none | awk '{print $3}' | xargs docker rmi
