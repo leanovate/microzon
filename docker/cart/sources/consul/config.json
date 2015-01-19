@@ -3,5 +3,7 @@
 	"datacenter": "docker",
     "data_dir": "/var/consul",
     "encrypt": "WvfTiPs+CItSDFbNt9eTew==",
+    "disable_update_check": true,
+    "disable_anonymous_signature": true,
     "start_join": ["consul1", "consul2", "consul3"]
 }

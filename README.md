@@ -69,6 +69,12 @@ boot2docker up
 ```
 Also note that you have to use the IP returned by `boot2docker ip` instead of localhost.
 
+If you want to access all the services directly from your machine by their ip addresses (e.g. develop one of the services locally), you also might want to add a static route to the `docker0` net inside the boot2docker VM:
+```
+sudo route -n add -net 172.17.0.0/16 $(boot2docker ip)
+```
+(Please check the network address with `boot2docker ssh ifconfig docker0` just to be sure.)
+
 ### Building the micro service distributions
 
 All build scripts will create an distribution archive in <project home>/vagrant/dist

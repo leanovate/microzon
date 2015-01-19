@@ -5,7 +5,7 @@ import com.github.kristofa.brave.ClientTracer;
 import com.github.kristofa.brave.httpclient.BraveHttpRequestInterceptor;
 import com.github.kristofa.brave.httpclient.BraveHttpResponseInterceptor;
 import com.google.common.base.Optional;
-import de.leanovate.dose.billing.BillingConfiguration;
+import de.leanovate.dose.billing.consul.ConsulLookup;
 import de.leanovate.dose.billing.logging.LoggingHttpRequestInterceptor;
 import de.leanovate.dose.billing.model.Customer;
 import io.dropwizard.jackson.Jackson;
@@ -17,16 +17,16 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CustomerConnector {
     private static final ObjectMapper MAPPER = Jackson.newObjectMapper();
 
-    private final String baseUrl;
     private final CloseableHttpClient client;
 
-    public CustomerConnector(final BillingConfiguration configuration, final ClientTracer clientTracer) {
+    public CustomerConnector(final ClientTracer clientTracer) {
 
-        this.baseUrl = configuration.customerBaseUrl;
         this.client = HttpClientBuilder.create()
                 .addInterceptorFirst(new LoggingHttpRequestInterceptor())
                 .addInterceptorLast(new BraveHttpRequestInterceptor(clientTracer, Optional.of("Customer")))
@@ -38,12 +38,21 @@ public class CustomerConnector {
 
     public Customer getCustomer(final String customerId) throws IOException {
 
-        HttpGet request = new HttpGet(baseUrl + "/customers/" + URLEncoder.encode(customerId, "UTF-8"));
-        try (CloseableHttpResponse response = client.execute(request)) {
-            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                return MAPPER.readValue(response.getEntity().getContent(), Customer.class);
+        return ServiceFailover.retry(getEnpointUrls(), url -> {
+            HttpGet request = new HttpGet(url + "/customers/" + URLEncoder.encode(customerId, "UTF-8"));
+            try (CloseableHttpResponse response = client.execute(request)) {
+                if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                    return MAPPER.readValue(response.getEntity().getContent(), Customer.class);
+                }
+                throw new IOException("Request to customer service failed. Status=" + response.getStatusLine());
             }
-            throw new IOException("Request to customer service failed. Status=" + response.getStatusLine());
-        }
+        });
+    }
+
+    private List<String> getEnpointUrls() {
+
+        return ConsulLookup.lookup("customer-service").stream()
+                .map(healthInfo -> "http://" + healthInfo.Node.Address + ":" + healthInfo.Service.Port)
+                .collect(Collectors.toList());
     }
 }

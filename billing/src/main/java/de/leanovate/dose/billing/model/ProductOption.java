@@ -11,4 +11,14 @@ public class ProductOption {
 
     @JsonProperty
     public int priceInCent;
+
+    @Override
+    public String toString() {
+
+        return "ProductOption{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", priceInCent=" + priceInCent +
+                '}';
+    }
 }

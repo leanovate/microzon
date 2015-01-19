@@ -22,4 +22,17 @@ public class CartItem {
 
     @JsonProperty
     public int priceInCent;
+
+    @Override
+    public String toString() {
+
+        return "CartItem{" +
+                "cartId='" + cartId + '\'' +
+                ", position=" + position +
+                ", productId='" + productId + '\'' +
+                ", productOption='" + productOption + '\'' +
+                ", amount=" + amount +
+                ", priceInCent=" + priceInCent +
+                '}';
+    }
 }

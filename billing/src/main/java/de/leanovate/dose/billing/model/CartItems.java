@@ -14,4 +14,14 @@ public class CartItems {
 
     @JsonProperty
     public int totalCents;
+
+    @Override
+    public String toString() {
+
+        return "CartItems{" +
+                "items=" + items +
+                ", valid=" + valid +
+                ", totalCents=" + totalCents +
+                '}';
+    }
 }

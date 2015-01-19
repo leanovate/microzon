@@ -19,4 +19,16 @@ public class Customer {
 
     @JsonProperty
     public String lastName;
+
+    @Override
+    public String toString() {
+
+        return "Customer{" +
+                "customerId='" + customerId + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }

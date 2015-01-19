@@ -41,7 +41,7 @@ public class OrderResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response prepareOrder(CreateOrder createOrder) {
+    public Response prepareOrder(final CreateOrder createOrder) {
 
         try {
             final Customer customer = customerConnector.getCustomer(createOrder.customerId);
@@ -50,6 +50,8 @@ public class OrderResource {
             for (CartItem cartItem : cartItems.items) {
                 productConnector.getProduct(cartItem.productId);
             }
+
+            LOGGER.error("I really should create an order for " + customer + " with cart " + cartItems);
             return Response.ok().build();
         } catch (IOException e) {
             LOGGER.error("Exception", e);
