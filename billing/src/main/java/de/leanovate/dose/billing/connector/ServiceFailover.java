@@ -32,6 +32,6 @@ public class ServiceFailover {
 
     @FunctionalInterface
     public interface Requester<E, T> {
-        T perform(E endpoing) throws IOException;
+        T perform(E endpoint) throws IOException;
     }
 }
