@@ -1,8 +1,7 @@
 #!/bin/sh
 
 docker push "untoldwind/dose:base-v4"
-docker push "untoldwind/dose:consul-v2"
-docker push "untoldwind/dose:consul-boot-v2"
+docker push "untoldwind/dose:consul-v3"
 docker push "untoldwind/dose:log-v5"
 docker push "untoldwind/dose:zipkin-v4"
 docker push "untoldwind/dose:mysql-v5"

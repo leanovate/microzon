@@ -24,7 +24,6 @@ class ConsulServiceLookup(service: Service[HttpRequest, HttpResponse], serviceNa
       log.info(s"Looking up service $serviceName")
       service(request).onSuccess {
         response =>
-          println(response)
           if (response.getStatus.getCode == 200) {
             val serviceNodes = Json.readArray(response.getContent.toString(charset), classOf[ServiceNode])
             log.info(s"Found nodes $serviceNodes")
@@ -37,6 +36,7 @@ class ConsulServiceLookup(service: Service[HttpRequest, HttpResponse], serviceNa
             u() = addr
           } else {
             log.error(s"Consul service lookup failed: ${response.getStatus.getCode}")
+            u() = last._2
           }
       }.onFailure {
         e =>
