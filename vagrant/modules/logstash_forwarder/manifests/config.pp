@@ -1,5 +1,5 @@
 class logstash_forwarder::config {
-    file { [ "/etc/pki/client"]:
+    file { [ "/etc/pki", "/etc/pki/client"]:
         owner => root,
         group => root,
         mode => 755,
