@@ -42,6 +42,7 @@ class logstash::config {
     }
 
     file { "/etc/consul.d/logstash.json":
-        source => "puppet:///modules/logstash/logstash.json"
+        source => "puppet:///modules/logstash/logstash.json",
+        notify => Service["supervisor"]
     }
 }
