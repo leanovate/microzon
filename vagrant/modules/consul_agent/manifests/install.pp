@@ -26,4 +26,11 @@ class consul_agent::install {
         subscribe => Exec["download consul"],
         require => Package["unzip"],
     }
+
+    exec { "unpack consul template":
+    	command => "/bin/tar xzf --strip-components=1 /tmp/consul-template_0.6.0_linux_amd64.tar.gz",
+        cwd => "/usr/local/bin",
+        creates => "/usr/local/bin/consul-template",
+        subscribe => Exec["download consul template"],
+    }
 }
