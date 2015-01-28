@@ -1,6 +1,7 @@
 node log {
     include "common"
-    include "java"
+    include "puppetlabs-apt"
+    include "java8"
     include "elasticsearch"
     include "kibana"
     include "logstash"
