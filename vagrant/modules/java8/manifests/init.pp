@@ -15,10 +15,15 @@ class java8 {
     }
 
     exec { "add-apt-repository-webupd8team":
-        command     => "/usr/bin/add-apt-repository ppa:webupd8team/java",
+        command     => "/usr/bin/add-apt-repository -y ppa:webupd8team/java",
         creates     => "/etc/apt/sources.list.d/webupd8team-java-trusty.list",
         user        => 'root',
         logoutput   => 'on_failure',
         notify      => [Exec['apt_update'], Exec['set java 8 selections']],
+    }
+
+    package { "oracle-java8-installer":
+        ensure => present,
+        requires => [Exec['apt_update'], Exec['set java 8 selections'], Exec["add-apt-repository-webupd8team"]]
     }
 }
