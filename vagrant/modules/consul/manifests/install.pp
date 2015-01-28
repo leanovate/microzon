@@ -11,7 +11,7 @@ class consul::install {
         creates => "/tmp/0.4.1_web_ui.zip"
     }
 
-    file { ["/var/lib/consul", "/usr/local/share/consul", "/etc/consul", "/etc/consul.d"]:
+    file { ["/var/consul", "/usr/local/share/consul", "/etc/consul", "/etc/consul.d"]:
         ensure => directory,
         owner => root,
         group => root,

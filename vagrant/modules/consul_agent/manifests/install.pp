@@ -6,7 +6,7 @@ class consul_agent::install {
         creates => "/tmp/0.4.1_linux_amd64.zip"
     }
 
-    file { ["/var/lib/consul", "/etc/consul", "/etc/consul.d"]:
+    file { ["/var/consul", "/etc/consul", "/etc/consul.d"]:
         ensure => directory,
         owner => root,
         group => root,
