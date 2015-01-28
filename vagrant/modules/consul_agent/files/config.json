@@ -1,6 +1,6 @@
 {
 	"server": false,
-	"datacenter": "docker",
+	"datacenter": "aws",
     "data_dir": "/var/consul",
     "disable_update_check": true,
     "disable_anonymous_signature": true,
