@@ -61,6 +61,8 @@ def install_puppetmaster():
 		append("/etc/puppet/puppet.conf", "manifest = $confdir/environments/$environment/manifests/site.pp", use_sudo=True)
 	if not contains("/etc/puppet/puppet.conf", "modulepath =", use_sudo=True):
 		append("/etc/puppet/puppet.conf", "modulepath = $confdir/environments/$environment/modules", use_sudo=True)
+	if not exists("/etc/puppet/autosign.conf", use_sudo=True):
+		append("/etc/puppet/autosign.conf", '*.%s.compute.internal' % region, use_sudo=True)
 	if exists("/opt/dose"):
 		update_puppetmaster()
 	else:
@@ -81,6 +83,10 @@ def update_puppetmaster():
 def install_puppetagent():
 	install_puppetbase()
 	sudo("apt-get install -y puppet")
+	if not contains("/etc/puppet/puppet.conf", "[agent]", use_sudo=True):
+		append("/etc/puppet/puppet.conf", "[agent]", use_sudo=True)
+		append("/etc/puppet/puppet.conf", "server = puppetmaster.%s.compute.internal" % region, use_sudo=True)
+		append("/etc/puppet/puppet.conf", "environment = microzon", use_sudo=True)
 
 def install_puppetbase():
 	bootstrap()
