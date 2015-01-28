@@ -12,7 +12,7 @@ class consul_agent::install {
     	creates => "/tmp/consul-template_0.6.0_linux_amd64.tar.gz"
     }
 
-    file { ["/var/consul", "/etc/consul", "/etc/consul.d"]:
+    file { ["/var/consul", "/etc/consul", "/etc/consul.d", "/etc/consul-templates"]:
         ensure => directory,
         owner => root,
         group => root,
@@ -28,7 +28,7 @@ class consul_agent::install {
     }
 
     exec { "unpack consul template":
-    	command => "/bin/tar xzf --strip-components=1 /tmp/consul-template_0.6.0_linux_amd64.tar.gz",
+    	command => "/bin/tar -x -z --strip-components=1 -f /tmp/consul-template_0.6.0_linux_amd64.tar.gz",
         cwd => "/usr/local/bin",
         creates => "/usr/local/bin/consul-template",
         subscribe => Exec["download consul template"],
