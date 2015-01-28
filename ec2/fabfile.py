@@ -80,7 +80,7 @@ def update_puppetmaster():
 	with cd("/opt/dose"):
 		sudo("git pull --rebase")
 
-@roles("consul", "log")
+@roles("consul", "log", "mysql")
 def install_puppetagent():
 	install_puppetbase()
 	sudo("apt-get install -y puppet")
@@ -89,7 +89,7 @@ def install_puppetagent():
 		append("/etc/puppet/puppet.conf", "server = puppetmaster.%s.compute.internal" % region, use_sudo=True)
 		append("/etc/puppet/puppet.conf", "environment = microzon", use_sudo=True)
 
-@roles("consul", "log")
+@roles("consul", "log", "mysql")
 def apply_puppet():
 	with settings(warn_only=True):
 		sudo("puppet agent --test")

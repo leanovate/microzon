@@ -28,7 +28,6 @@ object ProductConnector {
 
     productTracer.apply(request, client).map {
       response =>
-        println(response)
         if (response.getStatus.getCode == 200) {
           Some(Json.readValue(response.getContent.toString(charset), classOf[ActiveProduct]))
         } else {
