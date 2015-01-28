@@ -1,3 +1,4 @@
-node default {
+node /^consul\d+\..*$/ {
+	include "common"
     include "consul"
 }

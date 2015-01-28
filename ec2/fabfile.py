@@ -6,7 +6,7 @@ import tempfile
 
 from fabric.api import env, roles, run, put, sudo
 from fabric.context_managers import cd
-from fabric.contrib.files import append, exists
+from fabric.contrib.files import append, exists, contains
 
 region = os.getenv('AWS_DEFAULT_REGION', 'eu-central-1')
 conn = boto.ec2.connect_to_region(region)
@@ -57,6 +57,10 @@ def install_puppetmaster():
 	sudo("apt-get install -y puppetmaster-passenger")
 	sudo("apt-get install -y git")
 	sudo("mkdir -p /opt")
+	if not contains("/etc/puppet/puppet.conf", "manifest =", use_sudo=True):
+		append("/etc/puppet/puppet.conf", "manifest = $confdir/environments/$environment/manifests/site.pp", use_sudo=True)
+	if not contains("/etc/puppet/puppet.conf", "modulepath =", use_sudo=True):
+		append("/etc/puppet/puppet.conf", "modulepath = $confdir/environments/$environment/modules", use_sudo=True)
 	if exists("/opt/dose"):
 		update_puppetmaster()
 	else:
