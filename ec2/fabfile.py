@@ -88,6 +88,10 @@ def install_puppetagent():
 		append("/etc/puppet/puppet.conf", "server = puppetmaster.%s.compute.internal" % region, use_sudo=True)
 		append("/etc/puppet/puppet.conf", "environment = microzon", use_sudo=True)
 
+@rules("consul")
+def apply_puppet():
+	sudo("puppet agent --test")
+
 def install_puppetbase():
 	bootstrap()
 	sudo("wget https://apt.puppetlabs.com/puppetlabs-release-precise.deb")

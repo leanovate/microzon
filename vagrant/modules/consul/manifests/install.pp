@@ -33,4 +33,12 @@ class consul::install {
         subscribe => Exec["download consul ui"],
         require => [Package["unzip"], File["/usr/local/share/consul"]],
     }
+
+    package { "supervisor":
+        ensure => present
+    }
+
+    package { "nginx":
+        ensure => present
+    }    
 }

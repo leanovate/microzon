@@ -1,0 +1,11 @@
+{
+	"bootstrap_expect": 3,
+	"server": true,
+	"datacenter": "aws",
+    "data_dir": "/var/consul",
+    "disable_update_check": true,
+    "disable_anonymous_signature": true,
+	"ui_dir": "/usr/local/share/consul/dist",
+    "encrypt": "WvfTiPs+CItSDFbNt9eTew==",
+    "start_join":["consul1", "consul2", "consul3"]
+}
