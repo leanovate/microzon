@@ -6,13 +6,6 @@ class consul::config {
         ensure => directory
     }
 
-    file { "/var/log/supervisor":
-        owner => root,
-        group => root,
-        mode => 755,
-        ensure => directory
-    }
-
     File {
         owner => root,
         group => root,
@@ -25,7 +18,7 @@ class consul::config {
         notify => Service["supervisor"]
     }
 
-    file { "/etc/consul.d/consul.json":
+    file { "/etc/consul.d/config.json":
         owner => root,
         group => root,
         mode => 644,
