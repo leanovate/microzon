@@ -1,5 +1,4 @@
 class logstash_forwarder(
-	$logstash_host
 ) {
     contain "logstash_forwarder::install"
     contain "logstash_forwarder::config"
