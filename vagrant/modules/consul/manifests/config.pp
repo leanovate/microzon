@@ -6,6 +6,13 @@ class consul::config {
         ensure => directory
     }
 
+    file { "/var/log/supervisor":
+        owner => root,
+        group => root,
+        mode => 755,
+        ensure => directory
+    }
+
     File {
         owner => root,
         group => root,
