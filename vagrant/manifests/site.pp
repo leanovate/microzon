@@ -2,8 +2,6 @@ node /^consul\d+\..*$/ {
 	include "common"
 	include "supervisor"
     include "consul"
-
-    Class["common"] -> Class["supervisor"] -> Class["consul"]
 }
 
 node log {
@@ -17,7 +15,6 @@ node log {
     include "supervisor"
 
     Class["common"] -> Class["java8"] -> Class["logstash_forwarder"] -> 
-    Class["elasticsearch"] -> Class["kibana"] -> Class["logstash"] -> 
-    Class["supervisor"] -> Class["consul"]
+    Class["elasticsearch"] -> Class["kibana"] -> Class["logstash"] 
 }
 
