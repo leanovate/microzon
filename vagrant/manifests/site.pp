@@ -18,3 +18,9 @@ node log {
     Class["elasticsearch"] -> Class["kibana"] -> Class["logstash"] 
 }
 
+node mysql {
+	include "common"
+    include "logstash_forwarder"
+	include "consul_agent"
+	include "supervisor"
+}

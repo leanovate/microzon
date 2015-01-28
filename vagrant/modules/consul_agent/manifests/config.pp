@@ -17,7 +17,8 @@ class consul_agent::config {
         group => root,
         mode => 644,
         ensure => file,
-        source => "puppet:///modules/consul_agent/config.json"
+        source => "puppet:///modules/consul_agent/config.json",
+        notify => Service["supervisor"]
     }
 
     file { "/etc/consul-templates/templates.conf":
@@ -25,7 +26,8 @@ class consul_agent::config {
         group => root,
         mode => 644,
         ensure => file,
-        source => "puppet:///modules/consul_agent/templates.conf"
+        source => "puppet:///modules/consul_agent/templates.conf",
+        notify => Service["supervisor"]
     }
 
     file { "/etc/consul-templates/logstash-forwarder.ctmpl":
@@ -33,6 +35,7 @@ class consul_agent::config {
         group => root,
         mode => 644,
         ensure => file,
-        source => "puppet:///modules/consul_agent/logstash-forwarder.ctmpl"
+        source => "puppet:///modules/consul_agent/logstash-forwarder.ctmpl",
+        notify => Service["supervisor"]
     }
 }
