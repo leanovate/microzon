@@ -34,10 +34,6 @@ class consul::install {
         require => [Package["unzip"], File["/usr/local/share/consul"]],
     }
 
-    package { "supervisor":
-        ensure => present
-    }
-
     package { "nginx":
         ensure => present
     }    
