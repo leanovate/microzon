@@ -11,6 +11,7 @@ node log {
     include "kibana"
     include "logstash"
     include "logstash_forwarder"
+    include "consul_agent"
     include "supervisor"
 
     Class["common"] -> Class["java8"] -> Class["logstash_forwarder"] -> Class["elasticsearch"] -> Class["kibana"] -> Class["logstash"]
