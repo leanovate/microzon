@@ -2,7 +2,8 @@
 class consul_agent::config {
 	file { "/etc/supervisor/conf.d/consul.conf":
         source => "puppet:///modules/consul/consul.conf",
-        notify => Service["supervisor"]
+        notify => Service["supervisor"],
+        require => Package["supervisor"]
     }
 
     file { "/etc/consul.d/config.json":
