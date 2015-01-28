@@ -24,6 +24,6 @@ class java8 {
 
     package { "oracle-java8-installer":
         ensure => present,
-        requires => [Exec['apt_update'], Exec['set java 8 selections'], Exec["add-apt-repository-webupd8team"]]
+        require => [Exec['apt_update'], Exec['set java 8 selections'], Exec["add-apt-repository-webupd8team"]]
     }
 }
