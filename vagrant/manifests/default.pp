@@ -7,7 +7,7 @@ node log {
     include "logstash"
     include "logstash_forwarder"
 
-    Class["common"] -> Class["java"] -> Class["logstash_forwarder"] -> Class["elasticsearch"] -> Class["kibana"] -> Class["logstash"]
+    Class["common"] -> Class["java8"] -> Class["logstash_forwarder"] -> Class["elasticsearch"] -> Class["kibana"] -> Class["logstash"]
 }
 
 node web {
