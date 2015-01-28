@@ -40,4 +40,8 @@ class logstash::config {
     file { "/etc/logstash/conf.d/30-lumberjack-output.conf":
         source => "puppet:///modules/logstash/30-lumberjack-output.conf"
     }
+
+    file { "/etc/consul.d/logstash.json":
+        source => "puppet:///modules/logstash/logstash.json"
+    }
 }
