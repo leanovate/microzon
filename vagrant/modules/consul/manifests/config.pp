@@ -1,4 +1,11 @@
 class consul::config {
+    file { "/var/log/application":
+        owner => root,
+        group => root,
+        mode => 755,
+        ensure => directory
+    }
+
     File {
         owner => root,
         group => root,
@@ -22,7 +29,7 @@ class consul::config {
         ensure => absent
     }
 
-    file { "/etc/nginx/sites-enabled/product":
+    file { "/etc/nginx/sites-enabled/consul":
         source => "puppet:///modules/consul/nginx.conf"
     }
 }

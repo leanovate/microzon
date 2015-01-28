@@ -7,6 +7,7 @@ import tempfile
 from fabric.api import env, roles, run, put, sudo
 from fabric.context_managers import cd
 from fabric.contrib.files import append, exists, contains
+from fabric.api import settings
 
 region = os.getenv('AWS_DEFAULT_REGION', 'eu-central-1')
 conn = boto.ec2.connect_to_region(region)
@@ -90,7 +91,8 @@ def install_puppetagent():
 
 @roles("consul")
 def apply_puppet():
-	sudo("puppet agent --test")
+	with settings(warn_only=True):
+		sudo("puppet agent --test")
 
 def install_puppetbase():
 	bootstrap()
