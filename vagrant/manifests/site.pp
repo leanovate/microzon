@@ -5,7 +5,6 @@ node /^consul\d+\..*$/ {
 
 node log {
     include "common"
-    include "apt"
     include "java8"
 #    include "elasticsearch"
 #    include "kibana"
