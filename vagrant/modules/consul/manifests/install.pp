@@ -29,8 +29,8 @@ class consul::install {
     exec { "unpack consul web ui":
         command => "/usr/bin/unzip /tmp/0.4.1_web_ui.zip",        
         cwd => "/usr/local/share/consul",
-        creates => "/usr/local/share/web",
+        creates => "/usr/local/share/consul/dist",
         subscribe => Exec["download consul ui"],
-        require => Package["unzip"],
+        require => [Package["unzip"], File["/usr/local/share/consul"]],
     }
 }
