@@ -58,8 +58,7 @@ def install_puppetmaster():
 	sudo("apt-get install -y git")
 	sudo("mkdir -p /opt")
 	if exists("/opt/dose"):
-		with cd("/opt/dose"):
-			sudo("git pull --rebase")
+		update_puppetmaster()
 	else:
 		with cd("/opt"):
 			sudo("git clone https://github.com/leanovate/dose.git")
@@ -68,6 +67,11 @@ def install_puppetmaster():
 		with cd("/etc/puppet/environments/microzon"):
 			sudo("ln -s /opt/dose/vagrant/modules")
 			sudo("ln -s /opt/dose/vagrant/manifests")
+
+@roles("puppet")
+def update_puppetmaster():
+	with cd("/opt/dose"):
+		sudo("git pull --rebase")
 
 @roles("consul")
 def install_puppetagent():

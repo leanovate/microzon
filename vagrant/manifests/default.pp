@@ -1,4 +1,4 @@
-node /^consul\d+$/ {
+node /^consul\d+\..*$/ {
     include "consul"
 }
 
