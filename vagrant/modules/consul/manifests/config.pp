@@ -30,7 +30,7 @@ class consul::config {
         group => root,
         mode => 644,
         ensure => file,
-        source => "puppet:///modules/consul/consul.json"
+        source => "puppet:///modules/consul/config.json"
     }
 
     file { "/etc/nginx/sites-enabled/default":
