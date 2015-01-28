@@ -6,6 +6,12 @@ class consul_agent::install {
         creates => "/tmp/0.4.1_linux_amd64.zip"
     }
 
+    exec { "download consul template":
+    	command => "/usr/bin/wget https://github.com/hashicorp/consul-template/releases/download/v0.6.0/consul-template_0.6.0_linux_amd64.tar.gz",
+    	cwd => "/tmp",
+    	creates => "/tmp/consul-template_0.6.0_linux_amd64.tar.gz"
+    }
+
     file { ["/var/consul", "/etc/consul", "/etc/consul.d"]:
         ensure => directory,
         owner => root,
@@ -20,5 +26,4 @@ class consul_agent::install {
         subscribe => Exec["download consul"],
         require => Package["unzip"],
     }
-
 }
