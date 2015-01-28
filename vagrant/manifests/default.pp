@@ -1,3 +1,7 @@
+node /^consul\d+$/ {
+    include "consul"
+}
+
 node log {
     include "common"
     include "java"
