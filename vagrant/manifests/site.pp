@@ -4,7 +4,7 @@ node /^consul\d+\..*$/ {
     include "consul"
 }
 
-node log {
+node /^log\..*$/ {
     include "common"
     include "java8"
     include "elasticsearch"
@@ -18,7 +18,7 @@ node log {
     Class["elasticsearch"] -> Class["kibana"] -> Class["logstash"] 
 }
 
-node mysql {
+node /^mysql\..*$/ {
 	include "common"
     include "logstash_forwarder"
     include "mysql"
