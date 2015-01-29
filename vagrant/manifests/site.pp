@@ -28,12 +28,12 @@ node mysql {
     mysql_user { 'cart@localhost':
         ensure        => present,
         password_hash => mysql_password("cart"),
-        require => File["/root/.my.cnf"]
+        require => Class["mysql"]
     }
 
     mysql_database { 'cart':
         ensure => present,
-        require => File["/root/.my.cnf"]
+        require => Class["mysql"]
     }
 
     mysql_grant { 'customer@localhost/cart.*':
