@@ -24,4 +24,5 @@ node /^mysql\..*$/ {
     include "mysql"
 	include "consul_agent"
 	include "supervisor"
+    include "app_mysql"
 }
