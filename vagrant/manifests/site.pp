@@ -41,7 +41,8 @@ node /^mongo\..*$/ {
 	include "common"
     include "logstash_forwarder"
 	include "consul_agent"
-	include "supervisor"	
+	include "supervisor"
+	include "app_mongo"
 }
 
 node /^customer\d+\..*$/ {
