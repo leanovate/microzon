@@ -38,6 +38,7 @@ class app_customer::config {
 
     file { "/etc/consul.d/alive.py":
         source => "puppet:///modules/app_customer/alive.py",
+        mode => 755,
         notify => Service["supervisor"]
     }   
 }
