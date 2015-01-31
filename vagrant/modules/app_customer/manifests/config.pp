@@ -18,7 +18,9 @@ class app_customer::config {
     }
 
     file { "/etc/supervisor/conf.d/customer.conf":
-        source => "puppet:///modules/app_customer/customer.conf"
+        source => "puppet:///modules/app_customer/customer.conf",
+        notify => Service["supervisor"],
+        require => Package["supervisor"]        
     }
 
     file { "/etc/nginx/sites-enabled/default":

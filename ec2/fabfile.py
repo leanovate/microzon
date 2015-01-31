@@ -71,6 +71,8 @@ def install_puppetmaster():
 	else:
 		with cd("/opt"):
 			sudo("git clone https://github.com/leanovate/dose.git")
+		sudo("cp /opt/dose/vagrant/hiera/hiera.yaml /etc/puppet")
+		sudo("ln -s /opt/dose/vagrant/hiera /etc/puppet/hiera")
 	if not exists("/etc/puppet/environments/microzon"):
 		sudo("mkdir -p /etc/puppet/environments/microzon")
 		with cd("/etc/puppet/environments/microzon"):
