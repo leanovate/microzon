@@ -32,4 +32,9 @@ class zipkin_collector::config {
     file { "/etc/nginx/sites-enabled/web":
         source => "puppet:///modules/zipkin_collector/nginx.conf"
     }
+
+    file { "/etc/consul.d/zipkin.json":
+        source => "puppet:///modules/zipkin/zipkin.json",
+        notify => Service["supervisor"]
+    }
 }

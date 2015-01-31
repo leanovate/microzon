@@ -3,10 +3,6 @@ class zipkin_collector::install {
         ensure => present
     }
 
-    package { "supervisor":
-        ensure => present
-    }
-
     file { ["/opt/app", "/opt/app/zipkin-collector-service", "/opt/app/zipkin-query-service", "/opt/app/zipkin-web"]:
         ensure => directory,
         owner => root,

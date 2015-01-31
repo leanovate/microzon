@@ -21,7 +21,9 @@ node /^log\..*$/ {
 node /^zipkin\..*$/ {
     include "common"
     include "java"
+    include "consul_agent"
     include "zipkin_collector"
+    include "supervisor"
 
     Class["common"] -> Class["java"] -> Class["zipkin_collector"]
 }
