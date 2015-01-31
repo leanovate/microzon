@@ -36,3 +36,11 @@ node /^mysql\..*$/ {
 	include "supervisor"
     include "app_mysql"
 }
+
+node /^customer\..*$/ {
+	include "common"
+	include "java8"
+    include "logstash_forwarder"
+	include "consul_agent"
+	include "supervisor"
+}
