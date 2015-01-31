@@ -62,6 +62,8 @@ def install_puppetmaster():
 		append("/etc/puppet/puppet.conf", "manifest = $confdir/environments/$environment/manifests/site.pp", use_sudo=True)
 	if not contains("/etc/puppet/puppet.conf", "modulepath =", use_sudo=True):
 		append("/etc/puppet/puppet.conf", "modulepath = $confdir/environments/$environment/modules", use_sudo=True)
+	if not contains("/etc/puppet/puppet.conf", "hiera_config =", use_sudo=True):
+		append("/etc/puppet/puppet.conf", "hiera_config = $confdir/hiera.yaml", use_sudo=True)
 	if not exists("/etc/puppet/autosign.conf", use_sudo=True):
 		append("/etc/puppet/autosign.conf", '*.%s.compute.internal' % region, use_sudo=True)
 	if exists("/opt/dose"):

@@ -2,7 +2,7 @@
 :backends:
   - yaml
 :yaml:
-  :datadir: hiera
+  :datadir: /etc/puppet/hiera
 :hierarchy:
   - "%{::environment}"
   - common
