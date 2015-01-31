@@ -8,3 +8,4 @@ docker/product/dist
 docker/cart/dist
 docker/billing/dist
 docker/web/dist
+*.pyc

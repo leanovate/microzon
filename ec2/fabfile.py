@@ -95,7 +95,7 @@ def install_puppetagent():
 		append("/etc/puppet/puppet.conf", "server = puppetmaster.%s.compute.internal" % region, use_sudo=True)
 		append("/etc/puppet/puppet.conf", "environment = microzon", use_sudo=True)
 
-#@roles("consul", "log", "zipkin", "mysql", "mongo", "customer", "product", "cart")
+#@roles("consul", "log", "zipkin", "mysql", "mongo", "customer", "product", "cart", "billing", "web")
 @roles("product")
 def apply_puppet():
 	with settings(warn_only=True):
