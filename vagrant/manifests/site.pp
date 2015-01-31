@@ -45,3 +45,11 @@ node /^customer\d+\..*$/ {
 	include "app_customer"
 	include "supervisor"
 }
+
+node /^cart\d+\..*$/ {
+	include "common"
+	include "java8"
+    include "logstash_forwarder"
+	include "consul_agent"
+	include "supervisor"	
+}
