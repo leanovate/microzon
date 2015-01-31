@@ -42,5 +42,6 @@ node /^customer\d+\..*$/ {
 	include "java8"
     include "logstash_forwarder"
 	include "consul_agent"
+	include "app_customer"
 	include "supervisor"
 }
