@@ -79,7 +79,7 @@ def install_puppetmaster():
 def update_puppetmaster():
 	with cd("/opt/dose"):
 		sudo("git pull --rebase")
-	sudp("cp /opt/dose/vagrant/hiera/hiera.yaml /etc/puppet")
+	sudo("cp /opt/dose/vagrant/hiera/hiera.yaml /etc/puppet")
 	sudo("ln -s /opt/dose/vagrant/hiera /etc/puppet/hiera")
 
 #@roles("consul", "log", "zipkin", "mysql", "mongo", "customer", "cart")
