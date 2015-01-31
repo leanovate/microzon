@@ -18,6 +18,14 @@ node /^log\..*$/ {
     Class["elasticsearch"] -> Class["kibana"] -> Class["logstash"] 
 }
 
+node /^zipkin\..*$/ {
+    include "common"
+    include "java"
+    include "zipkin_collector"
+
+    Class["common"] -> Class["java"] -> Class["zipkin_collector"]
+}
+
 node /^mysql\..*$/ {
 	include "common"
     include "logstash_forwarder"
