@@ -5,5 +5,5 @@ class app_mongo::service {
         enable => true,
         hasstatus => true,
         hasrestart => true
-    }    
+    }
 }
