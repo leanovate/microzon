@@ -96,7 +96,7 @@ def install_puppetagent():
 		append("/etc/puppet/puppet.conf", "environment = microzon", use_sudo=True)
 
 #@roles("consul", "log", "zipkin", "mysql", "customer", "cart")
-@roles("cart")
+@roles("mongo")
 def apply_puppet():
 	with settings(warn_only=True):
 		sudo("puppet agent --test")
