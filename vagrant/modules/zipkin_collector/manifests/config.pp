@@ -34,7 +34,7 @@ class zipkin_collector::config {
     }
 
     file { "/etc/consul.d/zipkin.json":
-        source => "puppet:///modules/zipkin/zipkin.json",
+        source => "puppet:///modules/zipkin_collector/zipkin.json",
         notify => Service["supervisor"]
     }
 }
