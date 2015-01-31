@@ -59,7 +59,7 @@ node /^product\d+\..*$/ {
 	include "java8"
     include "logstash_forwarder"
 	include "consul_agent"
-	include "supervisor"	
+	include "supervisor"
 }
 
 node /^cart\d+\..*$/ {
@@ -68,5 +68,21 @@ node /^cart\d+\..*$/ {
     include "logstash_forwarder"
 	include "consul_agent"
 	include "app_cart"
-	include "supervisor"	
+	include "supervisor"
+}
+
+node /^billing\d+\..*$/ {
+	include "common"
+	include "java8"
+    include "logstash_forwarder"
+	include "consul_agent"
+	include "supervisor"
+}
+
+node /^web\d+\..*$/ {
+	include "common"
+	include "java8"
+    include "logstash_forwarder"
+	include "consul_agent"
+	include "supervisor"
 }
