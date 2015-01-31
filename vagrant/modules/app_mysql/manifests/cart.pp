@@ -1,6 +1,6 @@
 
 class app_mysql::cart {
-    mysql_user { 'cart@localhost':
+    mysql_user { 'cart@%':
         ensure        => present,
         password_hash => mysql_password("cart"),
         require => File["/root/.my.cnf"]
@@ -11,12 +11,12 @@ class app_mysql::cart {
         require => File["/root/.my.cnf"]
     }
 
-    mysql_grant { 'customer@localhost/cart.*':
+    mysql_grant { 'cart@%/cart.*':
         ensure     => 'present',
         options    => ['GRANT'],
         privileges => ['ALL'],
         table      => 'cart.*',
-        user       => 'cart@localhost',
-        require    => [Mysql_user['cart@localhost'], Mysql_database['cart']]
+        user       => 'cart@%',
+        require    => [Mysql_user['cart@%'], Mysql_database['cart']]
     }    	
 }

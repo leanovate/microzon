@@ -1,6 +1,6 @@
 
 class app_mysql::billing {
-    mysql_user { 'billing@localhost':
+    mysql_user { 'billing@%':
         ensure        => present,
         password_hash => mysql_password("billing"),
         require => File["/root/.my.cnf"]
@@ -11,12 +11,12 @@ class app_mysql::billing {
         require => File["/root/.my.cnf"]
     }
 
-    mysql_grant { 'billing@localhost/cart.*':
+    mysql_grant { 'billing@%/cart.*':
         ensure     => 'present',
         options    => ['GRANT'],
         privileges => ['ALL'],
         table      => 'billing.*',
-        user       => 'billing@localhost',
-        require    => [Mysql_user['billing@localhost'], Mysql_database['billing']]
+        user       => 'billing@%',
+        require    => [Mysql_user['billing@%'], Mysql_database['billing']]
     }    	
 }
