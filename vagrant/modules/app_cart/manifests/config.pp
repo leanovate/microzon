@@ -24,4 +24,15 @@ class app_cart::config {
     file { "/etc/nginx/sites-enabled/product":
         source => "puppet:///modules/app_cart/nginx.conf"
     }
+
+    file { "/etc/consul.d/cart.json":
+        source => "puppet:///modules/app_cart/cart.json",
+        notify => Service["supervisor"]
+    }   
+
+    file { "/etc/consul.d/alive.py":
+        source => "puppet:///modules/app_cart/alive.py",
+        mode => 755,
+        notify => Service["supervisor"]
+    }   
 }
