@@ -83,8 +83,10 @@ def install_puppetmaster():
 def update_puppetmaster():
 	with cd("/opt/dose"):
 		sudo("git pull --rebase")
-	sudo("cp /opt/dose/vagrant/hiera/hiera.yaml /etc/puppet")
-	sudo("ln -s /opt/dose/vagrant/hiera /etc/puppet/hiera")
+	if not exists("/etc/puppet/hiera.yaml", use_sudo=True):
+		sudo("cp /opt/dose/vagrant/hiera/hiera.yaml /etc/puppet")
+	if not exists("/etc/puppet/hiera", use_sudo=True):
+		sudo("ln -s /opt/dose/vagrant/hiera /etc/puppet/hiera")
 
 @roles("consul", "log", "zipkin", "mysql", "mongo", "customer", "product", "cart", "billing", "web")
 def install_puppetagent():
@@ -95,8 +97,8 @@ def install_puppetagent():
 		append("/etc/puppet/puppet.conf", "server = puppetmaster.%s.compute.internal" % region, use_sudo=True)
 		append("/etc/puppet/puppet.conf", "environment = microzon", use_sudo=True)
 
-@roles("consul", "log", "zipkin", "mysql", "mongo", "customer", "product", "cart", "billing", "web")
-#@roles("product")
+#@roles("consul", "log", "zipkin", "mysql", "mongo", "customer", "product", "cart", "billing", "web")
+@roles("product")
 def apply_puppet():
 	with settings(warn_only=True):
 		sudo("puppet agent --test")
