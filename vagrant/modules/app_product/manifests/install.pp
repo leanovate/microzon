@@ -1,9 +1,5 @@
 class app_product::install {
 
-    package { ["mongodb-org",  "mongodb-org-server", "mongodb-org-shell", "mongodb-org-mongos", "mongodb-org-tools"]:
-        ensure => "2.6.1",
-    }
-
     package { ["python-gridfs"]:
         ensure => present
     }
@@ -26,10 +22,6 @@ class app_product::install {
         ensure => file,
         source => "file:///tmp/product.jar",
         require => Exec["download product dist"]
-    }
-
-    package { "supervisor":
-        ensure => present
     }
 
     package { "nginx":

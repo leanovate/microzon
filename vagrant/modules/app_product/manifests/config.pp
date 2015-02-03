@@ -14,7 +14,15 @@ class app_product::config {
     }
     
     file { "/etc/supervisor/conf.d/product.conf":
-        source => "puppet:///modules/app_product/product.conf"
+        source => "puppet:///modules/app_product/product.conf",
+        notify => Service["supervisor"],
+        require => Package["supervisor"]        
+    }
+
+    file { "/etc/supervisor/conf.d/product.conf":
+        source => "puppet:///modules/app_product/product.conf",
+        notify => Service["supervisor"],
+        require => Package["supervisor"]        
     }
 
     file { "/etc/nginx/sites-enabled/default":
