@@ -1,0 +1,9 @@
+{
+	"server": false,
+	"datacenter": "docker",
+    "data_dir": "/var/consul",
+    "disable_update_check": true,
+    "disable_anonymous_signature": true,
+    "encrypt": "WvfTiPs+CItSDFbNt9eTew==",
+    "start_join": ["consul1", "consul2", "consul3"]
+}

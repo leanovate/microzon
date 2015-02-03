@@ -14,7 +14,9 @@ class app_web::config {
     }
 
     file { "/etc/supervisor/conf.d/web.conf":
-        source => "puppet:///modules/app_web/web.conf"
+        source => "puppet:///modules/app_web/web.conf",
+        notify => Service["supervisor"],
+        require => Package["supervisor"]        
     }
 
     file { "/etc/nginx/sites-enabled/default":
@@ -24,4 +26,16 @@ class app_web::config {
     file { "/etc/nginx/sites-enabled/web":
         source => "puppet:///modules/app_web/nginx.conf"
     }
+
+
+    file { "/etc/consul.d/web.json":
+        source => "puppet:///modules/app_web/web.json",
+        notify => Service["supervisor"]
+    }   
+
+    file { "/etc/consul.d/alive.py":
+        source => "puppet:///modules/app_web/alive.py",
+        mode => 755,
+        notify => Service["supervisor"]
+    }   
 }
