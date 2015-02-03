@@ -32,11 +32,6 @@ class app_billing::config {
     }    
 
     file { "/etc/consul.d/billing.json":
-        source => "puppet:///modules/app_customer/customer.json",
-        notify => Service["supervisor"]
-    }   
-
-    file { "/etc/consul.d/billing.json":
         source => "puppet:///modules/app_billing/billing.json",
         notify => Service["supervisor"]
     }   
