@@ -14,7 +14,9 @@ class app_cart::config {
     }
     
     file { "/etc/supervisor/conf.d/product.conf":
-        source => "puppet:///modules/app_cart/cart.conf"
+        source => "puppet:///modules/app_cart/cart.conf",
+        notify => Service["supervisor"],
+        require => Package["supervisor"]        
     }
 
     file { "/etc/nginx/sites-enabled/default":
