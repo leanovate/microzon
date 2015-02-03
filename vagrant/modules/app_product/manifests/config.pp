@@ -19,12 +19,6 @@ class app_product::config {
         require => Package["supervisor"]        
     }
 
-    file { "/etc/supervisor/conf.d/product.conf":
-        source => "puppet:///modules/app_product/product.conf",
-        notify => Service["supervisor"],
-        require => Package["supervisor"]        
-    }
-
     file { "/etc/nginx/sites-enabled/default":
         ensure => absent
     }
@@ -32,4 +26,9 @@ class app_product::config {
     file { "/etc/nginx/sites-enabled/product":
         source => "puppet:///modules/app_product/nginx.conf"
     }
+
+    file { "/etc/consul.d/product.json":
+        source => "puppet:///modules/app_product/product.json",
+        notify => Service["supervisor"]
+    }   
 }
