@@ -18,7 +18,9 @@ class app_billing::config {
     }
 
     file { "/etc/supervisor/conf.d/billing.conf":
-        source => "puppet:///modules/app_billing/billing.conf"
+        source => "puppet:///modules/app_billing/billing.conf",
+        notify => Service["supervisor"],
+        require => Package["supervisor"]        
     }
 
     file { "/etc/nginx/sites-enabled/default":
@@ -28,4 +30,14 @@ class app_billing::config {
     file { "/etc/nginx/sites-enabled/billing":
         source => "puppet:///modules/app_billing/nginx.conf"
     }    
+
+    file { "/etc/consul.d/billing.json":
+        source => "puppet:///modules/app_customer/customer.json",
+        notify => Service["supervisor"]
+    }   
+
+    file { "/etc/consul.d/billing.json":
+        source => "puppet:///modules/app_billing/billing.json",
+        notify => Service["supervisor"]
+    }   
 }

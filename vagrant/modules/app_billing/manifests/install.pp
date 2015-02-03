@@ -39,10 +39,6 @@ class app_billing::install {
         require => Exec["download billing dist"]
     }
 
-    package { "supervisor":
-        ensure => present
-    }
-
     package { "nginx":
         ensure => present
     }    

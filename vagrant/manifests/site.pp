@@ -77,6 +77,7 @@ node /^billing\d+\..*$/ {
 	include "java8"
     include "logstash_forwarder"
 	include "consul_agent"
+	include "app_billing"
 	include "supervisor"
 }
 
