@@ -19,6 +19,12 @@ class app_web::config {
         require => Package["supervisor"]        
     }
 
+    file { "/opt/app/web.conf":
+        source => "puppet:///modules/app_web/application.conf",
+        notify => Service["supervisor"],
+        require => Package["supervisor"]        
+    }
+
     file { "/etc/nginx/sites-enabled/default":
         ensure => absent
     }
