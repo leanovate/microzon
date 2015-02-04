@@ -4,7 +4,7 @@ import os
 import os.path
 import tempfile
 
-from fabric.api import env, roles, run, put, sudo
+from fabric.api import env, roles, run, put, sudo, execute, task
 from fabric.context_managers import cd
 from fabric.contrib.files import append, exists, contains
 from fabric.api import settings
@@ -22,6 +22,7 @@ for instance in instances:
 		env.roledefs[instance.tags['Kind']] = []
 	env.roledefs[instance.tags['Kind']].append(instance.public_dns_name)
 
+@task
 def launch_instances():
 	instances = {
 		'puppet': ['puppetmaster'],
@@ -44,15 +45,25 @@ def launch_instances():
 			instance = reservation.instances[idx]
 			conn.create_tags([instance.id], {"Name": names[idx], "Kind": kind, "Environment": "Microzon"})
 
+@task
 def list_hosts():
 	for instance in instances:
-		print instance.tags['Name'].ljust(20) + instance.ip_address
+		print instance.tags['Name'].ljust(20) + instance.ip_address	
+
+@task
+def store_external_hosts():
+	execute(store_external_hosts_impl, hosts=[ env.roledefs['consul'][0] ])
+
+def store_external_hosts_impl():
+	for instance in instances:
+		run("curl -X PUT -d '%s' http://localhost:8500/v1/kv/external/%s" % (instance.ip_address, instance.tags['Name']))
 
 @roles(env.roledefs.keys())
 def host_names():
     run('hostname')
 
 @roles("puppet")
+@task
 def install_puppetmaster():
 	install_puppetbase()
 	sudo("apt-get install -y puppetmaster-passenger")
@@ -80,6 +91,7 @@ def install_puppetmaster():
 			sudo("ln -s /opt/dose/vagrant/manifests")
 
 @roles("puppet")
+@task
 def update_puppetmaster():
 	with cd("/opt/dose"):
 		sudo("git pull --rebase")
@@ -89,6 +101,7 @@ def update_puppetmaster():
 		sudo("ln -s /opt/dose/vagrant/hiera /etc/puppet/hiera")
 
 @roles("consul", "log", "zipkin", "mysql", "mongo", "customer", "product", "cart", "billing", "web")
+@task
 def install_puppetagent():
 	install_puppetbase()
 	sudo("apt-get install -y puppet")
@@ -98,6 +111,7 @@ def install_puppetagent():
 		append("/etc/puppet/puppet.conf", "environment = microzon", use_sudo=True)
 
 @roles("consul", "log", "zipkin", "mysql", "mongo", "customer", "product", "cart", "billing", "web")
+@task
 def apply_puppet():
 	with settings(warn_only=True):
 		sudo("puppet agent --test")
