@@ -77,13 +77,19 @@ sudo route -n add -net 172.17.0.0/16 $(boot2docker ip)
 
 ### Building the micro service distributions
 
+First of all you should ensure that you hava all the submodules initialized and updated
+```
+git submodule init
+git submodule update
+```
+
 All build scripts will create an distribution archive in <project home>/vagrant/dist
 
 Note: As in real life several different build tools/configs are used for each project. Pay close attention to each of the commands, it is not always the same.
 
 * customer service
 ```
-cd <project home>/customer
+cd <project home>/microzon-customer
 ./gradlew clean dist
 ```
 * product service
