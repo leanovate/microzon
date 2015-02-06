@@ -7,14 +7,22 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.jfrog.bintray" version "1.0"
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply plugin: 'maven-publish'
+
+
+group = "de.leanovate.microzon"
+version =  '0.1.0'
 
 jar {
     baseName = 'customer'
-    version =  '0.1.0'
 }
 
 repositories {
@@ -55,4 +63,28 @@ task "dist-docker"(type:Copy) {
     dependsOn build
     from jar.archivePath
     into distDir
+}
+
+model {
+    tasks.generatePomFileForMavenJavaPublication {
+        dependsOn build
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar.archivePath
+        }
+    }
+}
+
+bintray {
+    user = bintray_user
+    key = bintray_key
+    publications = ['mavenJava']
+    pkg {
+        repo = 'maven'
+        name = 'microzon'
+    }
 }
