@@ -10,3 +10,6 @@
 [submodule "microzon-product"]
 	path = microzon-product
 	url = git@github.com:leanovate/microzon-product.git
+[submodule "microzon-web"]
+	path = microzon-web
+	url = git@github.com:leanovate/microzon-web.git
