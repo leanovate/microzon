@@ -7,3 +7,6 @@
 [submodule "microzon-cart"]
 	path = microzon-cart
 	url = git@github.com:leanovate/microzon-cart.git
+[submodule "microzon-product"]
+	path = microzon-product
+	url = git@github.com:leanovate/microzon-product.git
