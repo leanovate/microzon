@@ -13,6 +13,7 @@ ADD sources/GPG-KEY-elasticsearch /etc/apt/rkeys/GPG-KEY-elasticsearch
 
 RUN apt-key add /etc/apt/rkeys/GPG-KEY-elasticsearch
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+RUN apt-get -y update
 RUN apt-get install -y software-properties-common
 RUN add-apt-repository ppa:webupd8team/java
 RUN apt-get -y update

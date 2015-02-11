@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-. stopAll.sh
+. ./stopAll.sh
 
 function doIt {
 	echo "$1: ${@:2}"
