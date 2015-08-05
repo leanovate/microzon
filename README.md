@@ -35,7 +35,7 @@ For simplicity all services are supposed to run on a Java-VM.
 * ... or
   * Docker 1.4
 
-The setup has been tested with MocOS (Maverick/Yosemite) and Ubuntu 14.04. If you are using a different system you might encounter so far unknown problems.
+The setup has been tested with MacOS (Maverick/Yosemite) and Ubuntu 14.04. If you are using a different system you might encounter so far unknown problems.
 
 ## Getting started
 
